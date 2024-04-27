@@ -4,7 +4,7 @@ namespace App\Transformers\Characters;
 
 class CharacterFavorKeyFrameTransformer extends BaseTransformer
 {
-    protected $fields = [
+    protected array $fields = [
         'level',
         'max_hp',
         'atk',
@@ -21,7 +21,7 @@ class CharacterFavorKeyFrameTransformer extends BaseTransformer
         'max_deploy_count',
         'max_deck_stack_cnt',
         'taunt_level',
-        'mass_evel',
+        'mass_level',
         'base_force_level',
         'stun_immune',
         'silence_immune',

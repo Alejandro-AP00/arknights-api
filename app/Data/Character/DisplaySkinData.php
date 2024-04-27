@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Data;
+namespace App\Data\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character;
 
 use Spatie\LaravelData\Data;
 

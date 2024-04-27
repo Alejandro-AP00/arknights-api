@@ -2,9 +2,11 @@
 
 namespace App\Transformers\Characters;
 
+use Illuminate\Support\Collection;
+
 class CharacterBasicTransformer extends BaseTransformer
 {
-    protected $fields = [
+    protected array $fields = [
         'char_id',
         'name',
         'appellation',
@@ -25,20 +27,20 @@ class CharacterBasicTransformer extends BaseTransformer
         'release_order',
     ];
 
-    protected $rekeys = [
+    protected array $rename_keys = [
         'nation_id' => 'nation',
         'group_id' => 'group',
         'team_id' => 'team',
         'sub_profession_id' => 'sub_profession',
     ];
 
-    protected $localize = [
+    protected array $localize = [
         'name',
         'description',
         'tag_list',
     ];
 
-    public function transformPhases()
+    public function transformPhases(): Collection
     {
         $phases = collect($this->character->get('phases'));
 
@@ -47,7 +49,7 @@ class CharacterBasicTransformer extends BaseTransformer
         });
     }
 
-    public function transformFavorKeyFrames()
+    public function transformFavorKeyFrames(): Collection
     {
         $keyframes = collect($this->character->get('favorKeyFrames'));
 
@@ -56,7 +58,7 @@ class CharacterBasicTransformer extends BaseTransformer
         });
     }
 
-    public function transformReleaseOrder()
+    public function transformReleaseOrder(): int
     {
         return 0;
     }

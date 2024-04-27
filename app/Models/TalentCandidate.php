@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Data\InterpolatedValueData;
-use App\Data\UnlockConditionData;
+use App\Data\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\InterpolatedValueData;
+use App\Data\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\UnlockConditionData;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\LaravelData\DataCollection;

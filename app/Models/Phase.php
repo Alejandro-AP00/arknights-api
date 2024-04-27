@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Data\ItemCostData;
-use App\Data\KeyFrameData;
+use App\Data\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\ItemCostData;
+use App\Data\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\KeyFrameData;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\LaravelData\DataCollection;

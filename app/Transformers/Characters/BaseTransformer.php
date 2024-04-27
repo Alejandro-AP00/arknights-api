@@ -9,17 +9,17 @@ use Illuminate\Support\Str;
 
 class BaseTransformer implements TransformerInterface
 {
-    protected $fields = [];
+    protected array $fields = [];
 
-    protected $localize = [];
+    protected array $localize = [];
 
-    protected $rekeys = [];
+    protected array $rename_keys = [];
 
     protected Collection $character;
 
-    protected $sourceReference;
+    protected Collection $sourceReference;
 
-    protected $output = [];
+    protected array $output = [];
 
     public function __construct($character, protected $sourceReferenceKey = null)
     {
@@ -35,7 +35,7 @@ class BaseTransformer implements TransformerInterface
     {
         foreach ($this->fields as $field) {
             $method_name = Str::camel('transform'.$field);
-            $key = $this->rekeys[$field] ?? $field;
+            $key = $this->rename_keys[$field] ?? $field;
 
             if (method_exists($this, $method_name)) {
                 $this->output[$key] = $this->$method_name();
@@ -48,7 +48,7 @@ class BaseTransformer implements TransformerInterface
 
         foreach ($this->localize as $field) {
             $method_name = Str::camel('localize'.$field);
-            $key = $this->rekeys[$field] ?? $field;
+            $key = $this->rename_keys[$field] ?? $field;
 
             if (method_exists($this, $method_name)) {
                 $this->output[$key] = $this->$method_name();

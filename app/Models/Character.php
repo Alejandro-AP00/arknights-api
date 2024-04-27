@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Data\CharacterData;
-use App\Data\KeyFrameData;
+use App\Data\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\CharacterData;
+use App\Data\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\KeyFrameData;
 use App\Enums\Position;
 use App\Enums\Rarity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

@@ -3,10 +3,11 @@
 namespace App\Transformers\Characters;
 
 use App\Transformers\RangeTransformer;
+use Illuminate\Support\Collection;
 
 class CharacterPhaseTransformer extends BaseTransformer
 {
-    protected $fields = [
+    protected array $fields = [
         'character_prefab_key',
         'range_id',
         'max_level',
@@ -14,7 +15,7 @@ class CharacterPhaseTransformer extends BaseTransformer
         'evolve_cost',
     ];
 
-    public function transformAttributesKeyFrames()
+    public function transformAttributesKeyFrames(): Collection
     {
         return collect($this->sourceReference->get('attributes_key_frames'))->map(fn ($keyframe) => ['level' => $keyframe['level'], ...$keyframe['data']]);
     }

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Data\RangeGridData;
+use App\Data\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\RangeGridData;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\LaravelData\DataCollection;

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Data;
+namespace App\Data\Character\Character\Character\Character\Character\Character\Character\Character;
 
+use App\Data\Character\Character\Character\Character\Character\Character\Character\RangeData;
 use Illuminate\Support\Collection;
 use Spatie\LaravelData\Attributes\MapInputName;
 use Spatie\LaravelData\Data;
@@ -17,7 +18,7 @@ class ModuleStageData extends Data
     public function __construct(
         public Collection $itemCost,
         public UnlockConditionData $unlockCondition,
-        public string $traitEffecType,
+        public string $traitEffectType,
         public string $talentEffect,
         public ?string $talentIndex,
         public bool $displayRange,

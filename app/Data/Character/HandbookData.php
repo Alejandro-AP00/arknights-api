@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Data;
+namespace App\Data\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character;
 
 use Spatie\LaravelData\Data;
 use Spatie\TypeScriptTransformer\Attributes\Optional;
@@ -18,7 +18,7 @@ class HandbookData extends Data
         #[Optional]
         public string|array $promotionRecord,
         #[Optional]
-        public string|array $peformanceReview,
+        public string|array $performanceReview,
         /** @var array{'title': string, "value": string} */
         public ?array $classConversionRecord,
         /** @var string[] */

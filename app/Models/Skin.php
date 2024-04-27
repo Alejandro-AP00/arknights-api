@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Data\DisplaySkinData;
+use App\Data\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\DisplaySkinData;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 

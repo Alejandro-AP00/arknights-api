@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Enums\Locales;
 use App\Models\Range;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
@@ -27,8 +28,7 @@ class ImportRanges extends Command
      */
     public function handle()
     {
-        $range_table = json_decode(File::get(public_path('ArknightsGameData/zh_CN/gamedata/excel/range_table.json')), true);
-        $ranges = collect($range_table);
+        $ranges = collect(File::gameData(Locales::Chinese, 'range_table.json'));
 
         $this->withProgressBar($ranges, function ($range) {
             Range::updateOrCreate([

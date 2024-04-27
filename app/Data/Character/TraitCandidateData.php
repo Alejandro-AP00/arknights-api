@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Data;
+namespace App\Data\Character\Character;
 
+use App\Data\Character\RangeData;
 use Illuminate\Support\Collection;
 use Spatie\LaravelData\Attributes\MapInputName;
 use Spatie\LaravelData\Data;
@@ -14,7 +15,7 @@ class TraitCandidateData extends Data
      * @param  Collection<InterpolatedValueData>  $blackboard
      */
     public function __construct(
-        public string|array $overrideDescripton,
+        public string|array $overrideDescription,
         public RangeData $range,
         public int $requiredPotentialRank,
         public UnlockConditionData $unlockCondition,

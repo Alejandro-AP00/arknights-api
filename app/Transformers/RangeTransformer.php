@@ -3,6 +3,8 @@
 namespace App\Transformers;
 
 use App\Contracts\Transformer;
+use App\Enums\Locales;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
 
 class RangeTransformer implements Transformer
@@ -11,10 +13,10 @@ class RangeTransformer implements Transformer
     {
     }
 
-    public function transform(): mixed
+    public function transform(): array
     {
-        $ranges = json_decode(File::get(public_path('ArknightsGameData/zh_CN/gamedata/excel/range_table.json')), true);
+        $ranges = File::gameData(Locales::Chinese, 'range_table.json');
 
-        return array_merge($ranges[$this->rangeId], ['range_id' => $this->rangeId]);
+        return Arr::add($ranges[$this->rangeId], 'range_id', $this->rangeId);
     }
 }
