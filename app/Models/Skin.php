@@ -2,14 +2,13 @@
 
 namespace App\Models;
 
-use App\Data\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\DisplaySkinData;
+use App\Data\Character\DisplaySkinData;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Skin extends Model
 {
-    use HasFactory;
-
     protected $fillable = [
         'character_id',
         'skin_id',
@@ -28,7 +27,7 @@ class Skin extends Model
         'display_skin' => DisplaySkinData::class,
     ];
 
-    public function character()
+    public function character(): BelongsTo
     {
         return $this->belongsTo(Character::class, 'character_id');
     }

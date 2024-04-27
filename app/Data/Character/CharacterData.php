@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Data\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character;
+namespace App\Data\Character;
 
 use App\Enums\Position;
 use App\Enums\Profession;

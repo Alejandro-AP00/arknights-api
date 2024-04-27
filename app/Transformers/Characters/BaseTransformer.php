@@ -31,7 +31,7 @@ class BaseTransformer implements TransformerInterface
         }
     }
 
-    public function transform(): mixed
+    public function transform(): array
     {
         foreach ($this->fields as $field) {
             $method_name = Str::camel('transform'.$field);

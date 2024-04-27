@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Skill extends Model
 {
-    use HasFactory;
-
     protected $fillable = [
         'character_id',
         'skill_id',
@@ -16,12 +16,12 @@ class Skill extends Model
         'unlock_condition',
     ];
 
-    public function character()
+    public function character(): BelongsTo
     {
         return $this->belongsTo(Character::class, 'character_id');
     }
 
-    public function levels()
+    public function levels(): HasMany
     {
         return $this->hasMany(SkillLevel::class);
     }

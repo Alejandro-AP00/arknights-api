@@ -2,16 +2,15 @@
 
 namespace App\Models;
 
-use App\Data\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\InterpolatedValueData;
-use App\Data\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\SkillLevelUpCostData;
+use App\Data\Character\InterpolatedValueData;
+use App\Data\Character\SkillLevelUpCostData;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\LaravelData\DataCollection;
 
 class SkillLevel extends Model
 {
-    use HasFactory;
-
     protected $fillable = [
         'skill_id',
         'range_id',
@@ -30,12 +29,12 @@ class SkillLevel extends Model
         'blackboard' => DataCollection::class.':'.InterpolatedValueData::class,
     ];
 
-    public function skill()
+    public function skill(): BelongsTo
     {
         return $this->belongsTo(Skill::class, 'skill_id');
     }
 
-    public function range()
+    public function range(): BelongsTo
     {
         return $this->belongsTo(Range::class, 'range_id');
     }

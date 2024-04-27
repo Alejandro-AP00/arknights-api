@@ -3,7 +3,7 @@
 namespace App\Transformers;
 
 use App\Contracts\Transformer;
-use App\Data\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\CharacterData;
+use App\Data\Character\CharacterData;
 use App\Transformers\Characters\CharacterBasicTransformer;
 use Illuminate\Support\Collection;
 

@@ -2,16 +2,15 @@
 
 namespace App\Models;
 
-use App\Data\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\ItemCostData;
-use App\Data\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\KeyFrameData;
+use App\Data\Character\ItemCostData;
+use App\Data\Character\KeyFrameData;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\LaravelData\DataCollection;
 
 class Phase extends Model
 {
-    use HasFactory;
-
     protected $fillable = [
         'range_id',
         'character_prefab_key',
@@ -25,12 +24,12 @@ class Phase extends Model
         'attributes_key_frames' => DataCollection::class.':'.KeyFrameData::class,
     ];
 
-    public function character()
+    public function character(): BelongsTo
     {
         return $this->belongsTo(Character::class, 'character_id');
     }
 
-    public function range()
+    public function range(): BelongsTo
     {
         return $this->belongsTo(Range::class, 'range_id');
     }

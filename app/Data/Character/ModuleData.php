@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Data\Character\Character\Character\Character\Character\Character\Character\Character\Character;
+namespace App\Data\Character;
 
 use Illuminate\Support\Collection;
 use Spatie\LaravelData\Attributes\MapInputName;

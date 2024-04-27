@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Data\Character\Character;
+namespace App\Data\Character;
 
-use App\Data\Character\RangeData;
+use App\Data\RangeData;
 use Illuminate\Support\Collection;
 use Spatie\LaravelData\Attributes\MapInputName;
 use Spatie\LaravelData\Data;

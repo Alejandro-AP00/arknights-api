@@ -4,11 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Voice extends Model
 {
-    use HasFactory;
-
     protected $fillable = [
         'character_id',
         'word_key',
@@ -16,7 +15,7 @@ class Voice extends Model
         'cv_name',
     ];
 
-    public function character()
+    public function character(): BelongsTo
     {
         return $this->belongsTo(Character::class, 'character_id');
     }

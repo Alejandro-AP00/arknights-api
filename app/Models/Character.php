@@ -13,7 +13,7 @@ use Spatie\LaravelData\WithData;
 
 class Character extends Model
 {
-    use HasFactory, WithData;
+    use WithData;
 
     protected $dataClass = CharacterData::class;
 
