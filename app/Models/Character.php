@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
-use App\Data\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\CharacterData;
-use App\Data\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\Character\KeyFrameData;
+use App\Data\Character\CharacterData;
+use App\Data\Character\KeyFrameData;
 use App\Enums\Position;
 use App\Enums\Rarity;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Spatie\LaravelData\DataCollection;
 use Spatie\LaravelData\WithData;
 
@@ -15,7 +16,7 @@ class Character extends Model
 {
     use WithData;
 
-    protected $dataClass = CharacterData::class;
+    protected string $dataClass = CharacterData::class;
 
     protected $fillable = [
         'char_id',
@@ -45,52 +46,52 @@ class Character extends Model
         'favor_key_frames' => DataCollection::class.':'.KeyFrameData::class,
     ];
 
-    public function phases()
+    public function phases(): HasMany
     {
         return $this->hasMany(Phase::class);
     }
 
-    public function traitCandidates()
+    public function traitCandidates(): HasMany
     {
         return $this->hasMany(TraitCandidate::class);
     }
 
-    public function talentCandidates()
+    public function talentCandidates(): HasMany
     {
         return $this->hasMany(TalentCandidate::class);
     }
 
-    public function skills()
+    public function skills(): HasMany
     {
         return $this->hasMany(Skill::class);
     }
 
-    public function modules()
+    public function modules(): HasMany
     {
         return $this->hasMany(Module::class);
     }
 
-    public function riccSkills()
+    public function riccSkills(): HasMany
     {
         return $this->hasMany(BaseSkill::class);
     }
 
-    public function voices()
+    public function voices(): HasMany
     {
         return $this->hasMany(Voice::class);
     }
 
-    public function skins()
+    public function skins(): HasMany
     {
         return $this->hasMany(Skin::class);
     }
 
-    public function summons()
+    public function summons(): HasMany
     {
         return $this->hasMany(Character::class, 'owner_id');
     }
 
-    public function handbook()
+    public function handbook(): HasOne
     {
         return $this->hasOne(Handbook::class);
     }
