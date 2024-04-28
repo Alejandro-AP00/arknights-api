@@ -4,7 +4,7 @@ namespace App\Transformers\Characters;
 
 use App\Transformers\RangeTransformer;
 
-class CharacterTalentTransformer extends BaseTransformer
+class CharacterTalentCandidateTransformer extends BaseTransformer
 {
     protected array $fields = [
         'unlock_condition',

@@ -38,20 +38,24 @@ class ImportCharacters extends Command
 
         Character::truncate();
 
-        $this->withProgressBar(collect($char_table)
+        $characters = collect($char_table)
             ->merge($char_patch_table['patchChars'])
             ->map(function ($operator, $charId) {
                 return [...$operator, 'char_id' => $charId];
-            }), function ($character) {
-                $character = collect($character);
-                $character = (new CharacterTransformer($character))->transform();
-                dump($character['char_id']);
-                dd($character);
-                $operator = new Character();
-
-                $character = collect($character->all())->keyBy(fn ($item, $key) => Str::snake($key));
-                $operator->fill($character->toArray());
-                $operator->save();
             });
+
+        $characters = $characters->where('char_id', 'char_1028_texas2');
+
+        $this->withProgressBar($characters, function ($character) {
+            $character = collect($character);
+            dump($character['char_id']);
+            $character = (new CharacterTransformer($character))->transform();
+            dd($character);
+            $operator = new Character();
+
+            $character = collect($character->all())->keyBy(fn ($item, $key) => Str::snake($key));
+            $operator->fill($character->toArray());
+            $operator->save();
+        });
     }
 }

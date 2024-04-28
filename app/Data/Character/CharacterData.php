@@ -19,7 +19,7 @@ class CharacterData extends Data
      * @param  Collection<CharacterPhaseData>  $phases
      * @param  Collection<KeyFrameData>  $favorKeyFrames
      * @param  Collection<PotentialRankData>  $potentialRanks
-     * @param  Collection<TalentCandidateData>  $talents
+     * @param  Collection<TalentData>  $talents
      */
     public function __construct(
         public string $charId,

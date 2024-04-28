@@ -68,9 +68,9 @@ class Character extends Model
         return $this->hasMany(TraitCandidate::class);
     }
 
-    public function talentCandidates(): HasMany
+    public function talents(): HasMany
     {
-        return $this->hasMany(TalentCandidate::class);
+        return $this->hasMany(Talent::class);
     }
 
     public function skills(): HasMany

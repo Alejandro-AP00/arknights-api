@@ -2,6 +2,7 @@
 
 use App\Models\Character;
 use App\Models\Range;
+use App\Models\Talent;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,6 +16,7 @@ return new class extends Migration
     {
         Schema::create('talent_candidates', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(Talent::class);
             $table->foreignIdFor(Range::class);
             $table->foreignIdFor(Character::class);
             $table->unsignedBigInteger('required_potential_rank');

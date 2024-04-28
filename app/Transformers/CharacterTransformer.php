@@ -24,6 +24,7 @@ class CharacterTransformer implements Transformer
         $this->initializeTransformers()->each(function ($transformer) use (&$data) {
             $data = $data->merge($transformer->transform());
         });
+        //        dd($data);
 
         return CharacterData::from($data);
     }

@@ -62,7 +62,7 @@ class CharacterBasicTransformer extends BaseTransformer
     {
         $ranks = collect($this->character->get('potential_ranks'));
 
-        return $ranks->map(function ($phase, $index) {
+        return $ranks->map(function ($rank, $index) {
             return (new CharacterPotentialRank($this->character, 'potential_ranks.'.$index))->transform();
         });
     }
@@ -71,8 +71,10 @@ class CharacterBasicTransformer extends BaseTransformer
     {
         $talents = collect($this->character->get('talents'));
 
-        return $talents->map(function ($phase, $index) {
-            return (new CharacterTalentTransformer($this->character, 'talents.'.$index.'.candidates'))->transform();
+        return $talents->map(function ($talent, $talent_index) {
+            return ['candidates' => collect($talent['candidates'])->map(function ($candidate, $candidate_index) use ($talent_index) {
+                return (new CharacterTalentCandidateTransformer($this->character, 'talents.'.$talent_index.'.candidates.'.$candidate_index))->transform();
+            })];
         });
     }
 
