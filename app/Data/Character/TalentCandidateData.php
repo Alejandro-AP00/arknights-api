@@ -20,7 +20,7 @@ class TalentCandidateData extends Data
         public UnlockConditionData $unlockCondition,
         public LocalizedFieldData $name,
         public LocalizedFieldData $description,
-        public RangeData $range,
+        public ?RangeData $range,
         public Collection $blackboard,
     ) {
     }

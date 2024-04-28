@@ -2,8 +2,11 @@
 
 namespace App\Data\Character;
 
+use Spatie\LaravelData\Attributes\MapInputName;
 use Spatie\LaravelData\Data;
+use Spatie\LaravelData\Mappers\SnakeCaseMapper;
 
+#[MapInputName(SnakeCaseMapper::class)]
 class KeyFrameData extends Data
 {
     public function __construct(
@@ -30,6 +33,7 @@ class KeyFrameData extends Data
         public bool $sleepImmune,
         public bool $frozenImmune,
         public bool $levitateImmune,
+        public bool $disarmedCombatImmune,
     ) {
     }
 }

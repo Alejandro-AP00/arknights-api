@@ -22,12 +22,12 @@ return new class extends Migration
             $table->string('char_id');
             $table->string('alter_char_id')->nullable();
             $table->string('base_operator_char_id')->nullable();
-            $table->boolean('is_summon');
+            $table->boolean('is_summon')->default(false);
             $table->unsignedInteger('release_order');
             $table->string('name');
             $table->string('appellation');
-            $table->enum('profession', Profession::names());
-            $table->enum('sub_profession', SubProfession::names());
+            $table->enum('profession', Profession::values());
+            $table->enum('sub_profession', SubProfession::values());
             $table->string('potential_item_id')->nullable();
             $table->boolean('can_use_general_potential_item');
             $table->text('description')->nullable();
@@ -38,6 +38,7 @@ return new class extends Migration
             $table->enum('position', Position::values());
             $table->enum('rarity', Rarity::values());
             $table->json('favor_key_frames');
+            $table->json('tag_list');
             $table->timestamps();
         });
     }

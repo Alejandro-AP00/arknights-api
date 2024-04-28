@@ -5,13 +5,13 @@ namespace App\Enums;
 enum Profession: string
 {
     case CASTER = 'CASTER';
-    case TANK = 'DEFENDER';
-    case WARRIOR = 'GUARD';
+    case TANK = 'TANK';
+    case WARRIOR = 'WARRIOR';
     case MEDIC = 'MEDIC';
     case SNIPER = 'SNIPER';
-    case SPECIAL = 'SPECIALIST';
-    case SUPPORT = 'SUPPORTER';
-    case PIONEER = 'VANGUARD';
+    case SPECIAL = 'SPECIAL';
+    case SUPPORT = 'SUPPORT';
+    case PIONEER = 'PIONEER';
     case TOKEN = 'TOKEN';
     case TRAP = 'TRAP';
 
@@ -23,5 +23,21 @@ enum Profession: string
     public static function names(): array
     {
         return array_column(self::cases(), 'name');
+    }
+
+    public function label(): string
+    {
+        return match ($this) {
+            self::CASTER => 'Caster',
+            self::TANK => 'Defender',
+            self::WARRIOR => 'Guard',
+            self::MEDIC => 'Medic',
+            self::SNIPER => 'Sniper',
+            self::SPECIAL => 'Specialist',
+            self::SUPPORT => 'Supporter',
+            self::PIONEER => 'Vanguard',
+            self::TOKEN => 'Token',
+            self::TRAP => 'Trap',
+        };
     }
 }

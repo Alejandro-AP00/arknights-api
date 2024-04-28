@@ -25,6 +25,8 @@ class CharacterBasicTransformer extends BaseTransformer
         'phases',
         'favor_key_frames',
         'release_order',
+        'potential_ranks',
+        'talents',
     ];
 
     protected array $rename_keys = [
@@ -51,10 +53,26 @@ class CharacterBasicTransformer extends BaseTransformer
 
     public function transformFavorKeyFrames(): Collection
     {
-        $keyframes = collect($this->character->get('favorKeyFrames'));
+        return collect($this->character->get('favor_key_frames'))->map(function ($frame) {
+            return ['level' => $frame['level'], ...$frame['data']];
+        });
+    }
 
-        return $keyframes->map(function ($phase, $index) {
-            return (new CharacterFavorKeyFrameTransformer($this->character, 'favorKeyFrames.'.$index))->transform();
+    public function transformPotentialRanks(): Collection
+    {
+        $ranks = collect($this->character->get('potential_ranks'));
+
+        return $ranks->map(function ($phase, $index) {
+            return (new CharacterPotentialRank($this->character, 'potential_ranks.'.$index))->transform();
+        });
+    }
+
+    public function transformTalents(): Collection
+    {
+        $talents = collect($this->character->get('talents'));
+
+        return $talents->map(function ($phase, $index) {
+            return (new CharacterTalentTransformer($this->character, 'talents.'.$index.'.candidates'))->transform();
         });
     }
 

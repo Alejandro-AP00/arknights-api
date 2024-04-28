@@ -5,7 +5,9 @@ namespace App\Models;
 use App\Data\Character\CharacterData;
 use App\Data\Character\KeyFrameData;
 use App\Enums\Position;
+use App\Enums\Profession;
 use App\Enums\Rarity;
+use App\Enums\SubProfession;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -20,6 +22,7 @@ class Character extends Model
     protected string $dataClass = CharacterData::class;
 
     protected $fillable = [
+        'owner_id',
         'char_id',
         'alter_char_id',
         'base_operator_char_id',
@@ -43,6 +46,8 @@ class Character extends Model
 
     protected $casts = [
         'position' => Position::class,
+        'profession' => Profession::class,
+        'sub_profession' => SubProfession::class,
         'rarity' => Rarity::class,
         'favor_key_frames' => DataCollection::class.':'.KeyFrameData::class,
     ];

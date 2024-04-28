@@ -7,10 +7,10 @@ use Spatie\LaravelData\Data;
 class LocalizedFieldData extends Data
 {
     public function __construct(
-        public mixed $en_US,
-        public mixed $ko_KR,
-        public mixed $zh_CN,
-        public mixed $ja_JP,
+        public string|array $en_US,
+        public string|array $ko_KR,
+        public string|array $zh_CN,
+        public string|array $ja_JP,
     ) {
     }
 }

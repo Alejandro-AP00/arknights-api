@@ -10,6 +10,7 @@ enum SubProfession: string
     case StandardBearer = 'bearer';
     case Agent = 'agent';
     // Guard
+    case Hammer = 'hammer';
     case Centurion = 'centurion';
     case Fighter = 'fighter';
     case ArtsFighter = 'artsfghter';

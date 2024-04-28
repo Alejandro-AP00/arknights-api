@@ -17,16 +17,9 @@ class CharacterData extends Data
 {
     /**
      * @param  Collection<CharacterPhaseData>  $phases
-     * @param  Collection<KeyFrameData>|null  $favorKeyFrames
-     * @param  Collection<PotentialRankData>|null  $potentialRanks
-     * @param  Collection<TalentCandidateData>|null  $talents
-     * @param  Collection<SkillData>|null  $skills
-     * @param  Collection<TraitCandidateData>|null  $traitCandidates
-     * @param  Collection<ModuleData>|null  $modules
-     * @param  Collection<RiicBaseSkillData>|null  $riccSkills
-     * @param  Collection<CharacterData>|null  $summons
-     * @param  Collection<VoiceData>|null  $voices
-     * @param  Collection<SkinData>|null  $skins
+     * @param  Collection<KeyFrameData>  $favorKeyFrames
+     * @param  Collection<PotentialRankData>  $potentialRanks
+     * @param  Collection<TalentCandidateData>  $talents
      */
     public function __construct(
         public string $charId,
@@ -34,7 +27,7 @@ class CharacterData extends Data
         public string $appellation,
         public ?Profession $profession,
         public ?SubProfession $subProfession,
-        public string $potentialItemId,
+        public ?string $potentialItemId,
         public bool $canUseGeneralPotentialItem,
         public LocalizedFieldData $description,
         public ?string $nation,
@@ -43,20 +36,19 @@ class CharacterData extends Data
         public ?string $displayNumber,
         public Position $position,
         public Rarity $rarity,
-        /** @var string[] */
         public LocalizedFieldData $tagList,
 
         public Collection $phases,
-        public ?Collection $favorKeyFrames,
-        public ?Collection $potentialRanks,
-        public ?Collection $talents,
-        public ?Collection $skills,
-        public ?Collection $traitCandidates,
-        public ?Collection $modules,
-        public ?Collection $riccSkills,
-        public ?Collection $summons,
-        public ?Collection $voices,
-        public ?Collection $skins,
+        public Collection $favorKeyFrames,
+        public Collection $potentialRanks,
+        public Collection $talents,
+        //                public ?Collection $skills,
+        //                public ?Collection $traitCandidates,
+        //        public ?Collection $modules,
+        //        public ?Collection $riccSkills,
+        //        public ?Collection $summons,
+        //        public ?Collection $voices,
+        //        public ?Collection $skins,
         public ?HandbookData $handbook,
 
         public ?string $alterCharId,

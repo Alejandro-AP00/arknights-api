@@ -2,10 +2,13 @@
 
 namespace App\Console\Commands;
 
+use App\Enums\Locales;
+use App\Models\Character;
 use App\Transformers\CharacterTransformer;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Process;
+use Illuminate\Support\Str;
 
 class ImportCharacters extends Command
 {
@@ -14,7 +17,7 @@ class ImportCharacters extends Command
      *
      * @var string
      */
-    protected $signature = 'app:import-characters';
+    protected $signature = 'characters:import';
 
     /**
      * The console command description.
@@ -30,21 +33,25 @@ class ImportCharacters extends Command
     {
         Process::run('git submodule update --init --recursive --remote');
 
-        $char_table = json_decode(File::get(public_path('ArknightsGameData/zh_CN/gamedata/excel/character_table.json')), true);
-        $char_patch_table = json_decode(File::get(public_path('ArknightsGameData/zh_CN/gamedata/excel/char_patch_table.json')), true);
+        $char_table = File::gameData(Locales::Chinese, 'character_table.json');
+        $char_patch_table = File::gameData(Locales::Chinese, 'char_patch_table.json');
 
-        $characters = collect($char_table)
+        Character::truncate();
+
+        $this->withProgressBar(collect($char_table)
             ->merge($char_patch_table['patchChars'])
             ->map(function ($operator, $charId) {
                 return [...$operator, 'char_id' => $charId];
-            })
-            ->each(function ($character) {
+            }), function ($character) {
                 $character = collect($character);
                 $character = (new CharacterTransformer($character))->transform();
+                dump($character['char_id']);
                 dd($character);
-                // $operator = new Character();
-                // $operator->fill($character->toArray());
-                // $operator->save();
+                $operator = new Character();
+
+                $character = collect($character->all())->keyBy(fn ($item, $key) => Str::snake($key));
+                $operator->fill($character->toArray());
+                $operator->save();
             });
     }
 }

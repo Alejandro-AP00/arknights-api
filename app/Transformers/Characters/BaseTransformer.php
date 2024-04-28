@@ -74,6 +74,7 @@ class BaseTransformer implements TransformerInterface
         foreach (Locales::cases() as $locale) {
             $char_id = $this->character->get('char_id');
             $char_data = $locale->characterData()[$char_id] ?? Locales::Chinese->characterData()[$char_id];
+            $char_data = collect($char_data)->keyBy(fn ($item, $key) => Str::snake($key));
             $output[$locale->value] = $this->sourceReferenceKey === null ? data_get($char_data, $field) : data_get($char_data, $this->sourceReferenceKey.'.'.$field);
         }
 
