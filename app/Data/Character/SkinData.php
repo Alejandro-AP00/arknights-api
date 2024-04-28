@@ -2,12 +2,13 @@
 
 namespace App\Data\Character;
 
+use App\Data\LocalizedFieldData;
 use Spatie\LaravelData\Data;
 
 class SkinData extends Data
 {
     public function __construct(
-        public string|array $name,
+        public LocalizedFieldData $name,
         public string $skinId,
         public string $illustId,
         public string $avatarId,

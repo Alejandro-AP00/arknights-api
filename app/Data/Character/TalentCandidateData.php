@@ -2,6 +2,7 @@
 
 namespace App\Data\Character;
 
+use App\Data\LocalizedFieldData;
 use App\Data\RangeData;
 use Illuminate\Support\Collection;
 use Spatie\LaravelData\Attributes\MapInputName;
@@ -17,8 +18,8 @@ class TalentCandidateData extends Data
     public function __construct(
         public int $requiredPotentialRank,
         public UnlockConditionData $unlockCondition,
-        public string|array $name,
-        public string|array $description,
+        public LocalizedFieldData $name,
+        public LocalizedFieldData $description,
         public RangeData $range,
         public Collection $blackboard,
     ) {

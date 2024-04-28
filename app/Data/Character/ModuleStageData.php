@@ -2,6 +2,7 @@
 
 namespace App\Data\Character;
 
+use App\Data\LocalizedFieldData;
 use App\Data\RangeData;
 use Illuminate\Support\Collection;
 use Spatie\LaravelData\Attributes\MapInputName;
@@ -18,8 +19,8 @@ class ModuleStageData extends Data
     public function __construct(
         public Collection $itemCost,
         public UnlockConditionData $unlockCondition,
-        public string $traitEffectType,
-        public string $talentEffect,
+        public LocalizedFieldData $traitEffectType,
+        public LocalizedFieldData $talentEffect,
         public ?string $talentIndex,
         public bool $displayRange,
         public ?RangeData $range,

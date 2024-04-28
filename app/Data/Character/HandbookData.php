@@ -2,27 +2,24 @@
 
 namespace App\Data\Character;
 
+use App\Data\LocalizedFieldData;
 use Spatie\LaravelData\Data;
 use Spatie\TypeScriptTransformer\Attributes\Optional;
 
 class HandbookData extends Data
 {
     public function __construct(
-        public string|array $profile,
-        /** @var array{'title': string, "value": string} */
-        public array $basicInfo,
-        /** @var array{'title': string, "value": string} */
-        public ?array $physicalExam,
+        public LocalizedFieldData $profile,
+        public LocalizedFieldData $basicInfo,
+        public LocalizedFieldData $physicalExam,
         #[Optional]
-        public string|array $clinicalAnalysis,
+        public LocalizedFieldData $clinicalAnalysis,
         #[Optional]
-        public string|array $promotionRecord,
+        public LocalizedFieldData $promotionRecord,
         #[Optional]
-        public string|array $performanceReview,
-        /** @var array{'title': string, "value": string} */
-        public ?array $classConversionRecord,
-        /** @var string[] */
-        public array $archives,
+        public LocalizedFieldData $performanceReview,
+        public LocalizedFieldData $classConversionRecord,
+        public LocalizedFieldData $archives,
     ) {
     }
 }

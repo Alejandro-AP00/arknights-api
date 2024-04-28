@@ -7,9 +7,12 @@ use App\Data\Character\UnlockConditionData;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\LaravelData\DataCollection;
+use Spatie\Translatable\HasTranslations;
 
 class TalentCandidate extends Model
 {
+    use HasTranslations;
+
     protected $fillable = [
         'character_id',
         'range_id',
@@ -23,6 +26,11 @@ class TalentCandidate extends Model
     protected $casts = [
         'unlock_condition' => UnlockConditionData::class,
         'blackboard' => DataCollection::class.':'.InterpolatedValueData::class,
+    ];
+
+    public array $translatable = [
+        'name',
+        'description',
     ];
 
     public function character(): BelongsTo

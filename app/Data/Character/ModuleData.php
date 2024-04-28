@@ -2,6 +2,7 @@
 
 namespace App\Data\Character;
 
+use App\Data\LocalizedFieldData;
 use Illuminate\Support\Collection;
 use Spatie\LaravelData\Attributes\MapInputName;
 use Spatie\LaravelData\Data;
@@ -15,8 +16,8 @@ class ModuleData extends Data
      */
     public function __construct(
         public string $moduleId,
-        public string|array $name,
-        public string|array $description,
+        public LocalizedFieldData $name,
+        public LocalizedFieldData $description,
         public string $iconId,
         public Collection $moduleStage,
     ) {

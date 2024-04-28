@@ -8,9 +8,12 @@ use App\Data\Character\UnlockConditionData;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\LaravelData\DataCollection;
+use Spatie\Translatable\HasTranslations;
 
 class ModuleStage extends Model
 {
+    use HasTranslations;
+
     protected $fillable = [
         'module_id',
         'range_id',
@@ -29,6 +32,11 @@ class ModuleStage extends Model
         'item_cost' => DataCollection::class.':'.ItemCostData::class,
         'unlock_condition' => UnlockConditionData::class,
         'attributes_blackboard' => DataCollection::class.':'.InterpolatedValueData::class,
+    ];
+
+    public array $translatable = [
+        'talent_effect',
+        'trait_effect_type',
     ];
 
     public function module(): BelongsTo

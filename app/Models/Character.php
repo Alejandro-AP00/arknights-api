@@ -11,10 +11,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Spatie\LaravelData\DataCollection;
 use Spatie\LaravelData\WithData;
+use Spatie\Translatable\HasTranslations;
 
 class Character extends Model
 {
-    use WithData;
+    use HasTranslations, WithData;
 
     protected string $dataClass = CharacterData::class;
 
@@ -44,6 +45,12 @@ class Character extends Model
         'position' => Position::class,
         'rarity' => Rarity::class,
         'favor_key_frames' => DataCollection::class.':'.KeyFrameData::class,
+    ];
+
+    public array $translatable = [
+        'name',
+        'description',
+        'tag_list',
     ];
 
     public function phases(): HasMany

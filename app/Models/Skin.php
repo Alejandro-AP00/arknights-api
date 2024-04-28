@@ -5,9 +5,12 @@ namespace App\Models;
 use App\Data\Character\DisplaySkinData;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\Translatable\HasTranslations;
 
 class Skin extends Model
 {
+    use HasTranslations;
+
     protected $fillable = [
         'character_id',
         'skin_id',
@@ -24,6 +27,10 @@ class Skin extends Model
 
     protected $casts = [
         'display_skin' => DisplaySkinData::class,
+    ];
+
+    public array $translatable = [
+        'name',
     ];
 
     public function character(): BelongsTo

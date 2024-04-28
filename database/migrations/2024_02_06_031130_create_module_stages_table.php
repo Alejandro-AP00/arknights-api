@@ -19,8 +19,8 @@ return new class extends Migration
             $table->foreignIdFor(Range::class);
             $table->json('item_cost');
             $table->json('unlock_condition');
-            $table->string('trait_effect_type');
-            $table->string('talent_effect');
+            $table->json('trait_effect_type');
+            $table->json('talent_effect');
             $table->string('talent_index')->nullable();
             $table->boolean('display_range');
             $table->json('attributes_blackboard');

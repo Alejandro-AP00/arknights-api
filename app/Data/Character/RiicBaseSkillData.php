@@ -2,14 +2,15 @@
 
 namespace App\Data\Character;
 
+use App\Data\LocalizedFieldData;
 use Spatie\LaravelData\Data;
 
 class RiicBaseSkillData extends Data
 {
     public function __construct(
         public string $buffId,
-        public string|array $name,
-        public string|array $description,
+        public LocalizedFieldData $name,
+        public LocalizedFieldData $description,
         public string $skillIcon,
         public UnlockConditionData $unlockCondition
     ) {

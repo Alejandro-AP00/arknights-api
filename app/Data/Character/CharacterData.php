@@ -2,6 +2,7 @@
 
 namespace App\Data\Character;
 
+use App\Data\LocalizedFieldData;
 use App\Enums\Position;
 use App\Enums\Profession;
 use App\Enums\Rarity;
@@ -29,13 +30,13 @@ class CharacterData extends Data
      */
     public function __construct(
         public string $charId,
-        public string|array $name,
+        public LocalizedFieldData $name,
         public string $appellation,
         public ?Profession $profession,
         public ?SubProfession $subProfession,
         public string $potentialItemId,
         public bool $canUseGeneralPotentialItem,
-        public string|array $description,
+        public LocalizedFieldData $description,
         public ?string $nation,
         public ?string $group,
         public ?string $team,
@@ -43,7 +44,7 @@ class CharacterData extends Data
         public Position $position,
         public Rarity $rarity,
         /** @var string[] */
-        public array $tagList,
+        public LocalizedFieldData $tagList,
 
         public Collection $phases,
         public ?Collection $favorKeyFrames,
