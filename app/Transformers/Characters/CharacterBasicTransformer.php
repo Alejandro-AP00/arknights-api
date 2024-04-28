@@ -30,6 +30,7 @@ class CharacterBasicTransformer extends BaseTransformer
         'potential_ranks',
         'talents',
         'voices',
+        'skins',
     ];
 
     protected array $rename_keys = [
@@ -47,45 +48,64 @@ class CharacterBasicTransformer extends BaseTransformer
 
     public function transformPhases(): Collection
     {
-        $phases = collect($this->character->get('phases'));
+        $phases = collect($this->subject->get('phases'));
 
         return $phases->map(function ($phase, $index) {
-            return (new CharacterPhaseTransformer($this->character, 'phases.'.$index))->transform();
+            return (new CharacterPhaseTransformer($this->subject, 'phases.'.$index))->transform();
         });
     }
 
     public function transformFavorKeyFrames(): Collection
     {
-        return collect($this->character->get('favor_key_frames'))->map(function ($frame) {
+        return collect($this->subject->get('favor_key_frames'))->map(function ($frame) {
             return ['level' => $frame['level'], ...$frame['data']];
         });
     }
 
     public function transformPotentialRanks(): Collection
     {
-        $ranks = collect($this->character->get('potential_ranks'));
+        $ranks = collect($this->subject->get('potential_ranks'));
 
         return $ranks->map(function ($rank, $index) {
-            return (new CharacterPotentialRank($this->character, 'potential_ranks.'.$index))->transform();
+            return (new CharacterPotentialRank($this->subject, 'potential_ranks.'.$index))->transform();
         });
     }
 
     public function transformTalents(): Collection
     {
-        $talents = collect($this->character->get('talents'));
+        $talents = collect($this->subject->get('talents'));
 
         return $talents->map(function ($talent, $talent_index) {
             return ['candidates' => collect($talent['candidates'])->map(function ($candidate, $candidate_index) use ($talent_index) {
-                return (new CharacterTalentCandidateTransformer($this->character, 'talents.'.$talent_index.'.candidates.'.$candidate_index))->transform();
+                return (new CharacterTalentCandidateTransformer($this->subject, 'talents.'.$talent_index.'.candidates.'.$candidate_index))->transform();
             })];
         });
     }
 
-    public function transformVoices(): Collection
+    public function transformVoices(): ?Collection
     {
-        $voices = collect(File::gameData(Locales::Chinese, 'charword_table.json')['voiceLangDict'][$this->character->get('char_id')]);
+        $voices = collect(File::gameData(Locales::Chinese, 'charword_table.json')['voiceLangDict'][$this->subject->get('char_id')]);
 
-        return collect($voices->get('dict'))->values();
+        if ($voices->isNotEmpty()) {
+            return collect($voices->get('dict'))->values();
+        }
+
+        return null;
+    }
+
+    public function transformSkins(): ?Collection
+    {
+        $skins = collect(File::gameData(Locales::Chinese, 'skin_table.json')['charSkins'])->filter(function ($skin) {
+            return $skin['charId'] === $this->subject->get('char_id');
+        });
+
+        if ($skins->isNotEmpty()) {
+            return $skins->map(function ($skin) {
+                return (new CharacterSkinTransformer($skin))->transform();
+            });
+        }
+
+        return null;
     }
 
     public function transformReleaseOrder(): int

@@ -15,7 +15,7 @@ abstract class BaseTransformer implements TransformerInterface
 
     protected array $rename_keys = [];
 
-    protected Collection $character;
+    protected Collection $subject;
 
     protected Collection $sourceReference;
 
@@ -23,11 +23,11 @@ abstract class BaseTransformer implements TransformerInterface
 
     public function __construct($character, protected $sourceReferenceKey = null)
     {
-        $this->character = collect($character)->keyBy(fn ($item, $key) => Str::snake($key));
-        $this->sourceReference = $this->character;
+        $this->subject = collect($character)->keyBy(fn ($item, $key) => Str::snake($key));
+        $this->sourceReference = $this->subject;
 
         if ($this->sourceReferenceKey !== null) {
-            $this->sourceReference = collect(data_get($this->character, $sourceReferenceKey))->keyBy(fn ($item, $key) => Str::snake($key));
+            $this->sourceReference = collect(data_get($this->subject, $sourceReferenceKey))->keyBy(fn ($item, $key) => Str::snake($key));
         }
     }
 
@@ -72,7 +72,7 @@ abstract class BaseTransformer implements TransformerInterface
     {
         $output = [];
         foreach (Locales::cases() as $locale) {
-            $char_id = $this->character->get('char_id');
+            $char_id = $this->subject->get('char_id');
             $char_data = $locale->characterData()[$char_id] ?? Locales::Chinese->characterData()[$char_id];
             $char_data = collect($char_data)->keyBy(fn ($item, $key) => Str::snake($key));
             $output[$locale->value] = $this->sourceReferenceKey === null ? data_get($char_data, $field) : data_get($char_data, $this->sourceReferenceKey.'.'.$field);
