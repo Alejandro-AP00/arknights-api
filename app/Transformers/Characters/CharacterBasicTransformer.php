@@ -2,7 +2,9 @@
 
 namespace App\Transformers\Characters;
 
+use App\Enums\Locales;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\File;
 
 class CharacterBasicTransformer extends BaseTransformer
 {
@@ -27,6 +29,7 @@ class CharacterBasicTransformer extends BaseTransformer
         'release_order',
         'potential_ranks',
         'talents',
+        'voices',
     ];
 
     protected array $rename_keys = [
@@ -76,6 +79,13 @@ class CharacterBasicTransformer extends BaseTransformer
                 return (new CharacterTalentCandidateTransformer($this->character, 'talents.'.$talent_index.'.candidates.'.$candidate_index))->transform();
             })];
         });
+    }
+
+    public function transformVoices(): Collection
+    {
+        $voices = collect(File::gameData(Locales::Chinese, 'charword_table.json')['voiceLangDict'][$this->character->get('char_id')]);
+
+        return collect($voices->get('dict'))->values();
     }
 
     public function transformReleaseOrder(): int

@@ -20,6 +20,7 @@ class CharacterData extends Data
      * @param  Collection<KeyFrameData>  $favorKeyFrames
      * @param  Collection<PotentialRankData>  $potentialRanks
      * @param  Collection<TalentData>  $talents
+     * @param  Collection<VoiceData>  $voices
      */
     public function __construct(
         public string $charId,
@@ -47,7 +48,7 @@ class CharacterData extends Data
         //        public ?Collection $modules,
         //        public ?Collection $riccSkills,
         //        public ?Collection $summons,
-        //        public ?Collection $voices,
+        public ?Collection $voices,
         //        public ?Collection $skins,
         public ?HandbookData $handbook,
 

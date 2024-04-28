@@ -7,7 +7,7 @@ use App\Enums\Locales;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
-class BaseTransformer implements TransformerInterface
+abstract class BaseTransformer implements TransformerInterface
 {
     protected array $fields = [];
 
