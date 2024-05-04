@@ -2,6 +2,7 @@
 
 namespace App\Data\Character;
 
+use App\Data\RangeData;
 use Illuminate\Support\Collection;
 use Spatie\LaravelData\Data;
 
