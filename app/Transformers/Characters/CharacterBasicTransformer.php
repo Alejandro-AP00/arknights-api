@@ -4,7 +4,7 @@ namespace App\Transformers\Characters;
 
 use App\Enums\Locales;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Cache;
 
 class CharacterBasicTransformer extends BaseTransformer
 {
@@ -51,7 +51,7 @@ class CharacterBasicTransformer extends BaseTransformer
         $phases = collect($this->subject->get('phases'));
 
         return $phases->map(function ($phase, $index) {
-            return (new CharacterPhaseTransformer($this->subject, 'phases.'.$index))->transform();
+            return (new CharacterPhaseTransformer($this->subjectKey, sourceReferenceKey: 'phases.'.$index))->transform();
         });
     }
 
@@ -67,7 +67,7 @@ class CharacterBasicTransformer extends BaseTransformer
         $ranks = collect($this->subject->get('potential_ranks'));
 
         return $ranks->map(function ($rank, $index) {
-            return (new CharacterPotentialRank($this->subject, 'potential_ranks.'.$index))->transform();
+            return (new CharacterPotentialRank($this->subjectKey, sourceReferenceKey: 'potential_ranks.'.$index))->transform();
         });
     }
 
@@ -77,14 +77,14 @@ class CharacterBasicTransformer extends BaseTransformer
 
         return $talents->map(function ($talent, $talent_index) {
             return ['candidates' => collect($talent['candidates'])->map(function ($candidate, $candidate_index) use ($talent_index) {
-                return (new CharacterTalentCandidateTransformer($this->subject, 'talents.'.$talent_index.'.candidates.'.$candidate_index))->transform();
+                return (new CharacterTalentCandidateTransformer($this->subjectKey, sourceReferenceKey: 'talents.'.$talent_index.'.candidates.'.$candidate_index))->transform();
             })];
         });
     }
 
     public function transformVoices(): ?Collection
     {
-        $voices = collect(File::gameData(Locales::Chinese, 'charword_table.json')['voiceLangDict'][$this->subject->get('char_id')]);
+        $voices = collect(Cache::get('voices_'.Locales::Chinese->value)[$this->subject->get('char_id')]);
 
         if ($voices->isNotEmpty()) {
             return collect($voices->get('dict'))->values();
@@ -95,13 +95,13 @@ class CharacterBasicTransformer extends BaseTransformer
 
     public function transformSkins(): ?Collection
     {
-        $skins = collect(File::gameData(Locales::Chinese, 'skin_table.json')['charSkins'])->filter(function ($skin) {
+        $skins = Cache::get('skins_'.Locales::Chinese->value)->filter(function ($skin) {
             return $skin['charId'] === $this->subject->get('char_id');
         });
 
         if ($skins->isNotEmpty()) {
-            return $skins->map(function ($skin) {
-                return (new CharacterSkinTransformer($skin))->transform();
+            return $skins->map(function ($skin, $key) {
+                return (new CharacterSkinTransformer($key, 'skins'))->transform();
             });
         }
 

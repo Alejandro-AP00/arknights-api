@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Cache;
 
 enum Locales: string
 {
@@ -18,9 +18,6 @@ enum Locales: string
 
     public function characterData(): array
     {
-        return array_merge(
-            File::gameData($this, 'character_table.json'),
-            File::gameData($this, 'char_patch_table.json')['patchChars'],
-        );
+        return Cache::get('characters_'.$this->value);
     }
 }

@@ -7,7 +7,6 @@ use App\Models\Character;
 use App\Transformers\CharacterTransformer;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Process;
 use Illuminate\Support\Str;
 
 class ImportCharacters extends Command
@@ -31,8 +30,6 @@ class ImportCharacters extends Command
      */
     public function handle()
     {
-        Process::run('git submodule update --init --recursive --remote');
-
         $char_table = File::gameData(Locales::Chinese, 'character_table.json');
         $char_patch_table = File::gameData(Locales::Chinese, 'char_patch_table.json');
 
@@ -51,11 +48,11 @@ class ImportCharacters extends Command
             dump($character['char_id']);
             $character = (new CharacterTransformer($character))->transform();
             dd($character);
-            $operator = new Character();
+            //            $operator = new Character();
 
-            $character = collect($character->all())->keyBy(fn ($item, $key) => Str::snake($key));
-            $operator->fill($character->toArray());
-            $operator->save();
+            //            $character = collect($character->all())->keyBy(fn ($item, $key) => Str::snake($key));
+            //            $operator->fill($character->toArray());
+            //            $operator->save();
         });
     }
 }

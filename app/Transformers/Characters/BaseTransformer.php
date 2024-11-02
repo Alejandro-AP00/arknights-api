@@ -2,12 +2,12 @@
 
 namespace App\Transformers\Characters;
 
-use App\Contracts\Transformer as TransformerInterface;
 use App\Enums\Locales;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
-abstract class BaseTransformer implements TransformerInterface
+abstract class BaseTransformer
 {
     protected array $fields = [];
 
@@ -21,9 +21,12 @@ abstract class BaseTransformer implements TransformerInterface
 
     protected array $output = [];
 
-    public function __construct($character, protected $sourceReferenceKey = null)
+    protected Collection $table;
+
+    public function __construct(protected $subjectKey, protected $sourceTable = 'characters', protected $sourceReferenceKey = null)
     {
-        $this->subject = collect($character)->keyBy(fn ($item, $key) => Str::snake($key));
+        $this->table = Cache::get($this->sourceTable.'_'.Locales::Chinese->value);
+        $this->subject = collect($this->table->get($this->subjectKey))->keyBy(fn ($item, $key) => Str::snake($key));
         $this->sourceReference = $this->subject;
 
         if ($this->sourceReferenceKey !== null) {
@@ -72,10 +75,9 @@ abstract class BaseTransformer implements TransformerInterface
     {
         $output = [];
         foreach (Locales::cases() as $locale) {
-            $char_id = $this->subject->get('char_id');
-            $char_data = $locale->characterData()[$char_id] ?? Locales::Chinese->characterData()[$char_id];
-            $char_data = collect($char_data)->keyBy(fn ($item, $key) => Str::snake($key));
-            $output[$locale->value] = $this->sourceReferenceKey === null ? data_get($char_data, $field) : data_get($char_data, $this->sourceReferenceKey.'.'.$field);
+            $data = Cache::get($this->sourceTable.'_'.$locale->value)->get($this->subjectKey) ?? Cache::get($this->sourceTable.'_'.Locales::Chinese->value)->get($this->subjectKey);
+            $data = collect($data)->keyBy(fn ($item, $key) => Str::snake($key));
+            $output[$locale->value] = $this->sourceReferenceKey === null ? data_get($data, $field) : data_get($data, $this->sourceReferenceKey.'.'.$field);
         }
 
         return $output;
