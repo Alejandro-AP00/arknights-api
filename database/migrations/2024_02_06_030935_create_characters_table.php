@@ -23,7 +23,6 @@ return new class extends Migration
             $table->string('alter_char_id')->nullable();
             $table->string('base_operator_char_id')->nullable();
             $table->boolean('is_summon')->default(false);
-            $table->unsignedInteger('release_order');
             $table->string('name');
             $table->string('appellation');
             $table->enum('profession', Profession::values());
@@ -39,6 +38,7 @@ return new class extends Migration
             $table->enum('rarity', Rarity::values());
             $table->json('favor_key_frames');
             $table->json('tag_list');
+            $table->timestamp('released_at')->nullable();
             $table->timestamps();
         });
     }

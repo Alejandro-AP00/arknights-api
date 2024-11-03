@@ -3,12 +3,14 @@
 namespace App\Console\Commands;
 
 use App\Enums\Locales;
-use App\Models\Character;
-use App\Transformers\CharacterTransformer;
+use App\Jobs\ImportCharacterJob;
+use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\File;
+use Symfony\Component\DomCrawler\Crawler;
 
 class ImportAll extends Command
 {
@@ -31,23 +33,16 @@ class ImportAll extends Command
      */
     public function handle()
     {
-        $ranges = $this->getRangeTable();
+        $characters = $this->getCharacterTable();
+        $this->getReleaseDate();
+        $this->getRangeTable();
         $this->getSkinTable();
         $this->getVoiceTable();
-        $characters = $this->getCharacterTable();
 
-        //        $characters = $characters->where('char_id', 'char_1028_texas2');
+        $characters = $characters->where('char_id', 'char_2024_chyue');
 
         $this->withProgressBar($characters, function ($character) {
-            $character = collect($character);
-            //            dump($character['char_id']);
-            $character = (new CharacterTransformer($character['char_id']))->transform();
-            //            dd($character);
-            //            $operator = new Character();
-
-            //            $character = collect($character->all())->keyBy(fn ($item, $key) => Str::snake($key));
-            //            $operator->fill($character->toArray());
-            //            $operator->save();
+            ImportCharacterJob::dispatchSync($character);
         });
 
         return Command::SUCCESS;
@@ -89,6 +84,41 @@ class ImportAll extends Command
     {
         return Cache::remember('voices_'.Locales::Chinese->value, 3600, function () {
             return collect(File::gameData(Locales::Chinese, 'charword_table.json')['voiceLangDict']);
+        });
+    }
+
+    private function getReleaseDate(): void
+    {
+        Cache::remember('release_date', 3600, function () {
+            $url = 'https://prts.wiki/w/%E5%B9%B2%E5%91%98%E4%B8%8A%E7%BA%BF%E6%97%B6%E9%97%B4%E4%B8%80%E8%A7%88';
+
+            $client = new Client;
+            $response = $client->get($url);
+            $htmlContent = $response->getBody()->getContents();
+
+            $crawler = new Crawler($htmlContent);
+
+            $table = $crawler->filter('table.wikitable')->first();
+
+            $data = collect([]);
+            $characters = Cache::get('characters_'.Locales::Chinese->value);
+            $table->filter('tr')->each(function (Crawler $row) use (&$data, $characters) {
+                $columns = $row->filter('td');
+
+                if ($columns->count() >= 2) {
+                    // Get operator name and release date
+                    $name = trim($columns->eq(0)->text());
+                    $character = $characters->firstWhere('name', $name);
+                    $name = data_get($character, 'char_id');
+
+                    $releaseDate = trim($columns->eq(2)->text());
+                    $releaseDate = Date::createFromFormat('Y年m月d日 H:i', $releaseDate)->toDateTimeString();
+
+                    $data->put($name, $releaseDate);
+                }
+            });
+
+            return $data;
         });
     }
 }

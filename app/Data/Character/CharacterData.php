@@ -7,10 +7,15 @@ use App\Enums\Position;
 use App\Enums\Profession;
 use App\Enums\Rarity;
 use App\Enums\SubProfession;
+use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Spatie\LaravelData\Attributes\MapInputName;
+use Spatie\LaravelData\Attributes\WithCast;
+use Spatie\LaravelData\Attributes\WithTransformer;
+use Spatie\LaravelData\Casts\DateTimeInterfaceCast;
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Mappers\SnakeCaseMapper;
+use Spatie\LaravelData\Transformers\DateTimeInterfaceTransformer;
 
 #[MapInputName(SnakeCaseMapper::class)]
 class CharacterData extends Data
@@ -40,7 +45,7 @@ class CharacterData extends Data
         public Rarity $rarity,
         public LocalizedFieldData $tagList,
 
-        public Collection $phases,
+        public ?Collection $phases,
         public ?Collection $favorKeyFrames,
         public ?Collection $potentialRanks,
         public ?Collection $talents,
@@ -55,7 +60,8 @@ class CharacterData extends Data
 
         public ?string $alterCharId,
         public ?string $baseOperatorCharId,
-        public int $releaseOrder,
-    ) {
-    }
+        #[WithCast(DateTimeInterfaceCast::class)]
+        #[WithTransformer(DateTimeInterfaceTransformer::class)]
+        public Carbon $releasedAt,
+    ) {}
 }

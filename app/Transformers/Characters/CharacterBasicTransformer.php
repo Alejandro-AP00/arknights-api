@@ -3,6 +3,7 @@
 namespace App\Transformers\Characters;
 
 use App\Enums\Locales;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 
@@ -26,7 +27,7 @@ class CharacterBasicTransformer extends BaseTransformer
         'tag_list',
         'phases',
         'favor_key_frames',
-        'release_order',
+        'released_at',
         'potential_ranks',
         'talents',
         'voices',
@@ -76,15 +77,17 @@ class CharacterBasicTransformer extends BaseTransformer
         $talents = collect($this->subject->get('talents'));
 
         return $talents->map(function ($talent, $talent_index) {
-            return ['candidates' => collect($talent['candidates'])->map(function ($candidate, $candidate_index) use ($talent_index) {
-                return (new CharacterTalentCandidateTransformer($this->subjectKey, sourceReferenceKey: 'talents.'.$talent_index.'.candidates.'.$candidate_index))->transform();
-            })];
+            return ['candidates' => collect($talent['candidates'])
+                ->filter(fn ($candidate) => $candidate['isHideTalent'] === false)
+                ->map(function ($candidate, $candidate_index) use ($talent_index) {
+                    return (new CharacterTalentCandidateTransformer($this->subjectKey, sourceReferenceKey: 'talents.'.$talent_index.'.candidates.'.$candidate_index))->transform();
+                })];
         });
     }
 
     public function transformVoices(): ?Collection
     {
-        $voices = collect(Cache::get('voices_'.Locales::Chinese->value)[$this->subject->get('char_id')]);
+        $voices = collect(data_get(Cache::get('voices_'.Locales::Chinese->value), $this->subject->get('char_id')));
 
         if ($voices->isNotEmpty()) {
             return collect($voices->get('dict'))->values();
@@ -108,8 +111,8 @@ class CharacterBasicTransformer extends BaseTransformer
         return null;
     }
 
-    public function transformReleaseOrder(): int
+    public function transformReleasedAt(): Carbon
     {
-        return 0;
+        return Carbon::parse(Cache::get('release_date')->get($this->subject->get('char_id')));
     }
 }

@@ -13,11 +13,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Spatie\LaravelData\DataCollection;
 use Spatie\LaravelData\WithData;
-use Spatie\Translatable\HasTranslations;
 
 class Character extends Model
 {
-    use HasTranslations, WithData;
+    use WithData;
 
     protected string $dataClass = CharacterData::class;
 
@@ -26,7 +25,7 @@ class Character extends Model
         'char_id',
         'alter_char_id',
         'base_operator_char_id',
-        'release_order',
+        'released_at',
         'name',
         'appellation',
         'profession',
@@ -50,6 +49,10 @@ class Character extends Model
         'sub_profession' => SubProfession::class,
         'rarity' => Rarity::class,
         'favor_key_frames' => DataCollection::class.':'.KeyFrameData::class,
+
+        'tag_list' => 'array',
+        'description' => 'array',
+        'name' => 'array',
     ];
 
     public array $translatable = [

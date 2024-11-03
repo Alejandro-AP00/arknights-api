@@ -26,6 +26,7 @@ enum SubProfession: string
     case Protector = 'protector';
     case Guardian = 'guardian';
     case Juggernaut = 'unyield';
+    case PrimProtector = 'primprotector';
     case ArtsProtector = 'artsprotector';
     case Duelist = 'duelist';
     case Fortress = 'fortress';
@@ -73,6 +74,8 @@ enum SubProfession: string
     case Merchant = 'merchant';
     case Trapmaster = 'traper';
     case Dollkeeper = 'dollkeeper';
+    case Skywalker = 'skywalker';
+    case Alchemist = 'alchemist';
     // Other
     case OperatorAttachedUnit = 'notchar1';
     case NoClassTrap = 'notchar2';

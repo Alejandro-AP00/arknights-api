@@ -11,6 +11,5 @@ class LocalizedFieldData extends Data
         public string|array $ko_KR,
         public string|array $zh_CN,
         public string|array $ja_JP,
-    ) {
-    }
+    ) {}
 }
