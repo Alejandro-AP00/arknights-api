@@ -3,8 +3,8 @@
 namespace App\Console\Commands;
 
 use App\Enums\Locales;
-use App\Models\Character;
-use App\Transformers\CharacterTransformer;
+use App\Jobs\ImportCharacterJob;
+use App\Jobs\ImportRangesJob;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
@@ -29,31 +29,26 @@ class ImportAll extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): int
     {
-        $ranges = $this->getRangeTable();
-        $this->getSkinTable();
-        $this->getVoiceTable();
-        $characters = $this->getCharacterTable();
+        $this->info('Loading GameData Caches');
+        $characters = $this->loadCharacterTable();
+        $this->loadRangeTable();
+        $this->loadSkinTable();
+        $this->loadVoiceTable();
 
-        //        $characters = $characters->where('char_id', 'char_1028_texas2');
+        $this->info('Dispatching Ranges importer');
+        ImportRangesJob::dispatch();
 
+        $this->info('Dispatching Character Importer');
         $this->withProgressBar($characters, function ($character) {
-            $character = collect($character);
-            //            dump($character['char_id']);
-            $character = (new CharacterTransformer($character['char_id']))->transform();
-            //            dd($character);
-            //            $operator = new Character();
-
-            //            $character = collect($character->all())->keyBy(fn ($item, $key) => Str::snake($key));
-            //            $operator->fill($character->toArray());
-            //            $operator->save();
+            ImportCharacterJob::dispatch($character['char_id'], $character);
         });
 
         return Command::SUCCESS;
     }
 
-    private function getCharacterTable(): Collection
+    private function loadCharacterTable(): Collection
     {
         foreach (Locales::cases() as $locale) {
             Cache::remember('characters_'.$locale->value, 3600, function () use ($locale) {
@@ -69,14 +64,14 @@ class ImportAll extends Command
         return Cache::get('characters_'.Locales::Chinese->value);
     }
 
-    private function getRangeTable(): Collection
+    private function loadRangeTable(): void
     {
-        return Cache::remember('ranges_'.Locales::Chinese->value, 3600, function () {
+        Cache::remember('ranges_'.Locales::Chinese->value, 3600, function () {
             return collect(File::gameData(Locales::Chinese, 'range_table.json'));
         });
     }
 
-    private function getSkinTable()
+    private function loadSkinTable(): void
     {
         foreach (Locales::cases() as $locale) {
             Cache::remember('skins_'.$locale->value, 3600, function () use ($locale) {
@@ -85,9 +80,9 @@ class ImportAll extends Command
         }
     }
 
-    private function getVoiceTable()
+    private function loadVoiceTable(): void
     {
-        return Cache::remember('voices_'.Locales::Chinese->value, 3600, function () {
+        Cache::remember('voices_'.Locales::Chinese->value, 3600, function () {
             return collect(File::gameData(Locales::Chinese, 'charword_table.json')['voiceLangDict']);
         });
     }
