@@ -66,6 +66,11 @@ class Character extends Model
         return $this->hasMany(Phase::class);
     }
 
+    public function potentials(): HasMany
+    {
+        return $this->hasMany(Potential::class);
+    }
+
     public function traitCandidates(): HasMany
     {
         return $this->hasMany(TraitCandidate::class);

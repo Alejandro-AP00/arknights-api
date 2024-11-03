@@ -64,14 +64,14 @@ class ImportAll extends Command
         return Cache::get('characters_'.Locales::Chinese->value);
     }
 
-    private function getRangeTable(): Collection
+    private function getRangeTable(): void
     {
-        return Cache::remember('ranges_'.Locales::Chinese->value, 3600, function () {
+        Cache::remember('ranges_'.Locales::Chinese->value, 3600, function () {
             return collect(File::gameData(Locales::Chinese, 'range_table.json'));
         });
     }
 
-    private function getSkinTable()
+    private function getSkinTable(): void
     {
         foreach (Locales::cases() as $locale) {
             Cache::remember('skins_'.$locale->value, 3600, function () use ($locale) {
@@ -80,9 +80,9 @@ class ImportAll extends Command
         }
     }
 
-    private function getVoiceTable()
+    private function getVoiceTable(): void
     {
-        return Cache::remember('voices_'.Locales::Chinese->value, 3600, function () {
+        Cache::remember('voices_'.Locales::Chinese->value, 3600, function () {
             return collect(File::gameData(Locales::Chinese, 'charword_table.json')['voiceLangDict']);
         });
     }
@@ -109,12 +109,12 @@ class ImportAll extends Command
                     // Get operator name and release date
                     $name = trim($columns->eq(0)->text());
                     $character = $characters->firstWhere('name', $name);
-                    $name = data_get($character, 'char_id');
+                    $char_id = data_get($character, 'char_id');
 
                     $releaseDate = trim($columns->eq(2)->text());
                     $releaseDate = Date::createFromFormat('Y年m月d日 H:i', $releaseDate)->toDateTimeString();
 
-                    $data->put($name, $releaseDate);
+                    $data->put($char_id, $releaseDate);
                 }
             });
 

@@ -14,9 +14,9 @@ class RangeData extends Data
      * @param  Collection<RangeGridData>  $grids
      */
     public function __construct(
+        #[MapInputName('id')]
         public string $rangeId,
         public int $direction,
         public Collection $grids,
-    ) {
-    }
+    ) {}
 }

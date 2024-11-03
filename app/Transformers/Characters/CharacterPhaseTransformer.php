@@ -20,6 +20,11 @@ class CharacterPhaseTransformer extends BaseTransformer
         return collect($this->sourceReference->get('attributes_key_frames'))->map(fn ($keyframe) => ['level' => $keyframe['level'], ...$keyframe['data']]);
     }
 
+    public function transformEvolveCost(): Collection
+    {
+        return collect($this->sourceReference->get('evolve_cost'))->map(fn ($cost) => ['itemId' => $cost['id'], 'count' => $cost['count']]);
+    }
+
     public function transformRangeId()
     {
         $range_id = $this->sourceReference->get('range_id');

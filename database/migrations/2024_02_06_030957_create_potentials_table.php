@@ -15,9 +15,9 @@ return new class extends Migration
         Schema::create('potentials', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Character::class);
-            $table->string('type');
-            $table->json('description');
-            $table->json('buff');
+            $table->string('type')->nullable();
+            $table->json('description')->nullable();
+            $table->json('buff')->nullable();
             $table->timestamps();
         });
     }

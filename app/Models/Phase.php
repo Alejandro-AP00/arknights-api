@@ -2,15 +2,22 @@
 
 namespace App\Models;
 
+use App\Data\Character\CharacterPhaseData;
 use App\Data\Character\ItemCostData;
 use App\Data\Character\KeyFrameData;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\LaravelData\DataCollection;
+use Spatie\LaravelData\WithData;
 
 class Phase extends Model
 {
+    use WithData;
+
+    protected string $dataClass = CharacterPhaseData::class;
+
     protected $fillable = [
+        'character_id',
         'range_id',
         'character_prefab_key',
         'max_level',

@@ -12,15 +12,14 @@ use Spatie\LaravelData\Mappers\SnakeCaseMapper;
 class CharacterPhaseData extends Data
 {
     /**
-     * @param  Collection<ItemCostData>|null|array  $evolveCost
+     * @param  Collection<ItemCostData>|null  $evolveCost
      * @param  Collection<KeyFrameData>  $attributesKeyFrames
      */
     public function __construct(
         public string $characterPrefabKey,
         public int $maxLevel,
         public RangeData $range,
-        public Collection|array|null $evolveCost,
+        public ?Collection $evolveCost,
         public Collection $attributesKeyFrames,
-    ) {
-    }
+    ) {}
 }

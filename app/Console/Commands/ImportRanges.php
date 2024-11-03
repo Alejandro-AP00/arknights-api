@@ -14,7 +14,7 @@ class ImportRanges extends Command
      *
      * @var string
      */
-    protected $signature = 'app:import-ranges';
+    protected $signature = 'import:ranges';
 
     /**
      * The console command description.
@@ -29,10 +29,11 @@ class ImportRanges extends Command
     public function handle()
     {
         $ranges = collect(File::gameData(Locales::Chinese, 'range_table.json'));
+        Range::truncate();
 
         $this->withProgressBar($ranges, function ($range) {
             Range::updateOrCreate([
-                'range_id' => $range['id'],
+                'id' => $range['id'],
                 'direction' => $range['direction'],
                 'grids' => $range['grids'],
             ]);
