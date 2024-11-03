@@ -66,7 +66,7 @@ class Character extends Model
         return $this->hasMany(Phase::class);
     }
 
-    public function potentials(): HasMany
+    public function potentialRanks(): HasMany
     {
         return $this->hasMany(Potential::class);
     }

@@ -3,18 +3,21 @@
 namespace App\Models;
 
 use App\Data\Character\InterpolatedValueData;
+use App\Data\Character\TalentCandidateData;
 use App\Data\Character\UnlockConditionData;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\LaravelData\DataCollection;
-use Spatie\Translatable\HasTranslations;
+use Spatie\LaravelData\WithData;
 
 class TalentCandidate extends Model
 {
-    use HasTranslations;
+    use WithData;
+
+    protected string $dataClass = TalentCandidateData::class;
 
     protected $fillable = [
-        'character_id',
+        'talent_id',
         'range_id',
         'required_potential_rank',
         'unlock_condition',
@@ -26,6 +29,9 @@ class TalentCandidate extends Model
     protected $casts = [
         'unlock_condition' => UnlockConditionData::class,
         'blackboard' => DataCollection::class.':'.InterpolatedValueData::class,
+
+        'name' => 'array',
+        'description' => 'array',
     ];
 
     public array $translatable = [
@@ -33,9 +39,9 @@ class TalentCandidate extends Model
         'description',
     ];
 
-    public function character(): BelongsTo
+    public function talent(): BelongsTo
     {
-        return $this->belongsTo(Character::class, 'character_id');
+        return $this->belongsTo(Talent::class);
     }
 
     public function range(): BelongsTo

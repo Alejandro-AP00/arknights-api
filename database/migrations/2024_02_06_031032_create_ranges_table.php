@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('ranges', function (Blueprint $table) {
-            $table->string('id');
+            $table->id();
+            $table->string('range_id');
             $table->integer('direction');
             $table->json('grids');
             $table->timestamps();

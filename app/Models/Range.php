@@ -15,7 +15,7 @@ class Range extends Model
     protected string $dataClass = RangeData::class;
 
     protected $fillable = [
-        'id',
+        'range_id',
         'direction',
         'grids',
     ];

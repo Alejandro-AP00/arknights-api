@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Enums\Locales;
 use App\Jobs\ImportCharacterJob;
+use App\Jobs\ImportRangesJob;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
@@ -41,6 +42,10 @@ class ImportAll extends Command
 
         $characters = $characters->where('char_id', 'char_2024_chyue');
 
+        $this->info('Importing Ranges');
+        ImportRangesJob::dispatch();
+
+        $this->info('Importing Characters');
         $this->withProgressBar($characters, function ($character) {
             ImportCharacterJob::dispatchSync($character);
         });
