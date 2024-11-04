@@ -19,11 +19,11 @@ return new class extends Migration
         Schema::create('characters', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Character::class, 'owner_id')->nullable();
-            $table->string('char_id');
-            $table->string('alter_char_id')->nullable();
-            $table->string('base_operator_char_id')->nullable();
             $table->boolean('is_summon')->default(false);
-            $table->string('name');
+            $table->foreignIdFor(Character::class, 'alter_character_id')->nullable();
+            $table->foreignIdFor(Character::class, 'base_character_id')->nullable();
+            $table->string('char_id');
+            $table->json('name');
             $table->string('appellation');
             $table->enum('profession', Profession::values());
             $table->enum('sub_profession', SubProfession::values());
@@ -38,6 +38,7 @@ return new class extends Migration
             $table->enum('rarity', Rarity::values());
             $table->json('favor_key_frames');
             $table->json('tag_list');
+            $table->boolean('is_limited')->default(false);
             $table->timestamp('released_at')->nullable();
             $table->timestamps();
         });

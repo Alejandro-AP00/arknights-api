@@ -23,8 +23,9 @@ class Character extends Model
     protected $fillable = [
         'owner_id',
         'char_id',
-        'alter_char_id',
-        'base_operator_char_id',
+        'alter_character_id',
+        'base_character_id',
+        'is_limited',
         'released_at',
         'name',
         'appellation',
@@ -114,5 +115,15 @@ class Character extends Model
     public function handbook(): HasOne
     {
         return $this->hasOne(Handbook::class);
+    }
+
+    public function alterCharacter(): HasOne
+    {
+        return $this->hasOne(Character::class, 'alter_character_id');
+    }
+
+    public function baseCharacter(): HasOne
+    {
+        return $this->hasOne(Character::class, 'base_character_id');
     }
 }

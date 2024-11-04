@@ -3,7 +3,9 @@
 namespace App\Jobs;
 
 use App\Data\Character\CharacterData;
+use App\Data\Character\SkinData;
 use App\Data\Character\TalentCandidateData;
+use App\Data\Character\VoiceData;
 use App\Enums\Profession;
 use App\Models\Character;
 use App\Models\Phase;
@@ -12,6 +14,7 @@ use App\Models\Talent;
 use App\Models\TalentCandidate;
 use App\Transformers\CharacterTransformer;
 use Closure;
+use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -22,13 +25,15 @@ use Illuminate\Support\Str;
 
 class ImportCharacterJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Batchable, Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+
+    private Character $characterModel;
 
     public function __construct(private $character) {}
 
     public function handle(): void
     {
-        if (in_array(Profession::tryFrom($this->character['profession']), [Profession::TOKEN, Profession::TRAP])) {
+        if (Profession::tryFrom($this->character['profession']) == Profession::TRAP) {
             return;
         }
 
@@ -41,8 +46,15 @@ class ImportCharacterJob implements ShouldQueue
                 $this->createPhases(...),
                 $this->createPotentials(...),
                 $this->createTalents(...),
+                $this->createVoices(...),
+                $this->createSkins(...),
             ])
             ->thenReturn();
+    }
+
+    private function isOperator(): bool
+    {
+        return ! in_array(Profession::tryFrom($this->character['profession']), [Profession::TRAP, Profession::TOKEN]);
     }
 
     private function createCharacter(CharacterData $character_data, Closure $next)
@@ -53,6 +65,8 @@ class ImportCharacterJob implements ShouldQueue
         $operator->fill($character->toArray());
         $operator->save();
 
+        $this->characterModel = $operator;
+
         return $next($character_data);
     }
 
@@ -60,14 +74,12 @@ class ImportCharacterJob implements ShouldQueue
     {
         $phases = $character_data->phases;
 
-        $character = Character::firstWhere('char_id', $character_data->charId);
-
         foreach ($phases as $phase) {
             $range = Range::firstWhere('range_id', $phase->range->rangeId);
             $phase = collect($phase->all())->keyBy(fn ($item, $key) => Str::snake($key));
 
             $phase = new Phase($phase->toArray());
-            $phase->character()->associate($character);
+            $phase->character()->associate($this->characterModel);
             $phase->range()->associate($range);
             $phase->save();
         }
@@ -79,8 +91,7 @@ class ImportCharacterJob implements ShouldQueue
     {
         $potentials = $character_data->potentialRanks;
 
-        $character = Character::firstWhere('char_id', $character_data->charId);
-        $character->potentialRanks()->createMany($potentials->toArray());
+        $this->characterModel->potentialRanks()->createMany($potentials->toArray());
 
         return $next($character_data);
     }
@@ -89,12 +100,11 @@ class ImportCharacterJob implements ShouldQueue
     {
         $talents = $character_data->talents;
 
-        $character = Character::firstWhere('char_id', $character_data->charId);
         foreach ($talents as $talent) {
             $candidates = $talent->candidates;
 
             $talent = new Talent;
-            $talent->character()->associate($character);
+            $talent->character()->associate($this->characterModel);
             $talent->save();
 
             $candidates->each(function (TalentCandidateData $candidate_data) use ($talent) {
@@ -110,6 +120,32 @@ class ImportCharacterJob implements ShouldQueue
                 $candidate->save();
             });
         }
+
+        return $next($character_data);
+    }
+
+    private function createVoices(CharacterData $character_data, Closure $next)
+    {
+        if (! $this->isOperator()) {
+            return $next($character_data);
+        }
+
+        $character_data->voices->each(function (VoiceData $voice_data) {
+            $this->characterModel->voices()->create(collect($voice_data)->keyBy(fn ($item, $key) => Str::snake($key))->toArray());
+        });
+
+        return $next($character_data);
+    }
+
+    private function createSkins(CharacterData $character_data, Closure $next)
+    {
+        if (! $this->isOperator()) {
+            return $next($character_data);
+        }
+
+        $character_data->skins->each(function (SkinData $skin_data) {
+            $this->characterModel->skins()->create(collect($skin_data)->keyBy(fn ($item, $key) => Str::snake($key))->toArray());
+        });
 
         return $next($character_data);
     }

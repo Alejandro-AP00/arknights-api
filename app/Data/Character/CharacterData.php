@@ -30,6 +30,7 @@ class CharacterData extends Data
      */
     public function __construct(
         public string $charId,
+        public bool $isLimited,
         public LocalizedFieldData $name,
         public string $appellation,
         public ?Profession $profession,
@@ -58,8 +59,8 @@ class CharacterData extends Data
         public ?Collection $skins,
         public ?HandbookData $handbook,
 
-        public ?string $alterCharId,
-        public ?string $baseOperatorCharId,
+        public ?CharacterData $alterCharacter,
+        public ?CharacterData $baseCharacter,
         #[WithCast(DateTimeInterfaceCast::class)]
         #[WithTransformer(DateTimeInterfaceTransformer::class)]
         public Carbon $releasedAt,

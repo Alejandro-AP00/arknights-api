@@ -9,9 +9,13 @@ class Voice extends Model
 {
     protected $fillable = [
         'character_id',
-        'word_key',
+        'wordkey',
         'voice_lang_type',
         'cv_name',
+    ];
+
+    protected $casts = [
+        'cv_name' => 'array',
     ];
 
     public function character(): BelongsTo

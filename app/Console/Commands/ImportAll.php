@@ -5,12 +5,15 @@ namespace App\Console\Commands;
 use App\Enums\Locales;
 use App\Jobs\ImportCharacterJob;
 use App\Jobs\ImportRangesJob;
+use App\Models\Character;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 use Symfony\Component\DomCrawler\Crawler;
 
 class ImportAll extends Command
@@ -32,23 +35,34 @@ class ImportAll extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): int
     {
         $characters = $this->getCharacterTable();
-        $this->getReleaseDate();
+        $this->getReleaseDateAndLimitedInformation();
         $this->getRangeTable();
         $this->getSkinTable();
         $this->getVoiceTable();
 
-        $characters = $characters->where('char_id', 'char_2024_chyue');
+        $characters = $characters->whereIn('char_id', ['char_148_nearl', 'char_1014_nearl2']);
 
-        $this->info('Importing Ranges');
-        ImportRangesJob::dispatch();
+        //        ImportRangesJob::dispatchSync();
+        //        $characters->each(fn ($character) => ImportCharacterJob::dispatchSync($character));
+        //
+        //        $nearl = Character::firstWhere('char_id', 'char_148_nearl');
+        //        $nearl_radiant = Character::firstWhere('char_id', 'char_1014_nearl2');
+        //
+        //        $nearl->alter_character_id = $nearl_radiant->id;
+        //        $nearl_radiant->base_character_id = $nearl->id;
+        //
+        //        $nearl_radiant->save();
+        //        $nearl->save();
 
-        $this->info('Importing Characters');
-        $this->withProgressBar($characters, function ($character) {
-            ImportCharacterJob::dispatchSync($character);
-        });
+        Bus::chain([
+            new ImportRangesJob,
+            Bus::batch(
+                $characters->map(fn ($character) => new ImportCharacterJob($character)),
+            ),
+        ])->dispatch();
 
         return Command::SUCCESS;
     }
@@ -92,7 +106,7 @@ class ImportAll extends Command
         });
     }
 
-    private function getReleaseDate(): void
+    private function getReleaseDateAndLimitedInformation(): void
     {
         Cache::remember('release_date', 3600, function () {
             $url = 'https://prts.wiki/w/%E5%B9%B2%E5%91%98%E4%B8%8A%E7%BA%BF%E6%97%B6%E9%97%B4%E4%B8%80%E8%A7%88';
@@ -119,7 +133,10 @@ class ImportAll extends Command
                     $releaseDate = trim($columns->eq(2)->text());
                     $releaseDate = Date::createFromFormat('Y年m月d日 H:i', $releaseDate)->toDateTimeString();
 
-                    $data->put($char_id, $releaseDate);
+                    $data->put($char_id, [
+                        'release_date' => $releaseDate,
+                        'is_limited' => Str::of($columns->eq(4)->text())->startsWith('限定'),
+                    ]);
                 }
             });
 

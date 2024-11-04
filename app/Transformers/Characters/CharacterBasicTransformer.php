@@ -11,6 +11,7 @@ class CharacterBasicTransformer extends BaseTransformer
 {
     protected array $fields = [
         'char_id',
+        'is_limited',
         'name',
         'appellation',
         'profession',
@@ -113,6 +114,11 @@ class CharacterBasicTransformer extends BaseTransformer
 
     public function transformReleasedAt(): Carbon
     {
-        return Carbon::parse(Cache::get('release_date')->get($this->subject->get('char_id')));
+        return Carbon::parse(Cache::get('release_date')->get($this->subject->get('char_id'))['release_date']);
+    }
+
+    public function transformIsLimited(): bool
+    {
+        return Cache::get('release_date')->get($this->subject->get('char_id'))['is_limited'] ?? false;
     }
 }

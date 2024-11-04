@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('voices', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Character::class);
-            $table->string('word_key');
+            $table->string('wordkey');
             $table->string('voice_lang_type');
             $table->json('cv_name');
             $table->timestamps();
