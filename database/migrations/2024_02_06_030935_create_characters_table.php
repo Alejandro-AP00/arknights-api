@@ -20,7 +20,6 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Character::class, 'owner_id')->nullable();
             $table->boolean('is_summon')->default(false);
-            $table->foreignIdFor(Character::class, 'alter_character_id')->nullable();
             $table->foreignIdFor(Character::class, 'base_character_id')->nullable();
             $table->string('char_id');
             $table->json('name');
@@ -36,8 +35,8 @@ return new class extends Migration
             $table->string('display_number')->nullable();
             $table->enum('position', Position::values());
             $table->enum('rarity', Rarity::values());
-            $table->json('favor_key_frames');
-            $table->json('tag_list');
+            $table->json('favor_key_frames')->nullable();
+            $table->json('tag_list')->nullable();
             $table->boolean('is_limited')->default(false);
             $table->timestamp('released_at')->nullable();
             $table->timestamps();

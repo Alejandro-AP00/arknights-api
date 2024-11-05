@@ -3,9 +3,9 @@
 namespace App\Console\Commands;
 
 use App\Enums\Locales;
+use App\Jobs\ImportAlterInformationJob;
 use App\Jobs\ImportCharacterJob;
 use App\Jobs\ImportRangesJob;
-use App\Models\Character;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
@@ -43,25 +43,16 @@ class ImportAll extends Command
         $this->getSkinTable();
         $this->getVoiceTable();
 
-        $characters = $characters->whereIn('char_id', ['char_148_nearl', 'char_1014_nearl2']);
-
         //        ImportRangesJob::dispatchSync();
+        //        $characters = $characters->whereIn('char_id', ['token_10000_silent_healrb']);
         //        $characters->each(fn ($character) => ImportCharacterJob::dispatchSync($character));
-        //
-        //        $nearl = Character::firstWhere('char_id', 'char_148_nearl');
-        //        $nearl_radiant = Character::firstWhere('char_id', 'char_1014_nearl2');
-        //
-        //        $nearl->alter_character_id = $nearl_radiant->id;
-        //        $nearl_radiant->base_character_id = $nearl->id;
-        //
-        //        $nearl_radiant->save();
-        //        $nearl->save();
 
         Bus::chain([
             new ImportRangesJob,
             Bus::batch(
                 $characters->map(fn ($character) => new ImportCharacterJob($character)),
             ),
+            new ImportAlterInformationJob,
         ])->dispatch();
 
         return Command::SUCCESS;

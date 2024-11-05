@@ -112,9 +112,13 @@ class CharacterBasicTransformer extends BaseTransformer
         return null;
     }
 
-    public function transformReleasedAt(): Carbon
+    public function transformReleasedAt(): ?Carbon
     {
-        return Carbon::parse(Cache::get('release_date')->get($this->subject->get('char_id'))['release_date']);
+        if ($release_date = Cache::get('release_date')->get($this->subject->get('char_id'))) {
+            return Carbon::parse($release_date['release_date']);
+        }
+
+        return null;
     }
 
     public function transformIsLimited(): bool

@@ -130,7 +130,7 @@ class ImportCharacterJob implements ShouldQueue
             return $next($character_data);
         }
 
-        $character_data->voices->each(function (VoiceData $voice_data) {
+        $character_data->voices?->each(function (VoiceData $voice_data) {
             $this->characterModel->voices()->create(collect($voice_data)->keyBy(fn ($item, $key) => Str::snake($key))->toArray());
         });
 
@@ -143,7 +143,7 @@ class ImportCharacterJob implements ShouldQueue
             return $next($character_data);
         }
 
-        $character_data->skins->each(function (SkinData $skin_data) {
+        $character_data->skins?->each(function (SkinData $skin_data) {
             $this->characterModel->skins()->create(collect($skin_data)->keyBy(fn ($item, $key) => Str::snake($key))->toArray());
         });
 

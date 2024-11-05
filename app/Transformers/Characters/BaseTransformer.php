@@ -71,7 +71,7 @@ abstract class BaseTransformer
         return $this->output;
     }
 
-    public function toLocales($field): array
+    public function toLocales($field): ?array
     {
         $output = [];
         foreach (Locales::cases() as $locale) {
@@ -80,6 +80,6 @@ abstract class BaseTransformer
             $output[$locale->value] = $this->sourceReferenceKey === null ? data_get($data, $field) : data_get($data, $this->sourceReferenceKey.'.'.$field);
         }
 
-        return $output;
+        return empty(array_filter($output)) ? null : $output;
     }
 }

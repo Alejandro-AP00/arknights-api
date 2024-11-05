@@ -117,13 +117,13 @@ class Character extends Model
         return $this->hasOne(Handbook::class);
     }
 
-    public function alterCharacter(): HasOne
+    public function alterCharacters(): HasMany
     {
-        return $this->hasOne(Character::class, 'alter_character_id');
+        return $this->hasMany(Character::class, 'base_character_id');
     }
 
-    public function baseCharacter(): HasOne
+    public function baseCharacter(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->hasOne(Character::class, 'base_character_id');
+        return $this->belongsTo(Character::class, 'base_character_id');
     }
 }

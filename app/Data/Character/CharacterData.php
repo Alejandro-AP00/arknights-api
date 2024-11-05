@@ -27,6 +27,7 @@ class CharacterData extends Data
      * @param  Collection<TalentData>  $talents
      * @param  Collection<VoiceData>  $voices
      * @param  Collection<SkinData>  $skins
+     * @param  Collection<CharacterData>  $alterCharacters
      */
     public function __construct(
         public string $charId,
@@ -37,14 +38,14 @@ class CharacterData extends Data
         public ?SubProfession $subProfession,
         public ?string $potentialItemId,
         public bool $canUseGeneralPotentialItem,
-        public LocalizedFieldData $description,
+        public ?LocalizedFieldData $description,
         public ?string $nation,
         public ?string $group,
         public ?string $team,
         public ?string $displayNumber,
         public Position $position,
         public Rarity $rarity,
-        public LocalizedFieldData $tagList,
+        public ?LocalizedFieldData $tagList,
 
         public ?Collection $phases,
         public ?Collection $favorKeyFrames,
@@ -59,10 +60,10 @@ class CharacterData extends Data
         public ?Collection $skins,
         public ?HandbookData $handbook,
 
-        public ?CharacterData $alterCharacter,
+        public ?Collection $alterCharacters,
         public ?CharacterData $baseCharacter,
         #[WithCast(DateTimeInterfaceCast::class)]
         #[WithTransformer(DateTimeInterfaceTransformer::class)]
-        public Carbon $releasedAt,
+        public ?Carbon $releasedAt,
     ) {}
 }
