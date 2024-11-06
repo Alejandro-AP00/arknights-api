@@ -60,4 +60,17 @@ class CharacterSkinTransformer extends BaseTransformer
             return [$locale->value => $name];
         })->toArray();
     }
+
+    public function transformCost(): ?int
+    {
+        $skin_cost_data = Cache::get('skin_cost_data')->get($this->subject['skin_id']);
+        if ($skin_cost_data) {
+            $this->output['obtain_sources'] = collect($skin_cost_data['obtain_sources']) ?? null;
+            $this->output['token_type'] = $skin_cost_data['token_type'] ?? null;
+
+            return $skin_cost_data['cost'];
+        }
+
+        return null;
+    }
 }

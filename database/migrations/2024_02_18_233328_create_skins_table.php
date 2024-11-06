@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\TokenType;
 use App\Models\Character;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -24,7 +25,8 @@ return new class extends Migration
             $table->string('type');
             $table->json('obtain_sources')->nullable();
             $table->integer('cost')->nullable();
-            $table->string('token_type')->nullable();
+            $table->enum('token_type', TokenType::values())->nullable();
+
             $table->timestamps();
         });
     }

@@ -6,6 +6,7 @@ use App\Enums\Locales;
 use App\Jobs\ImportAlterInformationJob;
 use App\Jobs\ImportCharacterJob;
 use App\Jobs\ImportRangesJob;
+use App\Jobs\ScrapeSkinsDataJob;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
@@ -49,6 +50,7 @@ class ImportAll extends Command
 
         Bus::chain([
             new ImportRangesJob,
+            new ScrapeSkinsDataJob,
             Bus::batch(
                 $characters->map(fn ($character) => new ImportCharacterJob($character)),
             ),
