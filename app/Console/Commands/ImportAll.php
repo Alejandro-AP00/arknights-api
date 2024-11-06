@@ -43,9 +43,10 @@ class ImportAll extends Command
         $this->getRangeTable();
         $this->getSkinTable();
         $this->getVoiceTable();
+        $this->getHandbookTable();
 
         //        ImportRangesJob::dispatchSync();
-        //        $characters = $characters->whereIn('char_id', ['token_10000_silent_healrb']);
+        //        $characters = $characters->whereIn('char_id', ['char_1019_siege2']);
         //        $characters->each(fn ($character) => ImportCharacterJob::dispatchSync($character));
 
         Bus::chain([
@@ -73,6 +74,10 @@ class ImportAll extends Command
             });
         }
 
+        Cache::remember('patch_characters', 3600, function () {
+            return collect(File::gameData(Locales::Chinese, 'char_patch_table.json'));
+        });
+
         return Cache::get('characters_'.Locales::Chinese->value);
     }
 
@@ -97,6 +102,15 @@ class ImportAll extends Command
         Cache::remember('voices_'.Locales::Chinese->value, 3600, function () {
             return collect(File::gameData(Locales::Chinese, 'charword_table.json')['voiceLangDict']);
         });
+    }
+
+    private function getHandbookTable(): void
+    {
+        foreach (Locales::cases() as $locale) {
+            Cache::remember('handbook_'.$locale->value, 3600, function () use ($locale) {
+                return collect(File::gameData($locale, 'handbook_info_table.json')['handbookDict']);
+            });
+        }
     }
 
     private function getReleaseDateAndLimitedInformation(): void

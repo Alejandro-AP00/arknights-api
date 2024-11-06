@@ -33,6 +33,7 @@ class CharacterBasicTransformer extends BaseTransformer
         'talents',
         'voices',
         'skins',
+        'handbook',
     ];
 
     protected array $rename_keys = [
@@ -124,5 +125,28 @@ class CharacterBasicTransformer extends BaseTransformer
     public function transformIsLimited(): bool
     {
         return Cache::get('release_date')->get($this->subject->get('char_id'))['is_limited'] ?? false;
+    }
+
+    public function transformHandbook(): ?Collection
+    {
+        $key = $this->getDefaultPatchCharId() ?? $this->subject->get('char_id');
+        if (Cache::get('handbook_'.Locales::Chinese->value)->get($key)) {
+            return collect((new CharacterHandbookTransformer($key, 'handbook'))->transform());
+        }
+
+        return null;
+    }
+
+    private function getDefaultPatchCharId(): ?string
+    {
+        $patch_info = collect(Cache::get('patch_characters')
+            ->get('infos'))
+            ->filter(fn ($character) => in_array($this->subject->get('char_id'), $character['tmplIds']));
+
+        if ($patch_info->isNotEmpty()) {
+            return $patch_info->first()['default'];
+        }
+
+        return null;
     }
 }

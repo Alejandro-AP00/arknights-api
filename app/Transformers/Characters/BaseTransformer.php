@@ -64,7 +64,7 @@ abstract class BaseTransformer
 
                 continue;
             } catch (\Throwable $e) {
-                throw new \Exception('Tried to localize field:'.$field.' but no method exists to localize it');
+                throw new \RuntimeException('Tried to localize field:'.$field.' but no method exists to localize it');
             }
         }
 

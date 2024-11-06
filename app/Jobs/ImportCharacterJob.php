@@ -48,6 +48,7 @@ class ImportCharacterJob implements ShouldQueue
                 $this->createTalents(...),
                 $this->createVoices(...),
                 $this->createSkins(...),
+                $this->createHandbook(...),
             ])
             ->thenReturn();
     }
@@ -146,6 +147,15 @@ class ImportCharacterJob implements ShouldQueue
         $character_data->skins?->each(function (SkinData $skin_data) {
             $this->characterModel->skins()->create(collect($skin_data)->keyBy(fn ($item, $key) => Str::snake($key))->toArray());
         });
+
+        return $next($character_data);
+    }
+
+    private function createHandbook(CharacterData $character_data, Closure $next)
+    {
+        if ($character_data->handbook) {
+            $this->characterModel->handbook()->create(collect($character_data->handbook)->keyBy(fn ($item, $key) => Str::snake($key))->toArray());
+        }
 
         return $next($character_data);
     }

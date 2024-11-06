@@ -51,10 +51,8 @@ class CharacterSkinTransformer extends BaseTransformer
                 $name = "Elite $elite";
             } elseif ($skinName) {
                 // Retrieve skin data from cache, with fallback to Chinese locale
-                $skinsData = Cache::get('skins_'.$locale->value) ?? Cache::get('skins_'.Locales::Chinese->value);
-
-                $skinData = $skinsData[$this->subject['skin_id']] ?? null;
-                $name = $skinData['displaySkin']['skinName'] ?? 'Elite 0';
+                $skin = Cache::get('skins_'.$locale->value)->get($this->subject['skin_id']) ?? Cache::get('skins_'.Locales::Chinese->value)->get($this->subject['skin_id']);
+                $name = $skin['displaySkin']['skinName'] ?? 'Elite 0';
             }
 
             return [$locale->value => $name];
@@ -63,7 +61,7 @@ class CharacterSkinTransformer extends BaseTransformer
 
     public function transformCost(): ?int
     {
-        $skin_cost_data = Cache::get('skin_cost_data')->get($this->subject['skin_id']);
+        $skin_cost_data = Cache::get('skin_cost_data', collect([]))->get($this->subject['skin_id']);
         if ($skin_cost_data) {
             $this->output['obtain_sources'] = collect($skin_cost_data['obtain_sources']) ?? null;
             $this->output['token_type'] = $skin_cost_data['token_type'] ?? null;

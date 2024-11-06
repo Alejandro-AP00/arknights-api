@@ -2,13 +2,18 @@
 
 namespace App\Models;
 
+use App\Data\Character\HandbookData;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\LaravelData\WithData;
 use Spatie\Translatable\HasTranslations;
 
 class Handbook extends Model
 {
-    use HasTranslations;
+    //    use HasTranslations;
+    use WithData;
+
+    protected string $dataClass = HandbookData::class;
 
     protected $fillable = [
         'character_id',
@@ -31,6 +36,17 @@ class Handbook extends Model
         'performance_review',
         'class_conversion_record',
         'archives',
+    ];
+
+    protected $casts = [
+        'profile' => 'array',
+        'basic_info' => 'array',
+        'physical_exam' => 'array',
+        'clinical_analysis' => 'array',
+        'promotion_record' => 'array',
+        'performance_review' => 'array',
+        'class_conversion_record' => 'array',
+        'archives' => 'array',
     ];
 
     public function character(): BelongsTo
