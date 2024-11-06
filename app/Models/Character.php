@@ -9,6 +9,7 @@ use App\Enums\Profession;
 use App\Enums\Rarity;
 use App\Enums\SubProfession;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Spatie\LaravelData\DataCollection;
@@ -23,6 +24,7 @@ class Character extends Model
     protected $fillable = [
         'owner_id',
         'char_id',
+        'is_summon',
         'alter_character_id',
         'base_character_id',
         'is_limited',
@@ -105,6 +107,11 @@ class Character extends Model
     public function skins(): HasMany
     {
         return $this->hasMany(Skin::class);
+    }
+
+    public function parent(): BelongsTo
+    {
+        return $this->belongsTo(Character::class, 'owner_id');
     }
 
     public function summons(): HasMany

@@ -6,6 +6,7 @@ use App\Enums\Locales;
 use App\Jobs\ImportAlterInformationJob;
 use App\Jobs\ImportCharacterJob;
 use App\Jobs\ImportRangesJob;
+use App\Jobs\ImportSummonInformationJob;
 use App\Jobs\ScrapeSkinsDataJob;
 use GuzzleHttp\Client;
 use Illuminate\Console\Command;
@@ -46,16 +47,17 @@ class ImportAll extends Command
         $this->getHandbookTable();
 
         //        ImportRangesJob::dispatchSync();
-        //        $characters = $characters->whereIn('char_id', ['char_1019_siege2']);
+        //        $characters = $characters->whereIn('char_id', ['char_003_kalts', 'char_2023_ling', 'token_10032_jesca2_jckshd']);
         //        $characters->each(fn ($character) => ImportCharacterJob::dispatchSync($character));
 
         Bus::chain([
-            new ImportRangesJob,
-            new ScrapeSkinsDataJob,
-            Bus::batch(
-                $characters->map(fn ($character) => new ImportCharacterJob($character)),
-            ),
-            new ImportAlterInformationJob,
+            //            new ImportRangesJob,
+            //            new ScrapeSkinsDataJob,
+            //            Bus::batch(
+            //                $characters->map(fn ($character) => new ImportCharacterJob($character)),
+            //            ),
+            //            new ImportAlterInformationJob,
+            new ImportSummonInformationJob,
         ])->dispatch();
 
         return Command::SUCCESS;
