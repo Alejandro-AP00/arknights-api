@@ -3,10 +3,12 @@
 namespace App\Jobs;
 
 use App\Data\Character\CharacterData;
+use App\Data\Character\RiicBaseSkillData;
 use App\Data\Character\SkinData;
 use App\Data\Character\TalentCandidateData;
 use App\Data\Character\VoiceData;
 use App\Enums\Profession;
+use App\Models\BaseSkill;
 use App\Models\Character;
 use App\Models\Phase;
 use App\Models\Range;
@@ -51,6 +53,7 @@ class ImportCharacterJob implements ShouldQueue
                 $this->createSkins(...),
                 $this->createHandbook(...),
                 $this->createTraits(...),
+                $this->createRiicSkill(...),
             ])
             ->thenReturn();
     }
@@ -174,9 +177,27 @@ class ImportCharacterJob implements ShouldQueue
 
     private function createHandbook(CharacterData $character_data, Closure $next)
     {
+        if (! $this->isOperator()) {
+            return $next($character_data);
+        }
+
         if ($character_data->handbook) {
             $this->characterModel->handbook()->create(collect($character_data->handbook)->keyBy(fn ($item, $key) => Str::snake($key))->toArray());
         }
+
+        return $next($character_data);
+    }
+
+    private function createRiicSkill(CharacterData $character_data, Closure $next)
+    {
+        if (! $this->isOperator()) {
+            return $next($character_data);
+        }
+
+        $character_data->riccSkills->each(function (RiicBaseSkillData $skill_data) {
+            $base_skill = BaseSkill::firstWhere('buff_id', $skill_data->buffId);
+            $this->characterModel->riccSkills()->attach($base_skill, ['unlock_condition' => $skill_data->unlockCondition]);
+        });
 
         return $next($character_data);
     }

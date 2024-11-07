@@ -2,6 +2,7 @@
 
 namespace App\Transformers\Characters;
 
+use App\Transformers\BaseTransformer;
 use App\Transformers\RangeTransformer;
 
 class CharacterTalentCandidateTransformer extends BaseTransformer

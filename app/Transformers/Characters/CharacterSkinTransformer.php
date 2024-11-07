@@ -3,6 +3,7 @@
 namespace App\Transformers\Characters;
 
 use App\Enums\Locales;
+use App\Transformers\BaseTransformer;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 

@@ -3,6 +3,8 @@
 namespace App\Transformers\Characters;
 
 use App\Enums\Locales;
+use App\Transformers\BaseSkillTransformer;
+use App\Transformers\BaseTransformer;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
@@ -35,6 +37,7 @@ class CharacterBasicTransformer extends BaseTransformer
         'voices',
         'skins',
         'handbook',
+        'ricc_skills',
     ];
 
     protected array $rename_keys = [
@@ -92,13 +95,10 @@ class CharacterBasicTransformer extends BaseTransformer
     public function transformTrait(): Collection
     {
         $candidates = collect(data_get($this->subject->get('trait'), 'candidates'));
-        $data = $candidates->map(function ($candidate, $candidate_index) {
+
+        return $candidates->map(function ($candidate, $candidate_index) {
             return (new CharacterTraitCandidateTransformer($this->subjectKey, sourceReferenceKey: 'trait.candidates.'.$candidate_index))->transform();
         });
-
-        info(collect($data));
-
-        return $data;
     }
 
     public function transformVoices(): ?Collection
@@ -143,24 +143,44 @@ class CharacterBasicTransformer extends BaseTransformer
 
     public function transformHandbook(): ?Collection
     {
-        $key = $this->getDefaultPatchCharId() ?? $this->subject->get('char_id');
-        if (Cache::get('handbook_'.Locales::Chinese->value)->get($key)) {
-            return collect((new CharacterHandbookTransformer($key, 'handbook'))->transform());
+        if (Cache::get('handbook_'.Locales::Chinese->value)->get($this->getDefaultPatchCharId())) {
+            return collect((new CharacterHandbookTransformer($this->getDefaultPatchCharId(), 'handbook'))->transform());
         }
 
         return null;
     }
 
+    public function transformRiccSkills(): Collection
+    {
+        $building_table = \Cache::get('building_'.Locales::Chinese->value);
+        $character_buff_data = collect(data_get($building_table->get('chars'), $this->getDefaultPatchCharId().'.buffChar', []));
+
+        $data = $character_buff_data->flatten(2)->map(function ($buff) {
+            $transformed_base = (new BaseSkillTransformer($buff['buffId'], 'building', tableItem: 'buffs'))->transform();
+
+            return [
+                ...$transformed_base,
+                'unlock_condition' => $buff['cond'],
+            ];
+        });
+
+        info($data);
+
+        return $data;
+    }
+
     private function getDefaultPatchCharId(): ?string
     {
-        $patch_info = collect(Cache::get('patch_characters')
-            ->get('infos'))
-            ->filter(fn ($character) => in_array($this->subject->get('char_id'), $character['tmplIds']));
+        $patch_info = once(function () {
+            return collect(Cache::get('patch_characters')
+                ->get('infos'))
+                ->filter(fn ($character) => in_array($this->subject->get('char_id'), $character['tmplIds']));
+        });
 
         if ($patch_info->isNotEmpty()) {
             return $patch_info->first()['default'];
         }
 
-        return null;
+        return $this->subject->get('char_id');
     }
 }

@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Enums\Locales;
 use App\Jobs\ImportAlterInformationJob;
+use App\Jobs\ImportBaseSkillsJob;
 use App\Jobs\ImportCharacterJob;
 use App\Jobs\ImportRangesJob;
 use App\Jobs\ImportSummonInformationJob;
@@ -45,6 +46,7 @@ class ImportAll extends Command
         $this->getSkinTable();
         $this->getVoiceTable();
         $this->getHandbookTable();
+        $this->getBaseDataTable();
 
         //        ImportRangesJob::dispatchSync();
         //        $characters = $characters->whereIn('char_id', ['char_003_kalts', 'char_193_frostl']);
@@ -52,6 +54,7 @@ class ImportAll extends Command
 
         Bus::chain([
             new ImportRangesJob,
+            new ImportBaseSkillsJob,
             new ScrapeSkinsDataJob,
             Bus::batch(
                 $characters->map(fn ($character) => new ImportCharacterJob($character)),
@@ -111,6 +114,15 @@ class ImportAll extends Command
         foreach (Locales::cases() as $locale) {
             Cache::remember('handbook_'.$locale->value, 3600, function () use ($locale) {
                 return collect(File::gameData($locale, 'handbook_info_table.json')['handbookDict']);
+            });
+        }
+    }
+
+    private function getBaseDataTable(): void
+    {
+        foreach (Locales::cases() as $locale) {
+            Cache::remember('building_'.$locale->value, 3600, function () use ($locale) {
+                return collect(File::gameData($locale, 'building_data.json'));
             });
         }
     }

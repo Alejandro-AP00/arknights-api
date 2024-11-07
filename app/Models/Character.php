@@ -10,6 +10,7 @@ use App\Enums\Rarity;
 use App\Enums\SubProfession;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Spatie\LaravelData\DataCollection;
@@ -94,9 +95,9 @@ class Character extends Model
         return $this->hasMany(Module::class);
     }
 
-    public function riccSkills(): HasMany
+    public function riccSkills(): BelongsToMany
     {
-        return $this->hasMany(BaseSkill::class);
+        return $this->belongsToMany(BaseSkill::class)->withPivot('unlock_condition')->using(BaseSkillCharacter::class);
     }
 
     public function voices(): HasMany

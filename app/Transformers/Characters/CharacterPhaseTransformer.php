@@ -2,6 +2,7 @@
 
 namespace App\Transformers\Characters;
 
+use App\Transformers\BaseTransformer;
 use App\Transformers\RangeTransformer;
 use Illuminate\Support\Collection;
 

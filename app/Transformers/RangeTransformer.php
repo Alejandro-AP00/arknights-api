@@ -2,21 +2,17 @@
 
 namespace App\Transformers;
 
-use App\Contracts\Transformer;
 use App\Enums\Locales;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\File;
 
-class RangeTransformer implements Transformer
+class RangeTransformer
 {
-    public function __construct(private $rangeId)
-    {
-    }
+    public function __construct(private $rangeId) {}
 
     public function transform(): array
     {
-        $ranges = File::gameData(Locales::Chinese, 'range_table.json');
+        $ranges = \Cache::get('ranges_'.Locales::Chinese->value);
 
-        return Arr::add($ranges[$this->rangeId], 'range_id', $this->rangeId);
+        return Arr::add($ranges->get($this->rangeId), 'range_id', $this->rangeId);
     }
 }

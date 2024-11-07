@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Transformers\Characters;
+namespace App\Transformers;
 
 use App\Enums\Locales;
 use Illuminate\Support\Collection;
@@ -23,9 +23,10 @@ abstract class BaseTransformer
 
     protected Collection $table;
 
-    public function __construct(protected $subjectKey, protected $sourceTable = 'characters', protected $sourceReferenceKey = null)
+    public function __construct(protected $subjectKey, protected $sourceTable = 'characters', protected $sourceReferenceKey = null, protected $tableItem = null)
     {
-        $this->table = Cache::get($this->sourceTable.'_'.Locales::Chinese->value);
+        $this->table = collect(data_get(Cache::get($this->sourceTable.'_'.Locales::Chinese->value), $this->tableItem));
+
         $this->subject = collect($this->table->get($this->subjectKey))->keyBy(fn ($item, $key) => Str::snake($key));
         $this->sourceReference = $this->subject;
 
@@ -75,7 +76,7 @@ abstract class BaseTransformer
     {
         $output = [];
         foreach (Locales::cases() as $locale) {
-            $data = Cache::get($this->sourceTable.'_'.$locale->value)->get($this->subjectKey) ?? Cache::get($this->sourceTable.'_'.Locales::Chinese->value)->get($this->subjectKey);
+            $data = collect(data_get(Cache::get($this->sourceTable.'_'.$locale->value), $this->tableItem))->get($this->subjectKey) ?? collect(data_get(Cache::get($this->sourceTable.'_'.Locales::Chinese->value), $this->tableItem))->get($this->subjectKey);
             $data = collect($data)->keyBy(fn ($item, $key) => Str::snake($key));
             $output[$locale->value] = $this->sourceReferenceKey === null ? data_get($data, $field) : data_get($data, $this->sourceReferenceKey.'.'.$field);
         }

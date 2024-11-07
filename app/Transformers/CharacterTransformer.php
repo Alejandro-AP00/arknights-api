@@ -2,20 +2,17 @@
 
 namespace App\Transformers;
 
-use App\Contracts\Transformer;
 use App\Data\Character\CharacterData;
 use App\Transformers\Characters\CharacterBasicTransformer;
 use Illuminate\Support\Collection;
 
-class CharacterTransformer implements Transformer
+class CharacterTransformer
 {
     private array $transformers = [
         CharacterBasicTransformer::class,
     ];
 
-    public function __construct(private $character)
-    {
-    }
+    public function __construct(private $character) {}
 
     public function transform(): CharacterData
     {
