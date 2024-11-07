@@ -25,6 +25,7 @@ class CharacterData extends Data
      * @param  Collection<KeyFrameData>  $favorKeyFrames
      * @param  Collection<PotentialRankData>  $potentialRanks
      * @param  Collection<TalentData>  $talents
+     * @param  Collection<TraitCandidateData>  $traitCandidates
      * @param  Collection<VoiceData>  $voices
      * @param  Collection<SkinData>  $skins
      * @param  Collection<CharacterData>  $alterCharacters
@@ -53,7 +54,7 @@ class CharacterData extends Data
         public ?Collection $potentialRanks,
         public ?Collection $talents,
         //                public ?Collection $skills,
-        //                public ?Collection $traitCandidates,
+        public ?Collection $traitCandidates,
         //        public ?Collection $modules,
         //        public ?Collection $riccSkills,
         public ?Collection $summons,

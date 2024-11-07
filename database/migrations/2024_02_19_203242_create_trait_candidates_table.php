@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('trait_candidates', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Character::class);
-            $table->foreignIdFor(Range::class);
+            $table->foreignIdFor(Range::class)->nullable();
             $table->unsignedBigInteger('required_potential_rank');
             $table->json('unlock_condition');
             $table->json('blackboard');

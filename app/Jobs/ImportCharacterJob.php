@@ -12,6 +12,7 @@ use App\Models\Phase;
 use App\Models\Range;
 use App\Models\Talent;
 use App\Models\TalentCandidate;
+use App\Models\TraitCandidate;
 use App\Transformers\CharacterTransformer;
 use Closure;
 use Illuminate\Bus\Batchable;
@@ -49,6 +50,7 @@ class ImportCharacterJob implements ShouldQueue
                 $this->createVoices(...),
                 $this->createSkins(...),
                 $this->createHandbook(...),
+                $this->createTraits(...),
             ])
             ->thenReturn();
     }
@@ -120,6 +122,25 @@ class ImportCharacterJob implements ShouldQueue
 
                 $candidate->save();
             });
+        }
+
+        return $next($character_data);
+    }
+
+    private function createTraits(CharacterData $character_data, Closure $next)
+    {
+        $trait_candidates = $character_data->traitCandidates;
+        foreach ($trait_candidates as $trait_candidate_data) {
+            $trait_candidate = collect($trait_candidate_data)->keyBy(fn ($item, $key) => Str::snake($key));
+            $trait_candidate = new TraitCandidate($trait_candidate->toArray());
+            $trait_candidate->character()->associate($this->characterModel);
+
+            if ($trait_candidate_data->range) {
+                $range = Range::firstWhere('range_id', $trait_candidate_data->range->rangeId);
+                $trait_candidate->range_id = $range->id;
+            }
+
+            $trait_candidate->save();
         }
 
         return $next($character_data);

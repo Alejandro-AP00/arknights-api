@@ -31,6 +31,7 @@ class CharacterBasicTransformer extends BaseTransformer
         'released_at',
         'potential_ranks',
         'talents',
+        'trait',
         'voices',
         'skins',
         'handbook',
@@ -41,6 +42,7 @@ class CharacterBasicTransformer extends BaseTransformer
         'group_id' => 'group',
         'team_id' => 'team',
         'sub_profession_id' => 'sub_profession',
+        'trait' => 'trait_candidates',
     ];
 
     protected array $localize = [
@@ -85,6 +87,18 @@ class CharacterBasicTransformer extends BaseTransformer
                     return (new CharacterTalentCandidateTransformer($this->subjectKey, sourceReferenceKey: 'talents.'.$talent_index.'.candidates.'.$candidate_index))->transform();
                 })];
         });
+    }
+
+    public function transformTrait(): Collection
+    {
+        $candidates = collect(data_get($this->subject->get('trait'), 'candidates'));
+        $data = $candidates->map(function ($candidate, $candidate_index) {
+            return (new CharacterTraitCandidateTransformer($this->subjectKey, sourceReferenceKey: 'trait.candidates.'.$candidate_index))->transform();
+        });
+
+        info(collect($data));
+
+        return $data;
     }
 
     public function transformVoices(): ?Collection
