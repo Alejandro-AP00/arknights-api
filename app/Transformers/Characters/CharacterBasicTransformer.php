@@ -164,8 +164,6 @@ class CharacterBasicTransformer extends BaseTransformer
             ];
         });
 
-        info($data);
-
         return $data;
     }
 

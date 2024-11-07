@@ -142,20 +142,27 @@ class ImportAll extends Command
 
             $data = collect([]);
             $characters = Cache::get('characters_'.Locales::Chinese->value);
-            $table->filter('tr')->each(function (Crawler $row) use (&$data, $characters) {
+
+            $override_keys = [
+                '阿米娅' => 'char_002_amiya',
+                '阿米娅(近卫)' => 'char_1001_amiya2',
+                '阿米娅(医疗)' => 'char_1037_amiya3',
+            ];
+
+            $table->filter('tr')->each(function (Crawler $row) use (&$data, $characters, $override_keys) {
                 $columns = $row->filter('td');
 
                 if ($columns->count() >= 2) {
                     // Get operator name and release date
                     $name = trim($columns->eq(0)->text());
                     $character = $characters->firstWhere('name', $name);
-                    $char_id = data_get($character, 'char_id');
+                    $char_id = data_get($character, 'char_id') ?? $override_keys[$name] ?? null;
 
-                    $releaseDate = trim($columns->eq(2)->text());
-                    $releaseDate = Date::createFromFormat('Y年m月d日 H:i', $releaseDate)->toDateTimeString();
+                    $release_date = trim($columns->eq(2)->text());
+                    $release_date = Date::createFromFormat('Y年m月d日 H:i', $release_date)->toDateTimeString();
 
                     $data->put($char_id, [
-                        'release_date' => $releaseDate,
+                        'release_date' => $release_date,
                         'is_limited' => Str::of($columns->eq(4)->text())->startsWith('限定'),
                     ]);
                 }
