@@ -47,9 +47,11 @@ class ImportAll extends Command
         $this->getVoiceTable();
         $this->getHandbookTable();
         $this->getBaseDataTable();
+        $this->getSkillTable();
 
         //        ImportRangesJob::dispatchSync();
         //        $characters = $characters->whereIn('char_id', ['char_003_kalts', 'char_193_frostl']);
+        //        $characters = $characters->whereIn('char_id', ['char_003_kalts']);
         //        $characters->each(fn ($character) => ImportCharacterJob::dispatchSync($character));
 
         Bus::chain([
@@ -170,5 +172,14 @@ class ImportAll extends Command
 
             return $data;
         });
+    }
+
+    private function getSkillTable(): void
+    {
+        foreach (Locales::cases() as $locale) {
+            Cache::remember('skills_'.$locale->value, 3600, function () use ($locale) {
+                return collect(File::gameData($locale, 'skill_table.json'));
+            });
+        }
     }
 }

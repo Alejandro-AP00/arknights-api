@@ -36,6 +36,7 @@ class CharacterBasicTransformer extends BaseTransformer
         'trait',
         'voices',
         'skins',
+        'skills',
         'handbook',
         'ricc_skills',
     ];
@@ -127,6 +128,18 @@ class CharacterBasicTransformer extends BaseTransformer
         return null;
     }
 
+    public function transformSkills(): ?Collection
+    {
+        $skills = collect($this->subject->get('skills'))->whereNotNull('skillId');
+        if ($skills->isNotEmpty()) {
+            return $skills->map(function ($skill, $skill_index) {
+                return (new CharacterSkillTransformer($this->subjectKey, sourceReferenceKey: 'skills.'.$skill_index))->transform();
+            });
+        }
+
+        return null;
+    }
+
     public function transformReleasedAt(): ?Carbon
     {
         if ($release_date = Cache::get('release_date')->get($this->subject->get('char_id'))) {
@@ -155,7 +168,7 @@ class CharacterBasicTransformer extends BaseTransformer
         $building_table = \Cache::get('building_'.Locales::Chinese->value);
         $character_buff_data = collect(data_get($building_table->get('chars'), $this->getDefaultPatchCharId().'.buffChar', []));
 
-        $data = $character_buff_data->flatten(2)->map(function ($buff) {
+        return $character_buff_data->flatten(2)->map(function ($buff) {
             $transformed_base = (new BaseSkillTransformer($buff['buffId'], 'building', tableItem: 'buffs'))->transform();
 
             return [
@@ -163,8 +176,6 @@ class CharacterBasicTransformer extends BaseTransformer
                 'unlock_condition' => $buff['cond'],
             ];
         });
-
-        return $data;
     }
 
     private function getDefaultPatchCharId(): ?string

@@ -10,8 +10,9 @@ use Spatie\LaravelData\Mappers\SnakeCaseMapper;
 class ItemCostData extends Data
 {
     public function __construct(
+        #[MapInputName('id')]
         public string $itemId,
         public int $count,
-    ) {
-    }
+        public ?string $type
+    ) {}
 }

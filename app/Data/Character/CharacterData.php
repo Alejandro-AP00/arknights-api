@@ -31,6 +31,7 @@ class CharacterData extends Data
      * @param  Collection<CharacterData>  $alterCharacters
      * @param  Collection<CharacterData>  $summons
      * @param  Collection<RiicBaseSkillData>  $riccSkills
+     * @param  Collection<SkillData>  $skills
      */
     public function __construct(
         public string $charId,
@@ -54,7 +55,7 @@ class CharacterData extends Data
         public ?Collection $favorKeyFrames,
         public ?Collection $potentialRanks,
         public ?Collection $talents,
-        //                public ?Collection $skills,
+        public ?Collection $skills,
         public ?Collection $traitCandidates,
         //        public ?Collection $modules,
         public ?Collection $riccSkills,

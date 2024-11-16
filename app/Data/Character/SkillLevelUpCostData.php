@@ -3,8 +3,11 @@
 namespace App\Data\Character;
 
 use Illuminate\Support\Collection;
+use Spatie\LaravelData\Attributes\MapInputName;
 use Spatie\LaravelData\Data;
+use Spatie\LaravelData\Mappers\SnakeCaseMapper;
 
+#[MapInputName(SnakeCaseMapper::class)]
 class SkillLevelUpCostData extends Data
 {
     /**
@@ -13,6 +16,5 @@ class SkillLevelUpCostData extends Data
     public function __construct(
         public ?Collection $itemCost,
         public UnlockConditionData $unlockCond
-    ) {
-    }
+    ) {}
 }
