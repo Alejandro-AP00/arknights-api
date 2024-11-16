@@ -72,8 +72,9 @@ class ImportCharacterJob implements ShouldQueue
     {
         $character = collect($character_data->all())->keyBy(fn ($item, $key) => Str::snake($key));
 
-        $operator = new Character;
-        $operator->fill($character->toArray());
+        $operator = Character::updateOrCreate([
+            'char_id' => $character_data->charId,
+        ], $character->toArray());
         $operator->save();
 
         $this->characterModel = $operator;
@@ -209,12 +210,12 @@ class ImportCharacterJob implements ShouldQueue
 
     private function createSkills(CharacterData $character_data, Closure $next)
     {
-        $character_data->skills->each(function (SkillData $skill_data) {
+        $character_data->skills?->each(function (SkillData $skill_data) {
             $skill = new Skill(collect($skill_data)->keyBy(fn ($item, $key) => Str::snake($key))->toArray());
             $skill->character()->associate($this->characterModel);
             $skill->save();
 
-            $skill_data->levels->each(function (SkillLevelData $level_data) use ($skill) {
+            $skill_data->levels?->each(function (SkillLevelData $level_data) use ($skill) {
                 $level = new SkillLevel(collect($level_data)->keyBy(fn ($item, $key) => Str::snake($key))->toArray());
 
                 if ($level_data->range) {

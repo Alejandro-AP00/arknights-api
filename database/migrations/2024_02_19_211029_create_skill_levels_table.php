@@ -16,15 +16,15 @@ return new class extends Migration
         Schema::create('skill_levels', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Skill::class);
-            $table->foreignIdFor(Range::class);
+            $table->foreignIdFor(Range::class)->nullable();
             $table->json('name');
-            $table->json('description');
+            $table->json('description')->nullable();
             $table->string('skill_type');
             $table->string('duration_type');
             $table->json('sp_data');
             $table->integer('duration');
             $table->json('blackboard');
-            $table->json('lvl_up_cost');
+            $table->json('lvl_up_cost')->nullable();
             $table->timestamps();
         });
     }

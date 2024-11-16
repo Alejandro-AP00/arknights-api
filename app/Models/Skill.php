@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Data\Character\SkillData;
+use App\Data\Character\UnlockConditionData;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -19,6 +20,10 @@ class Skill extends Model
         'skill_id',
         'icon_id',
         'unlock_condition',
+    ];
+
+    protected $casts = [
+        'unlock_condition' => UnlockConditionData::class,
     ];
 
     public function character(): BelongsTo
