@@ -7,9 +7,14 @@ use App\Data\Character\SkillLevelUpCostData;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\LaravelData\DataCollection;
+use Spatie\LaravelData\WithData;
 
 class SkillLevel extends Model
 {
+    use WithData;
+
+    protected string $dataClass = SkillLevelUpCostData::class;
+
     protected $fillable = [
         'skill_id',
         'range_id',
@@ -26,6 +31,11 @@ class SkillLevel extends Model
     protected $casts = [
         'lvl_up_cost' => SkillLevelUpCostData::class,
         'blackboard' => DataCollection::class.':'.InterpolatedValueData::class,
+
+        'name' => 'array',
+        'description' => 'array',
+
+        'sp_data' => 'array',
     ];
 
     public function skill(): BelongsTo

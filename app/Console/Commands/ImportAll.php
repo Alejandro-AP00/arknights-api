@@ -48,19 +48,18 @@ class ImportAll extends Command
         $this->getHandbookTable();
         $this->getBaseDataTable();
         $this->getSkillTable();
-
-        //        ImportRangesJob::dispatchSync();
-        //        $characters = $characters->whereIn('char_id', ['char_003_kalts', 'char_193_frostl']);
-        //        $characters = $characters->whereIn('char_id', ['char_003_kalts']);
-        //        $characters->each(fn ($character) => ImportCharacterJob::dispatchSync($character));
+        //                ImportRangesJob::dispatchSync();
+        //                $characters = $characters->whereIn('char_id', ['char_003_kalts', 'char_193_frostl']);
+        //                $characters = $characters->whereIn('char_id', ['char_003_kalts']);
+        //                $characters->each(fn ($character) => ImportCharacterJob::dispatchSync($character));
 
         Bus::chain([
             new ImportRangesJob,
             new ImportBaseSkillsJob,
             new ScrapeSkinsDataJob,
-            Bus::batch(
-                $characters->map(fn ($character) => new ImportCharacterJob($character)),
-            ),
+            ...$characters->chunk(40)->map(function (Collection $characters) {
+                return Bus::batch($characters->map(fn ($character) => new ImportCharacterJob($character)));
+            })->toArray(),
             new ImportAlterInformationJob,
             new ImportSummonInformationJob,
         ])->dispatch();

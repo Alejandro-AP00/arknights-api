@@ -4,6 +4,8 @@ namespace App\Jobs;
 
 use App\Data\Character\CharacterData;
 use App\Data\Character\RiicBaseSkillData;
+use App\Data\Character\SkillData;
+use App\Data\Character\SkillLevelData;
 use App\Data\Character\SkinData;
 use App\Data\Character\TalentCandidateData;
 use App\Data\Character\VoiceData;
@@ -12,6 +14,8 @@ use App\Models\BaseSkill;
 use App\Models\Character;
 use App\Models\Phase;
 use App\Models\Range;
+use App\Models\Skill;
+use App\Models\SkillLevel;
 use App\Models\Talent;
 use App\Models\TalentCandidate;
 use App\Models\TraitCandidate;
@@ -54,6 +58,7 @@ class ImportCharacterJob implements ShouldQueue
                 $this->createHandbook(...),
                 $this->createTraits(...),
                 $this->createRiicSkill(...),
+                $this->createSkills(...),
             ])
             ->thenReturn();
     }
@@ -197,6 +202,29 @@ class ImportCharacterJob implements ShouldQueue
         $character_data->riccSkills->each(function (RiicBaseSkillData $skill_data) {
             $base_skill = BaseSkill::firstWhere('buff_id', $skill_data->buffId);
             $this->characterModel->riccSkills()->attach($base_skill, ['unlock_condition' => $skill_data->unlockCondition]);
+        });
+
+        return $next($character_data);
+    }
+
+    private function createSkills(CharacterData $character_data, Closure $next)
+    {
+        $character_data->skills->each(function (SkillData $skill_data) {
+            $skill = new Skill(collect($skill_data)->keyBy(fn ($item, $key) => Str::snake($key))->toArray());
+            $skill->character()->associate($this->characterModel);
+            $skill->save();
+
+            $skill_data->levels->each(function (SkillLevelData $level_data) use ($skill) {
+                $level = new SkillLevel(collect($level_data)->keyBy(fn ($item, $key) => Str::snake($key))->toArray());
+
+                if ($level_data->range) {
+                    $range = Range::firstWhere('range_id', $level_data->range->rangeId);
+                    $level->range_id = $range->id;
+                }
+
+                $level->skill()->associate($skill);
+                $level->save();
+            });
         });
 
         return $next($character_data);

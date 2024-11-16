@@ -48,7 +48,7 @@ class CharacterSkillTransformer extends BaseTransformer
 
             return [
                 ...$level,
-                'lvl_up_cost' => $level_up_cost,
+                'lvl_up_cost' => empty(array_filter($level_up_cost->toArray())) ? null : $level_up_cost,
             ];
         });
     }

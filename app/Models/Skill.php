@@ -2,12 +2,18 @@
 
 namespace App\Models;
 
+use App\Data\Character\SkillData;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\LaravelData\WithData;
 
 class Skill extends Model
 {
+    use WithData;
+
+    protected string $dataClass = SkillData::class;
+
     protected $fillable = [
         'character_id',
         'skill_id',

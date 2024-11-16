@@ -166,7 +166,7 @@ return [
     |
     */
 
-    'memory_limit' => 64,
+    'memory_limit' => 128,
 
     /*
     |--------------------------------------------------------------------------
@@ -188,9 +188,9 @@ return [
             'maxProcesses' => 1,
             'maxTime' => 0,
             'maxJobs' => 0,
-            'memory' => 128,
+            'memory' => 256,
             'tries' => 1,
-            'timeout' => 60,
+            'timeout' => 120,
             'nice' => 0,
         ],
     ],
@@ -206,7 +206,7 @@ return [
 
         'local' => [
             'supervisor-1' => [
-                'maxProcesses' => 50,
+                'maxProcesses' => 35,
             ],
         ],
     ],

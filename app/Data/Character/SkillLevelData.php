@@ -2,6 +2,7 @@
 
 namespace App\Data\Character;
 
+use App\Data\LocalizedFieldData;
 use App\Data\RangeData;
 use Illuminate\Support\Collection;
 use Spatie\LaravelData\Attributes\MapInputName;
@@ -15,8 +16,8 @@ class SkillLevelData extends Data
      * @param  Collection<InterpolatedValueData>  $blackboard
      */
     public function __construct(
-        public string|array $name,
-        public string|array $description,
+        public LocalizedFieldData $name,
+        public ?LocalizedFieldData $description,
         public ?RangeData $range,
         public string $skillType,
         public string $durationType,
