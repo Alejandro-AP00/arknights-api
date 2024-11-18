@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Data\Character\CharacterData;
+use App\Data\Character\ModuleData;
 use App\Data\Character\RiicBaseSkillData;
 use App\Data\Character\SkillData;
 use App\Data\Character\SkillLevelData;
@@ -12,6 +13,7 @@ use App\Data\Character\VoiceData;
 use App\Enums\Profession;
 use App\Models\BaseSkill;
 use App\Models\Character;
+use App\Models\Module;
 use App\Models\Phase;
 use App\Models\Range;
 use App\Models\Skill;
@@ -59,6 +61,7 @@ class ImportCharacterJob implements ShouldQueue
                 $this->createTraits(...),
                 $this->createRiicSkill(...),
                 $this->createSkills(...),
+                $this->createModules(...),
             ])
             ->thenReturn();
     }
@@ -226,6 +229,17 @@ class ImportCharacterJob implements ShouldQueue
                 $level->skill()->associate($skill);
                 $level->save();
             });
+        });
+
+        return $next($character_data);
+    }
+
+    private function createModules(CharacterData $character_data, Closure $next)
+    {
+        $character_data->modules->each(function (ModuleData $module_data) {
+            $module = new Module(collect($module_data)->keyBy(fn ($item, $key) => Str::snake($key))->toArray());
+            $module->character()->associate($this->characterModel);
+            $module->save();
         });
 
         return $next($character_data);

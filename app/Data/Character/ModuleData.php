@@ -13,13 +13,21 @@ class ModuleData extends Data
 {
     /**
      * @param  Collection<ModuleStageData>  $moduleStage
+     * @param  Collection<UnlockMissionData>  $unlockMissions
      */
     public function __construct(
         public string $moduleId,
         public LocalizedFieldData $name,
         public LocalizedFieldData $description,
         public string $iconId,
-        public Collection $moduleStage,
-    ) {
-    }
+        public string $typeIcon,
+        public string $typeName1,
+        public ?string $typeName2,
+        public string $shiningColor,
+        public string $type,
+        public int $order_by, // Sort Order
+        public UnlockConditionData $unlockCondition,
+        public ?Collection $unlockMissions,
+        public ?Collection $moduleStage,
+    ) {}
 }

@@ -4,15 +4,18 @@ namespace App\Models;
 
 use App\Data\Character\InterpolatedValueData;
 use App\Data\Character\ItemCostData;
+use App\Data\Character\ModuleStageData;
 use App\Data\Character\UnlockConditionData;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\LaravelData\DataCollection;
-use Spatie\Translatable\HasTranslations;
+use Spatie\LaravelData\WithData;
 
 class ModuleStage extends Model
 {
-    use HasTranslations;
+    use WithData;
+
+    protected string $dataClass = ModuleStageData::class;
 
     protected $fillable = [
         'module_id',
@@ -32,6 +35,9 @@ class ModuleStage extends Model
         'item_cost' => DataCollection::class.':'.ItemCostData::class,
         'unlock_condition' => UnlockConditionData::class,
         'attributes_blackboard' => DataCollection::class.':'.InterpolatedValueData::class,
+
+        'talent_effect' => 'array',
+        'trait_effect_type' => 'array',
     ];
 
     public array $translatable = [

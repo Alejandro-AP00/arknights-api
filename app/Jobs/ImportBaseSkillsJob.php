@@ -4,7 +4,7 @@ namespace App\Jobs;
 
 use App\Enums\Locales;
 use App\Models\BaseSkill;
-use App\Transformers\BaseSkillTransformer;
+use App\Transformers\Characters\CharacterBaseSkillTransformer;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -23,7 +23,7 @@ class ImportBaseSkillsJob implements ShouldQueue
         $building_table = \Cache::get('building_'.Locales::Chinese->value);
 
         collect($building_table->get('buffs'))->each(function ($buff) {
-            $transformed_base = (new BaseSkillTransformer($buff['buffId'], 'building', tableItem: 'buffs'))->transform();
+            $transformed_base = (new CharacterBaseSkillTransformer($buff['buffId'], 'building', tableItem: 'buffs'))->transform();
             BaseSkill::updateOrCreate(['buff_id' => $buff['buffId']], $transformed_base);
         });
     }

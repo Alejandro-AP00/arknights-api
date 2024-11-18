@@ -1,8 +1,10 @@
 <?php
 
-namespace App\Transformers;
+namespace App\Transformers\Characters;
 
-class BaseSkillTransformer extends BaseTransformer
+use App\Transformers\BaseTransformer;
+
+class CharacterBaseSkillTransformer extends BaseTransformer
 {
     protected array $fields = [
         'buff_id',

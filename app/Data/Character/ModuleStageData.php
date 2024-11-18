@@ -17,17 +17,17 @@ class ModuleStageData extends Data
      * @param  Collection<InterpolatedValueData>  $attributesBlackboard
      */
     public function __construct(
-        public Collection $itemCost,
+        public Collection $itemCost, // Lives in Uniequip but relates to equipLevel {1: [...itemCosts]}
         public UnlockConditionData $unlockCondition,
-        public LocalizedFieldData $traitEffectType,
-        public LocalizedFieldData $talentEffect,
-        public ?string $talentIndex,
-        public bool $displayRange,
-        public ?RangeData $range,
-        public Collection $attributesBlackboard,
-        public int $requiredPotentialRank,
-        /** @var InterpolatedValueData[][] */
-        public array $tokenAttributesBlackboard,
-    ) {
-    }
+
+        //        public LocalizedFieldData $traitEffectType,
+        //        public LocalizedFieldData $talentEffect,
+        //        public ?string $talentIndex,
+        //        public bool $displayRange,
+        //        public ?RangeData $range,
+        //        public Collection $attributesBlackboard,
+        //        public int $requiredPotentialRank,
+        //        /** @var InterpolatedValueData[][] */
+        //        public array $tokenAttributesBlackboard,
+    ) {}
 }

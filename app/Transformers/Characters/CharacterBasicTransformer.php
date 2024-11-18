@@ -3,7 +3,6 @@
 namespace App\Transformers\Characters;
 
 use App\Enums\Locales;
-use App\Transformers\BaseSkillTransformer;
 use App\Transformers\BaseTransformer;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
@@ -39,6 +38,7 @@ class CharacterBasicTransformer extends BaseTransformer
         'skills',
         'handbook',
         'ricc_skills',
+        'modules',
     ];
 
     protected array $rename_keys = [
@@ -169,13 +169,26 @@ class CharacterBasicTransformer extends BaseTransformer
         $character_buff_data = collect(data_get($building_table->get('chars'), $this->getDefaultPatchCharId().'.buffChar', []));
 
         return $character_buff_data->flatten(2)->map(function ($buff) {
-            $transformed_base = (new BaseSkillTransformer($buff['buffId'], 'building', tableItem: 'buffs'))->transform();
+            $transformed_base = (new CharacterBaseSkillTransformer($buff['buffId'], 'building', tableItem: 'buffs'))->transform();
 
             return [
                 ...$transformed_base,
                 'unlock_condition' => $buff['cond'],
             ];
         });
+    }
+
+    public function transformModules(): ?Collection
+    {
+        $modules = collect(Cache::get('uniequip_'.Locales::Chinese->value)->get('equipDict'))->where('charId', $this->subject->get('char_id'));
+
+        if ($modules->isNotEmpty()) {
+            return $modules->map(function ($module) {
+                return (new CharacterModuleTransformer($module['uniEquipId'], 'uniequip', tableItem: 'equipDict'))->transform();
+            });
+        }
+
+        return null;
     }
 
     private function getDefaultPatchCharId(): ?string

@@ -8,7 +8,7 @@ class UnlockConditionData extends Data
 {
     public function __construct(
         public string|int $phase,
-        public int $level
-    ) {
-    }
+        public int $level,
+        public int|array|null $trust
+    ) {}
 }
