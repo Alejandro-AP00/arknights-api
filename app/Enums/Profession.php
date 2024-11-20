@@ -2,8 +2,12 @@
 
 namespace App\Enums;
 
+use App\Traits\EnumHasValues;
+
 enum Profession: string
 {
+    use EnumHasValues;
+
     case CASTER = 'CASTER';
     case TANK = 'TANK';
     case WARRIOR = 'WARRIOR';
@@ -14,11 +18,6 @@ enum Profession: string
     case PIONEER = 'PIONEER';
     case TOKEN = 'TOKEN';
     case TRAP = 'TRAP';
-
-    public static function values(): array
-    {
-        return array_column(self::cases(), 'value');
-    }
 
     public static function names(): array
     {

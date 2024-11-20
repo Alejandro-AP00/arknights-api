@@ -2,17 +2,16 @@
 
 namespace App\Enums;
 
+use App\Traits\EnumHasValues;
+
 enum Locales: string
 {
+    use EnumHasValues;
+
     case English = 'en_US';
     case Korean = 'ko_KR';
     case Chinese = 'zh_CN';
     case Japanese = 'ja_JP';
-
-    public static function values(): array
-    {
-        return array_column(self::cases(), 'value');
-    }
 
     public function handbookKeys(): array
     {

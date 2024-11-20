@@ -2,8 +2,12 @@
 
 namespace App\Enums;
 
+use App\Traits\EnumHasValues;
+
 enum SubProfession: string
 {
+    use EnumHasValues;
+
     case Pioneer = 'pioneer';
     case Charger = 'charger';
     case Tactician = 'tactician';
@@ -81,11 +85,6 @@ enum SubProfession: string
     case NoClassTrap = 'notchar2';
     case None1 = 'none1';
     case None2 = 'none2';
-
-    public static function values(): array
-    {
-        return array_column(self::cases(), 'value');
-    }
 
     public static function names(): array
     {

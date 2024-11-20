@@ -15,10 +15,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Spatie\LaravelData\DataCollection;
 use Spatie\LaravelData\WithData;
+use Spatie\Translatable\HasTranslations;
 
 class Character extends Model
 {
-    use WithData;
+    use HasTranslations, WithData;
 
     protected string $dataClass = CharacterData::class;
 

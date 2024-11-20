@@ -2,8 +2,12 @@
 
 namespace App\Enums;
 
+use App\Traits\EnumHasValues;
+
 enum SkinSource: string
 {
+    use EnumHasValues;
+
     case ContingencyContractStore = 'ContingencyContractStore';
     case OutfitStore = 'OutfitStore';
     case RedemptionCode = 'RedemptionCode';
@@ -11,9 +15,4 @@ enum SkinSource: string
     case Event = 'Event';
     case RealWorldPromotion = 'RealWorldPromotion';
     case Unknown = 'Unknown';
-
-    public static function values(): array
-    {
-        return array_column(self::cases(), 'value');
-    }
 }

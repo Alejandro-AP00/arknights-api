@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\Module;
-use App\Models\Range;
+use App\Enums\ModuleStageUpgradeType;
+use App\Models\ModuleStage;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,13 +13,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('module_stages', function (Blueprint $table) {
+        Schema::create('module_stage_upgrades', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Module::class);
-            $table->json('item_cost');
-            $table->json('unlock_condition');
-            $table->json('attributes_blackboard');
-            $table->json('token_attributes_blackboard');
+            $table->foreignIdFor(ModuleStage::class);
+            $table->boolean('is_token');
+            $table->boolean('is_hidden');
+            $table->enum('upgrade_type', ModuleStageUpgradeType::values());
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('module_stages');
+        Schema::dropIfExists('module_stage_upgrades');
     }
 };

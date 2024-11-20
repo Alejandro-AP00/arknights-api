@@ -2,8 +2,12 @@
 
 namespace App\Enums;
 
+use App\Traits\EnumHasValues;
+
 enum RoomType: string
 {
+    use EnumHasValues;
+
     case CONTROL = 'CONTROL';
     case CORRIDOR = 'CORRIDOR';
     case DORMITORY = 'DORMITORY';
@@ -16,10 +20,5 @@ enum RoomType: string
     case POWER = 'POWER';
     case TRADING = 'TRADING';
     case TRAINING = 'TRAINING';
-    case WORKSHOP = 'WORKSHOP';
-
-    public static function values(): array
-    {
-        return array_column(self::cases(), 'value');
-    }
+    case WORKSHOP = 'WORKSHOP'
 }
