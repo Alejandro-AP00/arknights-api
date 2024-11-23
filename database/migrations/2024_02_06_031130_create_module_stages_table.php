@@ -16,10 +16,10 @@ return new class extends Migration
         Schema::create('module_stages', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Module::class);
+            $table->integer('stage')->nullable();
             $table->json('item_cost');
-            $table->json('unlock_condition');
-            $table->json('attributes_blackboard');
-            $table->json('token_attributes_blackboard');
+            $table->json('attribute_blackboard')->nullable();
+            $table->json('token_attribute_blackboard');
             $table->timestamps();
         });
     }

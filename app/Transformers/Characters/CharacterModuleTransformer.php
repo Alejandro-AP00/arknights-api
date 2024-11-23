@@ -20,6 +20,7 @@ class CharacterModuleTransformer extends BaseTransformer
         'char_equip_order',
         'unlock_condition',
         'unlock_missions',
+        'stages',
     ];
 
     protected array $localize = [
@@ -49,6 +50,17 @@ class CharacterModuleTransformer extends BaseTransformer
     {
         return collect($this->sourceReference->get('mission_list'))->map(function ($mission) {
             return (new CharacterModuleMissionTransformer($mission, 'uniequip', tableItem: 'missionList'))->transform();
+        });
+    }
+
+    public function transformStages() : ?Collection
+    {
+        return collect($this->sourceReference->get('item_cost'))->map(function ($cost, $stage) {
+            $stage_index = ((int) $stage) - 1;
+            return [
+                'item_cost' => $cost,
+                ...collect((new CharacterModuleStageTransformer($this->sourceReference->get('uni_equip_id'), 'battle_equip', 'phases.'.$stage_index))->transform())
+            ];
         });
     }
 }

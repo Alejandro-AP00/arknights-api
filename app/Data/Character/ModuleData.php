@@ -28,6 +28,6 @@ class ModuleData extends Data
         public int $order_by, // Sort Order
         public UnlockConditionData $unlockCondition,
         public ?Collection $unlockMissions,
-        public ?Collection $moduleStage,
+        public ?Collection $stages,
     ) {}
 }

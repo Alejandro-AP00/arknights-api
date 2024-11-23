@@ -16,11 +16,11 @@ class ModuleStageData extends Data
      * @param  Collection<InterpolatedValueData>  $attributesBlackboard
      */
     public function __construct(
+        public int $stage,
         public Collection $itemCost, // Lives in Uniequip but relates to equipLevel {1: [...itemCosts]}
-        public UnlockConditionData $unlockCondition,
-        public ?Collection $moduleUpgrades,
-        public ?Collection $attributesBlackboard,
+        public ?Collection $upgrades,
+        public ?Collection $attributeBlackboard,
         /** @var InterpolatedValueData[][] */
-        public array $tokenAttributesBlackboard,
+        public array $tokenAttributeBlackboard,
     ) {}
 }

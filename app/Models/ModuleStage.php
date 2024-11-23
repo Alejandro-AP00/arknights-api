@@ -21,17 +21,15 @@ class ModuleStage extends Model
     protected $fillable = [
         'module_id',
         'item_cost',
-        'unlock_condition',
-        'trait_effect_type',
-        'attributes_blackboard',
-        'token_attributes_blackboard',
+        'stage',
+        'attribute_blackboard',
+        'token_attribute_blackboard',
     ];
 
     protected $casts = [
         'item_cost' => DataCollection::class.':'.ItemCostData::class,
-        'unlock_condition' => UnlockConditionData::class,
-        'attributes_blackboard' => DataCollection::class.':'.InterpolatedValueData::class,
-        'token_attributes_blackboard' => 'array',
+        'attribute_blackboard' => DataCollection::class.':'.InterpolatedValueData::class,
+        'token_attribute_blackboard' => 'array',
     ];
 
     public function module(): BelongsTo
@@ -39,7 +37,7 @@ class ModuleStage extends Model
         return $this->belongsTo(Module::class, 'module_id');
     }
 
-    public function moduleUpgrades() : HasMany
+    public function upgrades() : HasMany
     {
         return $this->hasMany(ModuleStageUpgrade::class);
     }

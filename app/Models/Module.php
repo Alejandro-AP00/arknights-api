@@ -51,7 +51,7 @@ class Module extends Model
         return $this->belongsTo(Character::class, 'character_id');
     }
 
-    public function moduleStages(): HasMany
+    public function stages(): HasMany
     {
         return $this->hasMany(ModuleStage::class);
     }

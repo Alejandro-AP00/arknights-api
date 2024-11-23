@@ -138,6 +138,15 @@ class ImportAll extends Command
         }
     }
 
+    private function getBattleEquippTable(): void
+    {
+        foreach (Locales::cases() as $locale) {
+            Cache::remember('battle_equip_'.$locale->value, 3600, function () use ($locale) {
+                return collect(File::gameData($locale, 'battle_equip_table.json'));
+            });
+        }
+    }
+
     private function getReleaseDateAndLimitedInformation(): void
     {
         Cache::remember('release_date', 3600, function () {
