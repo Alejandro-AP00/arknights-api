@@ -33,12 +33,14 @@ class BaseSkill extends Model
         'description',
     ];
 
-    protected $casts = [
-        'name' => 'array',
-        'description' => 'array',
-        'buff_category' => BaseBuffCategory::class,
-        'room_type' => RoomType::class,
-    ];
+    protected function casts() : array {
+        return [
+            'name' => 'array',
+            'description' => 'array',
+            'buff_category' => BaseBuffCategory::class,
+            'room_type' => RoomType::class,
+        ];
+    }
 
     public function characters(): BelongsToMany
     {

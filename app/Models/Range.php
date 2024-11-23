@@ -20,7 +20,9 @@ class Range extends Model
         'grids',
     ];
 
-    protected $casts = [
-        'grids' => DataCollection::class.':'.RangeGridData::class,
-    ];
+    protected function casts() : array {
+        return [
+            'grids' => DataCollection::class.':'.RangeGridData::class,
+        ];
+    }
 }

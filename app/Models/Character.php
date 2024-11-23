@@ -48,17 +48,19 @@ class Character extends Model
         'favor_key_frames',
     ];
 
-    protected $casts = [
-        'position' => Position::class,
-        'profession' => Profession::class,
-        'sub_profession' => SubProfession::class,
-        'rarity' => Rarity::class,
-        'favor_key_frames' => DataCollection::class.':'.KeyFrameData::class,
+    protected function casts() : array {
+        return [
+            'position' => Position::class,
+            'profession' => Profession::class,
+            'sub_profession' => SubProfession::class,
+            'rarity' => Rarity::class,
+            'favor_key_frames' => DataCollection::class.':'.KeyFrameData::class,
 
-        'tag_list' => 'array',
-        'description' => 'array',
-        'name' => 'array',
-    ];
+            'tag_list' => 'array',
+            'description' => 'array',
+            'name' => 'array',
+        ];
+    }
 
     public array $translatable = [
         'name',

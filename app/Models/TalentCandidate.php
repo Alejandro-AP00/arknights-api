@@ -26,13 +26,15 @@ class TalentCandidate extends Model
         'blackboard',
     ];
 
-    protected $casts = [
-        'unlock_condition' => UnlockConditionData::class,
-        'blackboard' => DataCollection::class.':'.InterpolatedValueData::class,
+    protected function casts() : array {
+        return [
+            'unlock_condition' => UnlockConditionData::class,
+            'blackboard' => DataCollection::class.':'.InterpolatedValueData::class,
 
-        'name' => 'array',
-        'description' => 'array',
-    ];
+            'name' => 'array',
+            'description' => 'array',
+        ];
+    }
 
     public array $translatable = [
         'name',

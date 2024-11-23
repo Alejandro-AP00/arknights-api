@@ -38,13 +38,15 @@ class Module extends Model
         'description',
     ];
 
-    protected $casts = [
-        'name' => 'array',
-        'description' => 'array',
+    protected function casts() : array {
+        return [
+            'name' => 'array',
+            'description' => 'array',
 
-        'unlock_condition' => UnlockConditionData::class,
-        'unlock_missions' => DataCollection::class.':'.UnlockMissionData::class,
-    ];
+            'unlock_condition' => UnlockConditionData::class,
+            'unlock_missions' => DataCollection::class.':'.UnlockMissionData::class,
+        ];
+    }
 
     public function character(): BelongsTo
     {

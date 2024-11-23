@@ -15,15 +15,17 @@ class ModuleStageUpgrade extends Model
 
     protected string $dataClass = ModuleStageUpgradeData::class;
 
-    protected array $fillable = [
+    protected $fillable = [
         'is_token',
         'is_hidden',
         'upgrade_type',
     ];
 
-    protected array $casts = [
-        'upgrade_type' => ModuleStageUpgradeType::class,
-    ];
+    protected function casts() : array {
+        return [
+            'upgrade_type' => ModuleStageUpgradeType::class,
+        ];
+    }
 
     public function stage(): BelongsTo
     {

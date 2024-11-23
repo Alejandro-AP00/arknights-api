@@ -14,9 +14,11 @@ class Voice extends Model
         'cv_name',
     ];
 
-    protected $casts = [
-        'cv_name' => 'array',
-    ];
+    protected function casts() : array {
+        return [
+            'cv_name' => 'array',
+        ];
+    }
 
     public function character(): BelongsTo
     {

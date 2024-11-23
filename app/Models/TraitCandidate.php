@@ -18,10 +18,12 @@ class TraitCandidate extends Model
         'blackboard',
     ];
 
-    protected $casts = [
-        'unlock_condition' => UnlockConditionData::class,
-        'blackboard' => DataCollection::class.':'.InterpolatedValueData::class,
-    ];
+    protected function casts() : array {
+        return [
+            'unlock_condition' => UnlockConditionData::class,
+            'blackboard' => DataCollection::class.':'.InterpolatedValueData::class,
+        ];
+    }
 
     public function character(): BelongsTo
     {

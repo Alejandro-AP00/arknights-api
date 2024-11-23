@@ -31,13 +31,15 @@ class Skin extends Model
         'token_type',
     ];
 
-    protected $casts = [
-        'display_skin' => DisplaySkinData::class,
-        'obtain_sources' => AsEnumCollection::class.':'.SkinSource::class,
-        'token_type' => TokenType::class,
+    protected function casts() : array {
+        return [
+            'display_skin' => DisplaySkinData::class,
+            'obtain_sources' => AsEnumCollection::class.':'.SkinSource::class,
+            'token_type' => TokenType::class,
 
-        'name' => 'array',
-    ];
+            'name' => 'array',
+        ];
+    }
 
     public array $translatable = [
         'name',

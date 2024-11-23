@@ -25,10 +25,12 @@ class Phase extends Model
         'attributes_key_frames',
     ];
 
-    protected $casts = [
-        'evolve_cost' => DataCollection::class.':'.ItemCostData::class,
-        'attributes_key_frames' => DataCollection::class.':'.KeyFrameData::class,
-    ];
+    protected function casts() : array {
+        return [
+            'evolve_cost' => DataCollection::class.':'.ItemCostData::class,
+            'attributes_key_frames' => DataCollection::class.':'.KeyFrameData::class,
+        ];
+    }
 
     public function character(): BelongsTo
     {

@@ -38,16 +38,18 @@ class Handbook extends Model
         'archives',
     ];
 
-    protected $casts = [
-        'profile' => 'array',
-        'basic_info' => 'array',
-        'physical_exam' => 'array',
-        'clinical_analysis' => 'array',
-        'promotion_record' => 'array',
-        'performance_review' => 'array',
-        'class_conversion_record' => 'array',
-        'archives' => 'array',
-    ];
+    protected function casts() : array {
+        return [
+            'profile' => 'array',
+            'basic_info' => 'array',
+            'physical_exam' => 'array',
+            'clinical_analysis' => 'array',
+            'promotion_record' => 'array',
+            'performance_review' => 'array',
+            'class_conversion_record' => 'array',
+            'archives' => 'array',
+        ];
+    }
 
     public function character(): BelongsTo
     {

@@ -25,11 +25,13 @@ class ModuleStage extends Model
         'token_attribute_blackboard',
     ];
 
-    protected $casts = [
-        'item_cost' => DataCollection::class.':'.ItemCostData::class,
-        'attribute_blackboard' => DataCollection::class.':'.InterpolatedValueData::class,
-        'token_attribute_blackboard' => 'array',
-    ];
+    protected function casts() : array {
+        return [
+            'item_cost' => DataCollection::class.':'.ItemCostData::class,
+            'attribute_blackboard' => DataCollection::class.':'.InterpolatedValueData::class,
+            'token_attribute_blackboard' => 'array',
+        ];
+    }
 
     public function module(): BelongsTo
     {

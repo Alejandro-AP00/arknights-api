@@ -22,9 +22,11 @@ class Skill extends Model
         'unlock_condition',
     ];
 
-    protected $casts = [
-        'unlock_condition' => UnlockConditionData::class,
-    ];
+    protected function casts() : array {
+        return [
+            'unlock_condition' => UnlockConditionData::class,
+        ];
+    }
 
     public function character(): BelongsTo
     {

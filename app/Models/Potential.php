@@ -14,10 +14,12 @@ class Potential extends Model
         'buff',
     ];
 
-    protected $casts = [
-        'buff' => 'array',
-        'description' => 'array',
-    ];
+    protected function casts() : array {
+        return [
+            'buff' => 'array',
+            'description' => 'array',
+        ];
+    }
 
     public array $translatable = [
         'description',

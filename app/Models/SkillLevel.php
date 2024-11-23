@@ -28,15 +28,17 @@ class SkillLevel extends Model
         'lvl_up_cost',
     ];
 
-    protected $casts = [
-        'lvl_up_cost' => SkillLevelUpCostData::class,
-        'blackboard' => DataCollection::class.':'.InterpolatedValueData::class,
+    protected function casts() : array {
+        return [
+            'lvl_up_cost' => SkillLevelUpCostData::class,
+            'blackboard' => DataCollection::class.':'.InterpolatedValueData::class,
 
-        'name' => 'array',
-        'description' => 'array',
+            'name' => 'array',
+            'description' => 'array',
 
-        'sp_data' => 'array',
-    ];
+            'sp_data' => 'array',
+        ];
+    }
 
     public function skill(): BelongsTo
     {
