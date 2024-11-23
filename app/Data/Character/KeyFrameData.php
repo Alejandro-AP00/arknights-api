@@ -34,6 +34,5 @@ class KeyFrameData extends Data
         public bool $frozenImmune,
         public bool $levitateImmune,
         public bool $disarmedCombatImmune,
-    ) {
-    }
+    ) {}
 }

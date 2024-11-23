@@ -10,6 +10,5 @@ class DisplaySkinData extends Data
         public ?string $modelName,
         /** @var string[] */
         public ?array $drawerList,
-    ) {
-    }
+    ) {}
 }

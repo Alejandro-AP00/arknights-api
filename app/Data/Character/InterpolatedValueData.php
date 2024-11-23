@@ -9,6 +9,5 @@ class InterpolatedValueData extends Data
     public function __construct(
         public string $key,
         public int $value,
-    ) {
-    }
+    ) {}
 }

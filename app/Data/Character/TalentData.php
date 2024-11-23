@@ -12,6 +12,5 @@ class TalentData extends Data
      */
     public function __construct(
         public Collection $candidates,
-    ) {
-    }
+    ) {}
 }

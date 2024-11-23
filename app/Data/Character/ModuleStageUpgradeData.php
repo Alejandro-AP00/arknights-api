@@ -16,5 +16,5 @@ class ModuleStageUpgradeData extends Data
         public ?bool $isHidden,
         public ModuleStageUpgradeType $upgradeType,
         public ?Collection $candidates
-    ){}
+    ) {}
 }

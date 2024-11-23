@@ -22,6 +22,5 @@ class TalentCandidateData extends Data
         public LocalizedFieldData $description,
         public ?RangeData $range,
         public Collection $blackboard,
-    ) {
-    }
+    ) {}
 }

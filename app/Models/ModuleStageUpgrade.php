@@ -22,7 +22,7 @@ class ModuleStageUpgrade extends Model
     ];
 
     protected array $casts = [
-        'upgrade_type' => ModuleStageUpgradeType::class
+        'upgrade_type' => ModuleStageUpgradeType::class,
     ];
 
     public function stage(): BelongsTo

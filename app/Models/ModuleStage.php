@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Data\Character\InterpolatedValueData;
 use App\Data\Character\ItemCostData;
 use App\Data\Character\ModuleStageData;
-use App\Data\Character\UnlockConditionData;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -37,7 +36,7 @@ class ModuleStage extends Model
         return $this->belongsTo(Module::class, 'module_id');
     }
 
-    public function upgrades() : HasMany
+    public function upgrades(): HasMany
     {
         return $this->hasMany(ModuleStageUpgrade::class);
     }

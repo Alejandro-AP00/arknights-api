@@ -20,5 +20,5 @@ enum RoomType: string
     case POWER = 'POWER';
     case TRADING = 'TRADING';
     case TRAINING = 'TRAINING';
-    case WORKSHOP = 'WORKSHOP'
+    case WORKSHOP = 'WORKSHOP';
 }

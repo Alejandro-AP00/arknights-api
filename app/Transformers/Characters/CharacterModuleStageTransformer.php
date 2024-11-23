@@ -3,7 +3,6 @@
 namespace App\Transformers\Characters;
 
 use App\Transformers\BaseTransformer;
-use Illuminate\Support\Collection;
 
 class CharacterModuleStageTransformer extends BaseTransformer
 {

@@ -11,6 +11,5 @@ class PotentialRankData extends Data
         public ?string $type,
         public LocalizedFieldData $description,
         public ?array $buff,
-    ) {
-    }
+    ) {}
 }

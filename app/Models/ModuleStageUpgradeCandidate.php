@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ModuleStageUpgradeCandidate extends Model
 {
-    public function moduleStageUpgrade() : BelongsTo
+    public function moduleStageUpgrade(): BelongsTo
     {
         return $this->belongsTo(ModuleStageUpgrade::class);
     }

@@ -18,6 +18,5 @@ class SkillData extends Data
         public ?string $iconId,
         public UnlockConditionData $unlockCondition,
         public Collection $levels,
-    ) {
-    }
+    ) {}
 }

@@ -53,13 +53,14 @@ class CharacterModuleTransformer extends BaseTransformer
         });
     }
 
-    public function transformStages() : ?Collection
+    public function transformStages(): ?Collection
     {
         return collect($this->sourceReference->get('item_cost'))->map(function ($cost, $stage) {
             $stage_index = ((int) $stage) - 1;
+
             return [
                 'item_cost' => $cost,
-                ...collect((new CharacterModuleStageTransformer($this->sourceReference->get('uni_equip_id'), 'battle_equip', 'phases.'.$stage_index))->transform())
+                ...collect((new CharacterModuleStageTransformer($this->sourceReference->get('uni_equip_id'), 'battle_equip', 'phases.'.$stage_index))->transform()),
             ];
         });
     }

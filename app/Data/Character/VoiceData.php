@@ -11,6 +11,5 @@ class VoiceData extends Data
         public string $voiceLangType,
         /** @var string[] */
         public array $cvName,
-    ) {
-    }
+    ) {}
 }
