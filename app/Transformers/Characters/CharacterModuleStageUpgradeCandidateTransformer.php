@@ -6,7 +6,6 @@ use App\Enums\Locales;
 use App\Transformers\BaseTransformer;
 use App\Transformers\RangeTransformer;
 use Cache;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 class CharacterModuleStageUpgradeCandidateTransformer extends BaseTransformer
@@ -20,7 +19,7 @@ class CharacterModuleStageUpgradeCandidateTransformer extends BaseTransformer
     ];
 
     protected array $localize = [
-        'description'
+        'description',
     ];
 
     public function transformRangeId()
@@ -31,7 +30,8 @@ class CharacterModuleStageUpgradeCandidateTransformer extends BaseTransformer
         return $range_id;
     }
 
-    public function localizeDescription(): ?array {
+    public function localizeDescription(): ?array
+    {
         $output = [];
         foreach (Locales::cases() as $locale) {
             $data = collect(data_get(Cache::get($this->sourceTable.'_'.$locale->value), $this->tableItem))->get($this->subjectKey) ?? collect(data_get(Cache::get($this->sourceTable.'_'.Locales::Chinese->value), $this->tableItem))->get($this->subjectKey);

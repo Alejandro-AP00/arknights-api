@@ -22,7 +22,8 @@ class Skill extends Model
         'unlock_condition',
     ];
 
-    protected function casts() : array {
+    protected function casts(): array
+    {
         return [
             'unlock_condition' => UnlockConditionData::class,
         ];

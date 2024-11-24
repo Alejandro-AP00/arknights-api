@@ -18,7 +18,8 @@ class TraitCandidate extends Model
         'blackboard',
     ];
 
-    protected function casts() : array {
+    protected function casts(): array
+    {
         return [
             'unlock_condition' => UnlockConditionData::class,
             'blackboard' => DataCollection::class.':'.InterpolatedValueData::class,

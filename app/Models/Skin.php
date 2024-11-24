@@ -31,7 +31,8 @@ class Skin extends Model
         'token_type',
     ];
 
-    protected function casts() : array {
+    protected function casts(): array
+    {
         return [
             'display_skin' => DisplaySkinData::class,
             'obtain_sources' => AsEnumCollection::class.':'.SkinSource::class,

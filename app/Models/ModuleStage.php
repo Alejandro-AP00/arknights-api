@@ -25,7 +25,8 @@ class ModuleStage extends Model
         'token_attribute_blackboard',
     ];
 
-    protected function casts() : array {
+    protected function casts(): array
+    {
         return [
             'item_cost' => DataCollection::class.':'.ItemCostData::class,
             'attribute_blackboard' => DataCollection::class.':'.InterpolatedValueData::class,

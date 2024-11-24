@@ -25,7 +25,8 @@ class Phase extends Model
         'attributes_key_frames',
     ];
 
-    protected function casts() : array {
+    protected function casts(): array
+    {
         return [
             'evolve_cost' => DataCollection::class.':'.ItemCostData::class,
             'attributes_key_frames' => DataCollection::class.':'.KeyFrameData::class,

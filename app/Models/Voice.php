@@ -14,7 +14,8 @@ class Voice extends Model
         'cv_name',
     ];
 
-    protected function casts() : array {
+    protected function casts(): array
+    {
         return [
             'cv_name' => 'array',
         ];

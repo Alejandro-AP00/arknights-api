@@ -24,7 +24,8 @@ class ModuleStageUpgradeCandidate extends Model
         'unlock_condition',
     ];
 
-    protected function casts() : array {
+    protected function casts(): array
+    {
         return [
             'description' => 'array',
             'blackboard' => DataCollection::class.':'.InterpolatedValueData::class,
@@ -37,7 +38,8 @@ class ModuleStageUpgradeCandidate extends Model
         return $this->belongsTo(ModuleStageUpgrade::class, 'module_stage_upgrade_id');
     }
 
-    public function range() : BelongsTo {
+    public function range(): BelongsTo
+    {
         return $this->belongsTo(Range::class);
     }
 }

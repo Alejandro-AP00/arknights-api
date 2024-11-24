@@ -10,10 +10,10 @@ class BaseSkillCharacter extends Pivot
         'unlock_condition',
     ];
 
-    protected function casts() : array {
+    protected function casts(): array
+    {
         return [
             'unlock_condition' => 'array',
         ];
     }
-
 }

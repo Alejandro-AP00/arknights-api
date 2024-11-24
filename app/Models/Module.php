@@ -38,7 +38,8 @@ class Module extends Model
         'description',
     ];
 
-    protected function casts() : array {
+    protected function casts(): array
+    {
         return [
             'name' => 'array',
             'description' => 'array',

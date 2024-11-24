@@ -248,21 +248,21 @@ class ImportCharacterJob implements ShouldQueue
             $module->character()->associate($this->characterModel);
             $module->save();
 
-            $module_data->stages?->each(function(ModuleStageData $stage_data) use ($module){
+            $module_data->stages?->each(function (ModuleStageData $stage_data) use ($module) {
                 $stage = collect($stage_data)->keyBy(fn ($item, $key) => Str::snake($key));
                 $stage = new ModuleStage($stage->toArray());
                 $stage->module()->associate($module);
                 $stage->save();
 
-                $stage_data->upgrades?->each(function(ModuleStageUpgradeData $upgrade_data) use($stage){
+                $stage_data->upgrades?->each(function (ModuleStageUpgradeData $upgrade_data) use ($stage) {
                     $upgrade = collect($upgrade_data)->keyBy(fn ($item, $key) => Str::snake($key));
                     $upgrade = new ModuleStageUpgrade($upgrade->toArray());
                     $upgrade->stage()->associate($stage);
                     $upgrade->save();
 
-                    $upgrade_data->candidates?->each(function(ModuleStageUpgradeCandidateData $candidate_data) use($upgrade){
-                        $candidate =  collect($candidate_data)->keyBy(fn ($item, $key) => Str::snake($key));
-                        $candidate =  new ModuleStageUpgradeCandidate($candidate->toArray());
+                    $upgrade_data->candidates?->each(function (ModuleStageUpgradeCandidateData $candidate_data) use ($upgrade) {
+                        $candidate = collect($candidate_data)->keyBy(fn ($item, $key) => Str::snake($key));
+                        $candidate = new ModuleStageUpgradeCandidate($candidate->toArray());
                         $candidate->upgrade()->associate($upgrade);
 
                         if ($candidate_data->range) {

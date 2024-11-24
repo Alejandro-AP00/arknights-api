@@ -14,7 +14,8 @@ class Potential extends Model
         'buff',
     ];
 
-    protected function casts() : array {
+    protected function casts(): array
+    {
         return [
             'buff' => 'array',
             'description' => 'array',

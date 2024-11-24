@@ -20,8 +20,8 @@ class CharacterModuleStageTransformer extends BaseTransformer
 
     public function transformUpgrades(): ?Collection
     {
-        return collect($this->sourceReference->get('parts'))->map(function($part, $index){
-            return (new CharacterModuleStageUpgradeTransformer($this->subjectKey, 'battle_equip', $this->sourceReferenceKey . '.parts.' .$index))->transform();
+        return collect($this->sourceReference->get('parts'))->map(function ($part, $index) {
+            return (new CharacterModuleStageUpgradeTransformer($this->subjectKey, 'battle_equip', $this->sourceReferenceKey.'.parts.'.$index))->transform();
         });
     }
 }

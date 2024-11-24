@@ -28,7 +28,8 @@ class SkillLevel extends Model
         'lvl_up_cost',
     ];
 
-    protected function casts() : array {
+    protected function casts(): array
+    {
         return [
             'lvl_up_cost' => SkillLevelUpCostData::class,
             'blackboard' => DataCollection::class.':'.InterpolatedValueData::class,

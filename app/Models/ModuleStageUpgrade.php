@@ -20,7 +20,8 @@ class ModuleStageUpgrade extends Model
         'upgrade_type',
     ];
 
-    protected function casts() : array {
+    protected function casts(): array
+    {
         return [
             'is_token' => 'boolean',
             'upgrade_type' => ModuleStageUpgradeType::class,

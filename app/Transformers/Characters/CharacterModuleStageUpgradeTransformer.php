@@ -14,41 +14,45 @@ class CharacterModuleStageUpgradeTransformer extends BaseTransformer
         'upgrade_type',
     ];
 
-    public function transformCandidates() : Collection {
-        if($this->isTalentTarget()){
+    public function transformCandidates(): Collection
+    {
+        if ($this->isTalentTarget()) {
             return collect(data_get($this->sourceReference, 'add_or_override_talent_data_bundle.candidates'))
-                ->map(function($candidate, $candidate_index) {
-                    return (new CharacterModuleStageUpgradeCandidateTransformer($this->subjectKey, 'battle_equip', $this->sourceReferenceKey .'.addOrOverrideTalentDataBundle.candidates.'.$candidate_index))->transform();
+                ->map(function ($candidate, $candidate_index) {
+                    return (new CharacterModuleStageUpgradeCandidateTransformer($this->subjectKey, 'battle_equip', $this->sourceReferenceKey.'.addOrOverrideTalentDataBundle.candidates.'.$candidate_index))->transform();
                 });
         }
 
-        if($this->isTraitTarget()){
+        if ($this->isTraitTarget()) {
             return collect(data_get($this->sourceReference, 'override_trait_data_bundle.candidates'))
-                ->map(function($candidate, $candidate_index) {
-                    return (new CharacterModuleStageUpgradeCandidateTransformer($this->subjectKey, 'battle_equip', $this->sourceReferenceKey .'.overrideTraitDataBundle.candidates.'.$candidate_index))->transform();
+                ->map(function ($candidate, $candidate_index) {
+                    return (new CharacterModuleStageUpgradeCandidateTransformer($this->subjectKey, 'battle_equip', $this->sourceReferenceKey.'.overrideTraitDataBundle.candidates.'.$candidate_index))->transform();
                 });
         }
     }
 
-    public function transformUpgradeType() {
-        if($this->isTalentTarget()){
+    public function transformUpgradeType()
+    {
+        if ($this->isTalentTarget()) {
             return ModuleStageUpgradeType::TALENT_UPGRADE->value;
         }
 
-        if($this->isTraitTarget() && data_get($this->sourceReference, 'override_trait_data_bundle.candidates.0.additionalDescription')){
+        if ($this->isTraitTarget() && data_get($this->sourceReference, 'override_trait_data_bundle.candidates.0.additionalDescription')) {
             return ModuleStageUpgradeType::TRAIT_UPGRADE->value;
         }
 
-        if($this->isTraitTarget() && data_get($this->sourceReference, 'override_trait_data_bundle.candidates.0.overrideDescripton')){
+        if ($this->isTraitTarget() && data_get($this->sourceReference, 'override_trait_data_bundle.candidates.0.overrideDescripton')) {
             return ModuleStageUpgradeType::TRAIT_UPGRADE->value;
         }
     }
 
-    private function isTraitTarget() : bool {
+    private function isTraitTarget(): bool
+    {
         return in_array($this->sourceReference->get('target'), ['TRAIT', 'TRAIT_DATA_ONLY', 'DISPLAY']);
     }
 
-    private function isTalentTarget() : bool {
+    private function isTalentTarget(): bool
+    {
         return in_array($this->sourceReference->get('target'), ['TALENT', 'TALENT_DATA_ONLY']);
     }
 }

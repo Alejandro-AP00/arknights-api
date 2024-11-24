@@ -38,7 +38,8 @@ class Handbook extends Model
         'archives',
     ];
 
-    protected function casts() : array {
+    protected function casts(): array
+    {
         return [
             'profile' => 'array',
             'basic_info' => 'array',

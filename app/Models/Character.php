@@ -48,7 +48,8 @@ class Character extends Model
         'favor_key_frames',
     ];
 
-    protected function casts() : array {
+    protected function casts(): array
+    {
         return [
             'position' => Position::class,
             'profession' => Profession::class,
