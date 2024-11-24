@@ -42,13 +42,18 @@ class CharacterModuleStageUpgradeTransformer extends BaseTransformer
         }
 
         if ($this->isTraitTarget() && data_get($this->sourceReference, 'override_trait_data_bundle.candidates.0.overrideDescripton')) {
+            return ModuleStageUpgradeType::TRAIT_OVERRIDE->value;
+        }
+
+        if ($this->isTraitTarget()){
             return ModuleStageUpgradeType::TRAIT_UPGRADE->value;
         }
     }
 
     private function isTraitTarget(): bool
     {
-        return in_array($this->sourceReference->get('target'), ['TRAIT', 'TRAIT_DATA_ONLY', 'DISPLAY']);
+        // OVERWRITE_BATTLE_DATA Is for IS Modules Rosmontis only for now
+        return in_array($this->sourceReference->get('target'), ['TRAIT', 'TRAIT_DATA_ONLY', 'DISPLAY', 'OVERWRITE_BATTLE_DATA']);
     }
 
     private function isTalentTarget(): bool

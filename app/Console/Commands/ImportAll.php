@@ -51,19 +51,19 @@ class ImportAll extends Command
         $this->getUniequipTable();
         $this->getBattleEquippTable();
         //                ImportRangesJob::dispatchSync();
-        $characters = $characters->whereIn('char_id', ['char_484_robrta', 'char_110_deepcl']);
+        // $characters = $characters->whereIn('char_id', ['char_391_rosmon', 'char_113_cqbw']);
         //                $characters = $characters->whereIn('char_id', ['char_003_kalts']);
         //                $characters->each(fn ($character) => ImportCharacterJob::dispatchSync($character));
 
         Bus::chain([
             new ImportRangesJob,
             new ImportBaseSkillsJob,
-            // new ScrapeSkinsDataJob,
+            new ScrapeSkinsDataJob,
             ...$characters->chunk(40)->map(function (Collection $characters) {
                 return Bus::batch($characters->map(fn ($character) => new ImportCharacterJob($character)));
             })->toArray(),
-            // new ImportAlterInformationJob,
-            // new ImportSummonInformationJob,
+            new ImportAlterInformationJob,
+            new ImportSummonInformationJob,
         ])->dispatch();
 
         return Command::SUCCESS;

@@ -67,7 +67,7 @@ class ImportCharacterJob implements ShouldQueue
                 $this->createTraits(...),
                 $this->createRiicSkill(...),
                 $this->createSkills(...),
-                // $this->createModules(...),
+                $this->createModules(...),
             ])
             ->thenReturn();
     }
