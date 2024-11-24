@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(ModuleStage::class);
             $table->boolean('is_token');
-            $table->boolean('is_hidden');
             $table->enum('upgrade_type', ModuleStageUpgradeType::values());
             $table->timestamps();
         });

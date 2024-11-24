@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(ModuleStageUpgrade::class);
             $table->foreignIdFor(Range::class)->nullable();
-            $table->json('description');
+            $table->json('description')->nullable();
             $table->json('blackboard');
             $table->integer('required_potential_rank');
             $table->json('unlock_condition');

@@ -12,7 +12,7 @@ use Spatie\LaravelData\Mappers\SnakeCaseMapper;
 class ModuleData extends Data
 {
     /**
-     * @param  Collection<ModuleStageData>  $moduleStage
+     * @param  Collection<ModuleStageData>  $stages
      * @param  Collection<UnlockMissionData>  $unlockMissions
      */
     public function __construct(

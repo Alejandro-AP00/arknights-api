@@ -4,6 +4,9 @@ namespace App\Jobs;
 
 use App\Data\Character\CharacterData;
 use App\Data\Character\ModuleData;
+use App\Data\Character\ModuleStageData;
+use App\Data\Character\ModuleStageUpgradeCandidateData;
+use App\Data\Character\ModuleStageUpgradeData;
 use App\Data\Character\RiicBaseSkillData;
 use App\Data\Character\SkillData;
 use App\Data\Character\SkillLevelData;
@@ -14,6 +17,9 @@ use App\Enums\Profession;
 use App\Models\BaseSkill;
 use App\Models\Character;
 use App\Models\Module;
+use App\Models\ModuleStage;
+use App\Models\ModuleStageUpgrade;
+use App\Models\ModuleStageUpgradeCandidate;
 use App\Models\Phase;
 use App\Models\Range;
 use App\Models\Skill;
@@ -236,10 +242,38 @@ class ImportCharacterJob implements ShouldQueue
 
     private function createModules(CharacterData $character_data, Closure $next)
     {
+        // TODO: Refactor this
         $character_data->modules->each(function (ModuleData $module_data) {
             $module = new Module(collect($module_data)->keyBy(fn ($item, $key) => Str::snake($key))->toArray());
             $module->character()->associate($this->characterModel);
             $module->save();
+
+            $module_data->stages->each(function(ModuleStageData $stage_data) use ($module){
+                $stage = collect($stage_data)->keyBy(fn ($item, $key) => Str::snake($key));
+                $stage = new ModuleStage($stage->toArray());
+                $stage->module()->associate($module);
+                $stage->save();
+
+                $stage_data->upgrades->each(function(ModuleStageUpgradeData $upgrade_data) use($stage){
+                    $upgrade = collect($upgrade_data)->keyBy(fn ($item, $key) => Str::snake($key));
+                    $upgrade = new ModuleStageUpgrade($upgrade->toArray());
+                    $upgrade->stage()->associate($stage);
+                    $upgrade->save();
+
+                    $upgrade_data->candidates->each(function(ModuleStageUpgradeCandidateData $candidate_data) use($upgrade){
+                        $candidate =  collect($candidate_data)->keyBy(fn ($item, $key) => Str::snake($key));
+                        $candidate =  new ModuleStageUpgradeCandidate($candidate->toArray());
+                        $candidate->upgrade()->associate($upgrade);
+
+                        if ($candidate_data->range) {
+                            $range = Range::firstWhere('range_id', $candidate_data->range->rangeId);
+                            $candidate->range_id = $range->id;
+                        }
+
+                        $candidate->save();
+                    });
+                });
+            });
         });
 
         return $next($character_data);

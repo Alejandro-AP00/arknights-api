@@ -12,8 +12,8 @@ class ModuleStageData extends Data
 {
     /**
      * @param  Collection<ItemCostData>  $itemCost
-     * @param  Collection<ModuleStageUpgradeData>  $moduleUpgrades
-     * @param  Collection<InterpolatedValueData>  $attributesBlackboard
+     * @param  Collection<ModuleStageUpgradeData>  $upgrades
+     * @param  Collection<InterpolatedValueData>  $attributeBlackboard
      */
     public function __construct(
         public int $stage,

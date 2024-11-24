@@ -49,6 +49,7 @@ class ImportAll extends Command
         $this->getBaseDataTable();
         $this->getSkillTable();
         $this->getUniequipTable();
+        $this->getBattleEquippTable();
         //                ImportRangesJob::dispatchSync();
         $characters = $characters->whereIn('char_id', ['char_003_kalts', 'char_136_hsguma']);
         //                $characters = $characters->whereIn('char_id', ['char_003_kalts']);

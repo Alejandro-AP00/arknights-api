@@ -17,19 +17,19 @@ class ModuleStageUpgrade extends Model
 
     protected $fillable = [
         'is_token',
-        'is_hidden',
         'upgrade_type',
     ];
 
     protected function casts() : array {
         return [
+            'is_token' => 'boolean',
             'upgrade_type' => ModuleStageUpgradeType::class,
         ];
     }
 
     public function stage(): BelongsTo
     {
-        return $this->belongsTo(ModuleStage::class);
+        return $this->belongsTo(ModuleStage::class, 'module_stage_id');
     }
 
     public function candidates(): HasMany
