@@ -46,8 +46,6 @@ class ScrapeSkinsDataJob implements ShouldQueue
             $response = $client->get($brand_link);
             $crawler = new Crawler($response->getBody()->getContents());
 
-            info('Brand link: '.$brand_link);
-
             return $crawler->filter('h2 + .wikitable')->each(function (Crawler $table) {
                 // Extract and clean the Chinese skin name
                 $skin_name_node = $table->filter('th')->first();
@@ -55,7 +53,6 @@ class ScrapeSkinsDataJob implements ShouldQueue
                     $span->getNode(0)->parentNode->removeChild($span->getNode(0));
                 });
                 $cn_skin_name = trim($skin_name_node->text());
-                info('Skin Name: '.$cn_skin_name);
 
                 // Extract obtain sources as Enums
                 $obtain_sources = $this->parseObtainSources($table);
@@ -111,7 +108,6 @@ class ScrapeSkinsDataJob implements ShouldQueue
             $token_type = TokenType::OriginiumPrime;
             $cost_string = trim($cost_node->closest('th')?->filter('div')?->text(''));
             $cost = $this->parseCost($cost_string);
-            info('Outfit Store: '.$cost);
         }
 
         $cc_cost_node = $table->filter('th:contains("获取时限") img[alt^="图标 合约赏金"], th:contains("复刻时限") img[alt^="图标 合约赏金"]')->last();
@@ -119,7 +115,6 @@ class ScrapeSkinsDataJob implements ShouldQueue
             $obtain_sources->add(SkinSource::ContingencyContractStore);
             $token_type = TokenType::ContingencyContractToken;
             $cost = (int) trim($cc_cost_node->closest('th')->filter('div')->text(''));
-            info('Contingency Contract: '.$cost);
         }
 
         return [$cost, $token_type];
