@@ -20,7 +20,7 @@ class ModuleStageData extends Data
         public Collection $itemCost, // Lives in Uniequip but relates to equipLevel {1: [...itemCosts]}
         public ?Collection $upgrades,
         public ?Collection $attributeBlackboard,
-        /** @var InterpolatedValueData[][] */
+        /** @var array<string, InterpolatedValueData[]> */
         public array $tokenAttributeBlackboard,
     ) {}
 }
