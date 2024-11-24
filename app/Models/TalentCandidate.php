@@ -9,10 +9,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\LaravelData\DataCollection;
 use Spatie\LaravelData\WithData;
+use Spatie\Translatable\HasTranslations;
 
 class TalentCandidate extends Model
 {
-    use WithData;
+    use HasTranslations, WithData;
 
     protected string $dataClass = TalentCandidateData::class;
 
@@ -31,9 +32,6 @@ class TalentCandidate extends Model
         return [
             'unlock_condition' => UnlockConditionData::class,
             'blackboard' => DataCollection::class.':'.InterpolatedValueData::class,
-
-            'name' => 'array',
-            'description' => 'array',
         ];
     }
 

@@ -11,13 +11,13 @@ use Spatie\LaravelData\Mappers\SnakeCaseMapper;
 class HandbookData extends Data
 {
     public function __construct(
-        public ?LocalizedFieldData $profile,
-        public ?LocalizedFieldData $basicInfo,
-        public ?LocalizedFieldData $physicalExam,
-        public ?LocalizedFieldData $clinicalAnalysis,
-        public ?LocalizedFieldData $promotionRecord,
-        public ?LocalizedFieldData $performanceReview,
-        public ?LocalizedFieldData $classConversionRecord,
-        public ?LocalizedFieldData $archives,
+        public null|string|LocalizedFieldData $profile,
+        public null|array|LocalizedFieldData $basicInfo,
+        public null|array|LocalizedFieldData $physicalExam,
+        public null|string|LocalizedFieldData $clinicalAnalysis,
+        public null|string|LocalizedFieldData $promotionRecord,
+        public null|array|LocalizedFieldData $performanceReview,
+        public null|array|LocalizedFieldData $classConversionRecord,
+        public null|array|LocalizedFieldData $archives,
     ) {}
 }

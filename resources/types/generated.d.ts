@@ -1,32 +1,42 @@
+export type BaseBuffCategory = "FUNCTION" | "OUTPUT" | "RECOVERY";
 export type CharacterData = {
     charId: string;
-    name: LocalizedFieldData;
+    isLimited: boolean;
+    name: LocalizedFieldData | string;
     appellation: string;
     profession: Profession | null;
     subProfession: SubProfession | null;
     potentialItemId: string | null;
     canUseGeneralPotentialItem: boolean;
-    description: LocalizedFieldData;
+    description: LocalizedFieldData | string | null;
     nation: string | null;
     group: string | null;
     team: string | null;
     displayNumber: string | null;
     position: Position;
     rarity: Rarity;
-    tagList: LocalizedFieldData;
-    phases: Array<CharacterPhaseData>;
-    favorKeyFrames: Array<KeyFrameData>;
-    potentialRanks: Array<PotentialRankData>;
+    tagList: LocalizedFieldData | Array<any> | null;
+    phases: Array<CharacterPhaseData> | null;
+    favorKeyFrames: Array<KeyFrameData> | null;
+    potentialRanks: Array<PotentialRankData> | null;
+    talents: Array<TalentData> | null;
+    skills: Array<SkillData> | null;
+    traitCandidates: Array<TraitCandidateData> | null;
+    modules: Array<ModuleData> | null;
+    riccSkills: Array<RiicBaseSkillData> | null;
+    summons: Array<CharacterData> | null;
+    voices: Array<VoiceData> | null;
+    skins: Array<SkinData> | null;
     handbook: HandbookData | null;
-    alterCharId: string | null;
-    baseOperatorCharId: string | null;
-    releaseOrder: number;
+    alterCharacters: Array<CharacterData> | null;
+    baseCharacter: CharacterData | null;
+    releasedAt: string | null;
 };
 export type CharacterPhaseData = {
     characterPrefabKey: string;
     maxLevel: number;
     range: RangeData;
-    evolveCost: any | Array<any> | null;
+    evolveCost: Array<ItemCostData> | null;
     attributesKeyFrames: Array<KeyFrameData>;
 };
 export type DisplaySkinData = {
@@ -34,14 +44,14 @@ export type DisplaySkinData = {
     drawerList: Array<string> | null;
 };
 export type HandbookData = {
-    profile: LocalizedFieldData;
-    basicInfo: LocalizedFieldData;
-    physicalExam: LocalizedFieldData;
-    clinicalAnalysis?: LocalizedFieldData;
-    promotionRecord?: LocalizedFieldData;
-    performanceReview?: LocalizedFieldData;
-    classConversionRecord: LocalizedFieldData;
-    archives: LocalizedFieldData;
+    profile: LocalizedFieldData | null;
+    basicInfo: LocalizedFieldData | null;
+    physicalExam: LocalizedFieldData | null;
+    clinicalAnalysis: LocalizedFieldData | null;
+    promotionRecord: LocalizedFieldData | null;
+    performanceReview: LocalizedFieldData | null;
+    classConversionRecord: LocalizedFieldData | null;
+    archives: LocalizedFieldData | null;
 };
 export type InterpolatedValueData = {
     key: string;
@@ -50,6 +60,7 @@ export type InterpolatedValueData = {
 export type ItemCostData = {
     itemId: string;
     count: number;
+    type: string | null;
 };
 export type KeyFrameData = {
     level: number;
@@ -89,20 +100,39 @@ export type ModuleData = {
     name: LocalizedFieldData;
     description: LocalizedFieldData;
     iconId: string;
-    moduleStage: Array<ModuleStageData>;
+    typeIcon: string;
+    typeName1: string;
+    typeName2: string | null;
+    shiningColor: string;
+    type: string;
+    order_by: number;
+    unlockCondition: UnlockConditionData;
+    unlockMissions: Array<UnlockMissionData> | null;
+    stages: Array<ModuleStageData> | null;
 };
 export type ModuleStageData = {
+    stage: number;
     itemCost: Array<ItemCostData>;
-    unlockCondition: UnlockConditionData;
-    traitEffectType: LocalizedFieldData;
-    talentEffect: LocalizedFieldData;
-    talentIndex: string | null;
-    displayRange: boolean;
-    range: RangeData | null;
-    attributesBlackboard: Array<InterpolatedValueData>;
-    requiredPotentialRank: number;
-    tokenAttributesBlackboard: Array<InterpolatedValueData>;
+    upgrades: Array<ModuleStageUpgradeData> | null;
+    attributeBlackboard: Array<InterpolatedValueData> | null;
+    tokenAttributeBlackboard: { [key: string]: Array<InterpolatedValueData> };
 };
+export type ModuleStageUpgradeCandidateData = {
+    description: LocalizedFieldData | null;
+    range: RangeData | null;
+    blackboard: Array<InterpolatedValueData>;
+    requiredPotentialRank: number;
+    unlockCondition: UnlockConditionData;
+};
+export type ModuleStageUpgradeData = {
+    isToken: boolean | null;
+    upgradeType: ModuleStageUpgradeType;
+    candidates: Array<ModuleStageUpgradeCandidateData> | null;
+};
+export type ModuleStageUpgradeType =
+    | "TRAIT_UPGRADE"
+    | "TRAIT_OVERRIDE"
+    | "TALENT_UPGRADE";
 export type Position = "ALL" | "MELEE" | "NONE" | "RANGED";
 export type PotentialRankData = {
     type: string | null;
@@ -141,8 +171,26 @@ export type RiicBaseSkillData = {
     name: LocalizedFieldData;
     description: LocalizedFieldData;
     skillIcon: string;
+    buffColor: string;
+    textColor: string;
+    buffCategory: BaseBuffCategory;
+    roomType: RoomType;
     unlockCondition: UnlockConditionData;
 };
+export type RoomType =
+    | "CONTROL"
+    | "CORRIDOR"
+    | "DORMITORY"
+    | "ELEVATOR"
+    | "FUNCTIONAL"
+    | "HIRE"
+    | "MANUFACTURE"
+    | "MEETING"
+    | "NONE"
+    | "POWER"
+    | "TRADING"
+    | "TRAINING"
+    | "WORKSHOP";
 export type SkillData = {
     skillId: string | null;
     iconId: string | null;
@@ -150,15 +198,15 @@ export type SkillData = {
     levels: Array<SkillLevelData>;
 };
 export type SkillLevelData = {
-    name: Array<any> | string;
-    description: Array<any> | string;
-    range: any;
+    name: LocalizedFieldData;
+    description: LocalizedFieldData | null;
+    range: RangeData | null;
     skillType: string;
     durationType: string;
     spData: Array<any>;
     duration: number;
     blackboard: Array<InterpolatedValueData>;
-    lvlUpCost: SkillLevelUpCostData;
+    lvlUpCost: SkillLevelUpCostData | null;
 };
 export type SkillLevelUpCostData = {
     itemCost: Array<ItemCostData> | null;
@@ -167,15 +215,23 @@ export type SkillLevelUpCostData = {
 export type SkinData = {
     name: LocalizedFieldData;
     skinId: string;
-    illustId: string;
+    illustId: string | null;
     avatarId: string;
-    portraitId: string;
+    portraitId: string | null;
     displaySkin: DisplaySkinData;
     type: string;
-    obtainSources: Array<any> | null;
+    obtainSources: any | null;
     cost: number | null;
-    tokenType: string | null;
+    tokenType: TokenType | null;
 };
+export type SkinSource =
+    | "ContingencyContractStore"
+    | "OutfitStore"
+    | "RedemptionCode"
+    | "IntegratedStrategies"
+    | "Event"
+    | "RealWorldPromotion"
+    | "Unknown";
 export type SubProfession =
     | "pioneer"
     | "charger"
@@ -197,6 +253,7 @@ export type SubProfession =
     | "protector"
     | "guardian"
     | "unyield"
+    | "primprotector"
     | "artsprotector"
     | "duelist"
     | "fortress"
@@ -239,6 +296,8 @@ export type SubProfession =
     | "merchant"
     | "traper"
     | "dollkeeper"
+    | "skywalker"
+    | "alchemist"
     | "notchar1"
     | "notchar2"
     | "none1"
@@ -248,12 +307,19 @@ export type TalentCandidateData = {
     unlockCondition: UnlockConditionData;
     name: LocalizedFieldData;
     description: LocalizedFieldData;
-    range: RangeData;
+    range: RangeData | null;
     blackboard: Array<InterpolatedValueData>;
 };
+export type TalentData = {
+    candidates: Array<TalentCandidateData>;
+};
+export type TokenType =
+    | "OriginiumPrime"
+    | "ContingencyContractToken"
+    | "Unknown";
 export type TraitCandidateData = {
-    overrideDescription: Array<any> | string;
-    range: RangeData;
+    overrideDescription: LocalizedFieldData | null;
+    range: RangeData | null;
     requiredPotentialRank: number;
     unlockCondition: UnlockConditionData;
     blackboard: Array<InterpolatedValueData>;
@@ -261,6 +327,12 @@ export type TraitCandidateData = {
 export type UnlockConditionData = {
     phase: string | number;
     level: number;
+    trust: Array<any> | number | null;
+};
+export type UnlockMissionData = {
+    description: LocalizedFieldData;
+    missionId: string;
+    jumpStageId: string | null;
 };
 export type VoiceData = {
     wordkey: string;

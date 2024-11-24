@@ -16,8 +16,8 @@ class SkillLevelData extends Data
      * @param  Collection<InterpolatedValueData>  $blackboard
      */
     public function __construct(
-        public LocalizedFieldData $name,
-        public ?LocalizedFieldData $description,
+        public string|LocalizedFieldData $name,
+        public null|string|LocalizedFieldData $description,
         public ?RangeData $range,
         public string $skillType,
         public string $durationType,

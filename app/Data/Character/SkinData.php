@@ -17,7 +17,7 @@ class SkinData extends Data
      * @param  \Illuminate\Support\Collection<SkinSource>  $obtainSources
      */
     public function __construct(
-        public LocalizedFieldData $name,
+        public string|LocalizedFieldData $name,
         public string $skinId,
         public ?string $illustId,
         public string $avatarId,

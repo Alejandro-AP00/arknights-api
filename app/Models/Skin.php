@@ -10,10 +10,11 @@ use Illuminate\Database\Eloquent\Casts\AsEnumCollection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\LaravelData\WithData;
+use Spatie\Translatable\HasTranslations;
 
 class Skin extends Model
 {
-    use WithData;
+    use HasTranslations, WithData;
 
     protected string $dataClass = SkinData::class;
 
@@ -31,6 +32,10 @@ class Skin extends Model
         'token_type',
     ];
 
+    public array $translatable = [
+        'name',
+    ];
+
     protected function casts(): array
     {
         return [
@@ -41,10 +46,6 @@ class Skin extends Model
             'name' => 'array',
         ];
     }
-
-    public array $translatable = [
-        'name',
-    ];
 
     public function character(): BelongsTo
     {

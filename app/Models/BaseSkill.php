@@ -12,8 +12,7 @@ use Spatie\Translatable\HasTranslations;
 
 class BaseSkill extends Model
 {
-    use WithData;
-    //    use HasTranslations;
+    use HasTranslations, WithData;
 
     protected string $dataClass = RiicBaseSkillData::class;
 
@@ -36,8 +35,6 @@ class BaseSkill extends Model
     protected function casts(): array
     {
         return [
-            'name' => 'array',
-            'description' => 'array',
             'buff_category' => BaseBuffCategory::class,
             'room_type' => RoomType::class,
         ];

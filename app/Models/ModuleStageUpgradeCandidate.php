@@ -5,14 +5,16 @@ namespace App\Models;
 use App\Data\Character\InterpolatedValueData;
 use App\Data\Character\ModuleStageUpgradeCandidateData;
 use App\Data\Character\UnlockConditionData;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\LaravelData\DataCollection;
 use Spatie\LaravelData\WithData;
+use Spatie\Translatable\HasTranslations;
 
 class ModuleStageUpgradeCandidate extends Model
 {
-    use WithData;
+    use HasTranslations, WithData;
 
     protected string $dataClass = ModuleStageUpgradeCandidateData::class;
 
@@ -23,6 +25,17 @@ class ModuleStageUpgradeCandidate extends Model
         'required_potential_rank',
         'unlock_condition',
     ];
+
+    public array $translatable = [
+        'description',
+    ];
+
+    protected function description(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => empty($value) ? null : $value,
+        );
+    }
 
     protected function casts(): array
     {

@@ -16,7 +16,7 @@ class ModuleStageUpgradeCandidateData extends Data
      * @param  Collection<InterpolatedValueData>  $blackboard
      */
     public function __construct(
-        public ?LocalizedFieldData $description,
+        public null|string|LocalizedFieldData $description,
         public ?RangeData $range,
         public Collection $blackboard,
         public int $requiredPotentialRank,

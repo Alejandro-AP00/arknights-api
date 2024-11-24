@@ -15,22 +15,22 @@ class RiicBaseSkillData extends Data
 {
     public function __construct(
         public string $buffId,
-        public LocalizedFieldData $name,
-        public LocalizedFieldData $description,
+        public string|LocalizedFieldData $name,
+        public string|LocalizedFieldData $description,
         public string $skillIcon,
         public string $buffColor,
         public string $textColor,
         public BaseBuffCategory $buffCategory,
         public RoomType $roomType,
-        public UnlockConditionData $unlockCondition
+        public ?UnlockConditionData $unlockCondition
     ) {}
 
     public static function fromModel(BaseSkill $skill): self
     {
         return new self(
             $skill->buff_id,
-            LocalizedFieldData::from($skill->name),
-            LocalizedFieldData::from($skill->description),
+            $skill->name,
+            $skill->description,
             $skill->skill_icon,
             $skill->buff_color,
             $skill->text_color,

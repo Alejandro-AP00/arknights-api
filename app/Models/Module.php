@@ -10,10 +10,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\LaravelData\DataCollection;
 use Spatie\LaravelData\WithData;
+use Spatie\Translatable\HasTranslations;
 
 class Module extends Model
 {
-    use WithData;
+    use HasTranslations, WithData;
 
     protected string $dataClass = ModuleData::class;
 
@@ -41,9 +42,6 @@ class Module extends Model
     protected function casts(): array
     {
         return [
-            'name' => 'array',
-            'description' => 'array',
-
             'unlock_condition' => UnlockConditionData::class,
             'unlock_missions' => DataCollection::class.':'.UnlockMissionData::class,
         ];

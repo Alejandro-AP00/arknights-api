@@ -2,11 +2,18 @@
 
 namespace App\Models;
 
+use App\Data\Character\PotentialRankData;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\LaravelData\WithData;
+use Spatie\Translatable\HasTranslations;
 
 class Potential extends Model
 {
+    use HasTranslations, WithData;
+
+    protected string $dataClass = PotentialRankData::class;
+
     protected $fillable = [
         'character_id',
         'type',
@@ -18,7 +25,6 @@ class Potential extends Model
     {
         return [
             'buff' => 'array',
-            'description' => 'array',
         ];
     }
 

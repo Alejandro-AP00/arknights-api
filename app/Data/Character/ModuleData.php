@@ -17,8 +17,8 @@ class ModuleData extends Data
      */
     public function __construct(
         public string $moduleId,
-        public LocalizedFieldData $name,
-        public LocalizedFieldData $description,
+        public string|LocalizedFieldData $name,
+        public string|LocalizedFieldData $description,
         public string $iconId,
         public string $typeIcon,
         public string $typeName1,

@@ -8,6 +8,8 @@ use App\Enums\Position;
 use App\Enums\Profession;
 use App\Enums\Rarity;
 use App\Enums\SubProfession;
+use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -56,18 +58,28 @@ class Character extends Model
             'sub_profession' => SubProfession::class,
             'rarity' => Rarity::class,
             'favor_key_frames' => DataCollection::class.':'.KeyFrameData::class,
-
-            'tag_list' => 'array',
-            'description' => 'array',
-            'name' => 'array',
         ];
     }
+
+    protected $useFallbackLocale = false;
 
     public array $translatable = [
         'name',
         'description',
         'tag_list',
     ];
+
+    protected function tagList(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => empty($value) ? null : $value,
+        );
+    }
+
+    public function scopeOperators(Builder $query): void
+    {
+        $query->whereNotIn('profession', [Profession::TRAP, Profession::TOKEN]);
+    }
 
     public function phases(): HasMany
     {

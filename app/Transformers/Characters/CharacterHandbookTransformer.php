@@ -81,7 +81,7 @@ class CharacterHandbookTransformer extends BaseTransformer
             $data = data_get(collect($data['storyTextAudio'])->firstWhere('storyTitle', $is_fallback ? Locales::Chinese->handbookKeys()[$field] : $locale->handbookKeys()[$field]), 'stories.0.storyText');
 
             // When parsing basic info or the physical exam parse the text so each title is represented as a title and a value
-            if ($field === 'basic_info' || $field === 'physical_exam') {
+            if (in_array($field, ['basic_info', 'physical_exam', 'performance_review'])) {
                 $data = $this->parseStoryText($data, $is_fallback ? Locales::Chinese : $locale);
             }
 
@@ -103,7 +103,7 @@ class CharacterHandbookTransformer extends BaseTransformer
             $data = Cache::get($this->sourceTable.'_'.$locale->value)->get($this->subjectKey) ?? Cache::get($this->sourceTable.'_'.Locales::Chinese->value)->get($this->subjectKey);
             $data = collect($data['storyTextAudio'])->whereIn('storyTitle', collect($locale->handbookKeys()['archives']))->map(fn ($item) => data_get($item, 'stories.0.storyText'));
 
-            $output[$locale->value] = $data->toArray();
+            $output[$locale->value] = $data->values()->all();
         }
 
         return empty(array_filter($output)) ? null : $output;
@@ -121,7 +121,7 @@ class CharacterHandbookTransformer extends BaseTransformer
             $data = Cache::get($this->sourceTable.'_'.$locale->value)->get($this->subjectKey) ?? Cache::get($this->sourceTable.'_'.Locales::Chinese->value)->get($this->subjectKey);
             $data = collect($data['storyTextAudio'])->whereIn('storyTitle', collect($locale->handbookKeys()['class_conversion_record']))->map(fn ($item) => data_get($item, 'stories.0.storyText'));
 
-            $output[$locale->value] = $data->toArray();
+            $output[$locale->value] = $data->values()->all();
         }
 
         return empty(array_filter($output)) ? null : $output;

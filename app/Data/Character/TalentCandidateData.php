@@ -18,8 +18,8 @@ class TalentCandidateData extends Data
     public function __construct(
         public int $requiredPotentialRank,
         public UnlockConditionData $unlockCondition,
-        public LocalizedFieldData $name,
-        public LocalizedFieldData $description,
+        public string|LocalizedFieldData $name,
+        public string|LocalizedFieldData $description,
         public ?RangeData $range,
         public Collection $blackboard,
     ) {}
