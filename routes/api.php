@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\Operator\OperatorController;
 use App\Http\Controllers\Api\Operator\OperatorHandbookController;
 use App\Http\Controllers\Api\Operator\OperatorModuleController;
+use App\Http\Controllers\Api\Operator\OperatorRiicController;
 use App\Http\Controllers\Api\Operator\OperatorSkillController;
 use App\Http\Controllers\Api\Operator\OperatorSkinController;
 use App\Http\Controllers\Api\Operator\OperatorTalentController;
@@ -30,3 +31,5 @@ Route::get('operators/{character:char_id}/handbook', [OperatorHandbookController
 Route::get('operators/{character:char_id}/skins', [OperatorSkinController::class, 'index']);
 
 Route::get('operators/{character:char_id}/voices', [OperatorVoiceController::class, 'index']);
+
+Route::get('operators/{character:char_id}/riic', [OperatorRiicController::class, 'index']);
