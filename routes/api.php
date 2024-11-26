@@ -1,13 +1,17 @@
 <?php
 
+use App\Http\Controllers\Api\Operator\OperatorAlterController;
+use App\Http\Controllers\Api\Operator\OperatorBaseController;
 use App\Http\Controllers\Api\Operator\OperatorController;
 use App\Http\Controllers\Api\Operator\OperatorHandbookController;
 use App\Http\Controllers\Api\Operator\OperatorModuleController;
 use App\Http\Controllers\Api\Operator\OperatorRiicController;
 use App\Http\Controllers\Api\Operator\OperatorSkillController;
 use App\Http\Controllers\Api\Operator\OperatorSkinController;
+use App\Http\Controllers\Api\Operator\OperatorSummonController;
 use App\Http\Controllers\Api\Operator\OperatorTalentController;
 use App\Http\Controllers\Api\Operator\OperatorVoiceController;
+use App\Http\Controllers\Api\Range\RangeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -33,3 +37,13 @@ Route::get('operators/{character:char_id}/skins', [OperatorSkinController::class
 Route::get('operators/{character:char_id}/voices', [OperatorVoiceController::class, 'index']);
 
 Route::get('operators/{character:char_id}/riic', [OperatorRiicController::class, 'index']);
+
+Route::get('operators/{character:char_id}/summons', [OperatorSummonController::class, 'index']);
+Route::get('operators/{character:char_id}/summons/{summon:char_id}', [OperatorSummonController::class, 'show']);
+
+Route::get('operators/{character:char_id}/alters', [OperatorAlterController::class, 'index']);
+Route::get('operators/{character:char_id}/base', [OperatorBaseController::class, 'show']);
+
+
+Route::get('ranges', [RangeController::class, 'index']);
+Route::get('ranges/{range:range_id}', [RangeController::class, 'show']);
