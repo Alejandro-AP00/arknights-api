@@ -30,6 +30,6 @@ class OperatorModuleController extends Controller
     public function show(Character $character, Module $module)
     {
         $module = $module->load(['stages.upgrades.candidates.range', 'unlockMissions']);
-        return $module->getData();
+        return ApiResponse::success($module->getData());
     }
 }

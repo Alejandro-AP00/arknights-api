@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Operator;
 
 use App\Data\Character\CharacterData;
 use App\Http\Controllers\Controller;
+use App\Http\Responses\ApiResponse;
 use App\Models\Character;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,7 @@ class OperatorController extends Controller
      */
     public function index()
     {
-        return CharacterData::collect(Character::operators()->get())->toJson();
+        return ApiResponse::success(CharacterData::collect(Character::operators()->get()));
     }
 
     /**
@@ -22,6 +23,6 @@ class OperatorController extends Controller
      */
     public function show(Character $character)
     {
-        return $character->getData();
+        return ApiResponse::success($character->getData());
     }
 }
