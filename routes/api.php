@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('operators', [OperatorController::class, 'index']);
 Route::get('operators/{character:char_id}', [OperatorController::class, 'show']);
+Route::get('operators/{character:char_id}/all', [OperatorController::class, 'all']);
 
 Route::get('operators/{character:char_id}/skills', [OperatorSkillController::class, 'index']);
 Route::get('operators/{character:char_id}/skills/{skill:skill_id}', [OperatorSkillController::class, 'show']);

@@ -12,11 +12,32 @@ class OperatorController extends Controller
 {
     public function index()
     {
-        return ApiResponse::success(CharacterData::collect(Character::operators()->get()));
+        return ApiResponse::success(CharacterData::collect(Character::with(['phases.range', 'potentialRanks', 'traitCandidates'])->operators()->get()));
     }
 
     public function show(Character $character)
     {
+        $character = $character->load(['phases.range', 'potentialRanks', 'traitCandidates']);
+        return ApiResponse::success($character->getData());
+    }
+
+    public function all(Character $character)
+    {
+        $character->load([
+            'phases.range',
+            'potentialRanks',
+            'traitCandidates',
+            'handbook',
+            'modules.stages.upgrades.candidates.range',
+            'modules.unlockMissions',
+            'riccSkills',
+            'skills.levels.range',
+            'skins',
+            'talents.candidates',
+            'voices',
+            'alterCharacters',
+            'baseCharacter'
+        ]);
         return ApiResponse::success($character->getData());
     }
 }
