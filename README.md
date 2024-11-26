@@ -4,21 +4,21 @@ This is an opinionated implementation of the Arknights JSON files as a REST Api,
 
 - `/operators`
 - `/operators/{char_id}`
-- `/operators/{char_id}/all` (TODO)
-- `/operators/{char_id}/skills` (TODO)
-- `/operators/{char_id}/skills/{skill_id}`(TODO)
-- `/operators/{char_id}/modules`(TODO)
-- `/operators/{char_id}/modules/{module_id}`(TODO)
-- `/operators/{char_id}/talents` (TODO)
-- `/operators/{char_id}/handbook` (TODO)
-- `/operators/{char_id}/skins` (TODO)
-- `/operators/{char_id}/voices` (TODO)
-- `/operators/{char_id}/riic` (TODO)
-- `/operators/{char_id}/summons` (TODO)
-- `/operators/{char_id}/summons/{char_id}` (TODO)
-- `/operators/{char_id}/alters` (TODO)
-- `/ranges` (TODO)
-- `/ranges/{range_id}` (TODO)
+- `/operators/{char_id}/all` 
+- `/operators/{char_id}/skills` 
+- `/operators/{char_id}/skills/{skill_id}`
+- `/operators/{char_id}/modules`
+- `/operators/{char_id}/modules/{module_id}`
+- `/operators/{char_id}/talents` 
+- `/operators/{char_id}/handbook` 
+- `/operators/{char_id}/skins` 
+- `/operators/{char_id}/voices` 
+- `/operators/{char_id}/riic` 
+- `/operators/{char_id}/summons` 
+- `/operators/{char_id}/summons/{char_id}` 
+- `/operators/{char_id}/alters` 
+- `/ranges` 
+- `/ranges/{range_id}` 
 
 ## Typescript Definitions
 
@@ -29,7 +29,7 @@ This project includes typescript definitions for all the data that comes back in
 - [Kengxxiao](https://github.com/Kengxxiao) ([ArknightsGameData](https://github.com/Kengxxiao/ArknightsGameData), [ArknightsGameData_YoStar](https://github.com/Kengxxiao/ArknightsGameData_YoStar))
 
 ## TODO
-- [ ] Add Missing Endpoints
+- [x] Add Missing Endpoints
 - [ ] Add Correct Scheduler to autoupdate data
 - [ ] Add Items
 - [ ] Add filters for Operator Listing endpoints
