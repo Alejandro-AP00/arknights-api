@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\Operator\OperatorModuleController;
 use App\Http\Controllers\Api\Operator\OperatorSkillController;
 use App\Http\Controllers\Api\Operator\OperatorSkinController;
 use App\Http\Controllers\Api\Operator\OperatorTalentController;
+use App\Http\Controllers\Api\Operator\OperatorVoiceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,3 +28,5 @@ Route::get('operators/{character:char_id}/talents', [OperatorTalentController::c
 Route::get('operators/{character:char_id}/handbook', [OperatorHandbookController::class, 'show']);
 
 Route::get('operators/{character:char_id}/skins', [OperatorSkinController::class, 'index']);
+
+Route::get('operators/{character:char_id}/voices', [OperatorVoiceController::class, 'index']);
