@@ -9,9 +9,6 @@ use App\Models\Character;
 
 class OperatorTalentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Character $character)
     {
         $character = $character->load(['talents.candidates']);

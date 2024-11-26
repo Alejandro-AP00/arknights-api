@@ -10,17 +10,11 @@ use Illuminate\Http\Request;
 
 class OperatorController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         return ApiResponse::success(CharacterData::collect(Character::operators()->get()));
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Character $character)
     {
         return ApiResponse::success($character->getData());

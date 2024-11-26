@@ -14,9 +14,6 @@ use Illuminate\Http\Request;
 
 class OperatorModuleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Character $character)
     {
         $character = $character->load(['modules.stages.upgrades.candidates.range', 'modules.unlockMissions']);
@@ -24,9 +21,6 @@ class OperatorModuleController extends Controller
         return ApiResponse::success(ModuleData::collect($character->modules));
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Character $character, Module $module)
     {
         $module = $module->load(['stages.upgrades.candidates.range', 'unlockMissions']);
