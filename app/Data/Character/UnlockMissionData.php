@@ -11,7 +11,7 @@ use Spatie\LaravelData\Mappers\SnakeCaseMapper;
 class UnlockMissionData extends Data
 {
     public function __construct(
-        public LocalizedFieldData $description,
+        public string|LocalizedFieldData $description,
         public string $missionId,
         public ?string $jumpStageId,
     ) {}

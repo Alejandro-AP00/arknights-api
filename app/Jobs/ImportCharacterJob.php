@@ -12,6 +12,7 @@ use App\Data\Character\SkillData;
 use App\Data\Character\SkillLevelData;
 use App\Data\Character\SkinData;
 use App\Data\Character\TalentCandidateData;
+use App\Data\Character\UnlockMissionData;
 use App\Data\Character\VoiceData;
 use App\Enums\Profession;
 use App\Models\BaseSkill;
@@ -20,6 +21,7 @@ use App\Models\Module;
 use App\Models\ModuleStage;
 use App\Models\ModuleStageUpgrade;
 use App\Models\ModuleStageUpgradeCandidate;
+use App\Models\ModuleUnlockMission;
 use App\Models\Phase;
 use App\Models\Range;
 use App\Models\Skill;
@@ -247,6 +249,12 @@ class ImportCharacterJob implements ShouldQueue
             $module = new Module(collect($module_data)->keyBy(fn ($item, $key) => Str::snake($key))->toArray());
             $module->character()->associate($this->characterModel);
             $module->save();
+
+            $module_data->unlockMissions->each(function(UnlockMissionData $unlock_mission_data) use ($module) {
+                $unlock_mission = new ModuleUnlockMission(collect($unlock_mission_data)->keyBy(fn ($item, $key) => Str::snake($key))->toArray());
+                $unlock_mission->module()->associate($module);
+                $unlock_mission->save();
+            });
 
             $module_data->stages?->each(function (ModuleStageData $stage_data) use ($module) {
                 $stage = collect($stage_data)->keyBy(fn ($item, $key) => Str::snake($key));

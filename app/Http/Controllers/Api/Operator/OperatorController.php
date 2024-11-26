@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Operator;
 
 use App\Data\Character\CharacterData;
 use App\Http\Controllers\Controller;

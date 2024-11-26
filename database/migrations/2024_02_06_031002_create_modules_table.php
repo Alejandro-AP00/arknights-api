@@ -26,7 +26,6 @@ return new class extends Migration
             $table->string('type');
             $table->integer('order_by');
             $table->json('unlock_condition');
-            $table->json('unlock_missions');
             $table->timestamps();
         });
     }

@@ -31,7 +31,6 @@ class Module extends Model
         'type',
         'order_by',
         'unlock_condition',
-        'unlock_missions',
     ];
 
     public array $translatable = [
@@ -43,7 +42,6 @@ class Module extends Model
     {
         return [
             'unlock_condition' => UnlockConditionData::class,
-            'unlock_missions' => DataCollection::class.':'.UnlockMissionData::class,
         ];
     }
 
@@ -55,5 +53,10 @@ class Module extends Model
     public function stages(): HasMany
     {
         return $this->hasMany(ModuleStage::class);
+    }
+
+    public function unlockMissions() : HasMany
+    {
+        return $this->hasMany(ModuleUnlockMission::class);
     }
 }
