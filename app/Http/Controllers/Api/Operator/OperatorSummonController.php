@@ -18,6 +18,21 @@ class OperatorSummonController extends Controller
 
     public function show(Character $character, Character $summon)
     {
-        return ApiResponse::success($character->getData());
+        $summon = $summon->load([
+            'phases.range',
+            'potentialRanks',
+            'traitCandidates',
+            'handbook',
+            'modules.stages.upgrades.candidates.range',
+            'modules.unlockMissions',
+            'riccSkills',
+            'skills.levels.range',
+            'skins',
+            'talents.candidates',
+            'voices',
+            'alterCharacters',
+            'baseCharacter'
+        ]);
+        return ApiResponse::success($summon->getData());
     }
 }
