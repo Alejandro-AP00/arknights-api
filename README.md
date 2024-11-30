@@ -1,22 +1,25 @@
 # Arknights Backend
 
-This is an opinionated implementation of the Arknights JSON files as a REST Api, it includes endpoints for:
+This is an opinionated implementation of the Arknights JSON files as a REST Api
+For the locale choose one of the following `en_US`, `ko_KR`, `zh_CN`, `ja_JP` locales to get the data in the right language.
 
-- `/operators`
-- `/operators/{char_id}`
-- `/operators/{char_id}/all` 
-- `/operators/{char_id}/skills` 
-- `/operators/{char_id}/skills/{skill_id}`
-- `/operators/{char_id}/modules`
-- `/operators/{char_id}/modules/{module_id}`
-- `/operators/{char_id}/talents` 
-- `/operators/{char_id}/handbook` 
-- `/operators/{char_id}/skins` 
-- `/operators/{char_id}/voices` 
-- `/operators/{char_id}/riic` 
-- `/operators/{char_id}/summons` 
-- `/operators/{char_id}/summons/{char_id}` 
-- `/operators/{char_id}/alters` 
+### Endpoints
+
+- `/{locale}/operators`
+- `/{locale}/operators/{char_id}`
+- `/{locale}/operators/{char_id}/all` 
+- `/{locale}/operators/{char_id}/skills` 
+- `/{locale}/operators/{char_id}/skills/{skill_id}`
+- `/{locale}/operators/{char_id}/modules`
+- `/{locale}/operators/{char_id}/modules/{module_id}`
+- `/{locale}/operators/{char_id}/talents` 
+- `/{locale}/operators/{char_id}/handbook` 
+- `/{locale}/operators/{char_id}/skins` 
+- `/{locale}/operators/{char_id}/voices` 
+- `/{locale}/operators/{char_id}/riic` 
+- `/{locale}/operators/{char_id}/summons` 
+- `/{locale}/operators/{char_id}/summons/{char_id}` 
+- `/{locale}/operators/{char_id}/alters` 
 - `/ranges` 
 - `/ranges/{range_id}` 
 

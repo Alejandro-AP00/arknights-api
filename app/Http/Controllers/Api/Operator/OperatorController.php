@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Operator;
 
+use App;
 use App\Data\Character\CharacterData;
 use App\Http\Controllers\Controller;
 use App\Http\Responses\ApiResponse;

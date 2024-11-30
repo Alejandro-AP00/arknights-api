@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "codezero/laravel-localized-routes": "^4.0",
         "laravel/framework": "^11.0",
         "laravel/horizon": "^5.29",
         "laravel/sanctum": "^4.0",
@@ -67,7 +68,8 @@
         "sort-packages": true,
         "allow-plugins": {
             "pestphp/pest-plugin": true,
-            "php-http/discovery": true
+            "php-http/discovery": true,
+            "codezero/composer-preload-files": true
         }
     },
     "minimum-stability": "stable",
