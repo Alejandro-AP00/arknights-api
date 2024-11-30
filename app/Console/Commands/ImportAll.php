@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use Process;
 use Symfony\Component\DomCrawler\Crawler;
 
 class ImportAll extends Command
@@ -40,6 +41,11 @@ class ImportAll extends Command
      */
     public function handle(): int
     {
+        Process::run('git submodule update --remote --recursive');
+        Process::run('git add .');
+        Process::run('git commit -m="Updated Game Data"');
+
+
         $characters = $this->getCharacterTable();
         $this->getReleaseDateAndLimitedInformation();
         $this->getRangeTable();
