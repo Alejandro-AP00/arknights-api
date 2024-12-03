@@ -174,6 +174,24 @@ class ImportAll extends Command
                 '阿米娅' => 'char_002_amiya',
                 '阿米娅(近卫)' => 'char_1001_amiya2',
                 '阿米娅(医疗)' => 'char_1037_amiya3',
+
+                'Stormeye(卫戍协议)' => 'char_611_acnipe',
+                'Misery(卫戍协议)' => 'char_615_acspec',
+                'Pith(卫戍协议)' => 'char_612_accast',
+                'Touch(卫戍协议)' => 'char_613_acmedc',
+                'Sharp(卫戍协议)' => 'char_609_acguad',
+                'Raidian(卫戍协议)' => 'char_614_acsupo',
+                '郁金香(卫戍协议)' => 'char_608_acpion',
+                'Mechanist(卫戍协议)' => 'char_610_acfend',
+
+                '预备干员-近卫(卫戍协议)' => 'char_601_cguard',
+                '预备干员-重装(卫戍协议)' => 'char_602_cdfend',
+                '预备干员-先锋(卫戍协议)' => 'char_600_cpione',
+                '预备干员-术师(卫戍协议)' => 'char_604_ccast',
+                '预备干员-医疗(卫戍协议)' => 'char_605_cmedic',
+                '预备干员-辅助(卫戍协议)' => 'char_606_csuppo',
+                '预备干员-特种(卫戍协议)' => 'char_607_cspec',
+                '预备干员-狙击(卫戍协议)' => 'char_603_csnipe',
             ];
 
             $table->filter('tr')->each(function (Crawler $row) use (&$data, $characters, $override_keys) {

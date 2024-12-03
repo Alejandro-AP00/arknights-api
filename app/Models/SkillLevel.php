@@ -36,6 +36,8 @@ class SkillLevel extends Model
         'description',
     ];
 
+    protected $with = ['range'];
+
     protected function description(): Attribute
     {
         return Attribute::make(

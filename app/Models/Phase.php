@@ -25,6 +25,8 @@ class Phase extends Model
         'attributes_key_frames',
     ];
 
+    protected $with = ['range'];
+
     protected function casts(): array
     {
         return [
