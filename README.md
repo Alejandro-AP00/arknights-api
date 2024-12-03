@@ -36,10 +36,10 @@ You can filter characters using the following fields:
 | Parameter       | Description                        | Example                                  |
 |-----------------|------------------------------------|------------------------------------------|
 | `name`          | Filter by character name.         | `?filter[name]=Amiya`                   |
-| `profession`    | Filter by profession.             | `?filter[profession]=Medic`             |
-| `sub_profession`| Filter by sub-profession.         | `?filter[sub_profession]=Healing`       |
-| `nation`        | Filter by character's nation.     | `?filter[nation]=Rhodes Island`         |
-| `position`      | Filter by position (e.g., Melee). | `?filter[position]=Melee`               |
+| `profession`    | Filter by profession.             | `?filter[profession]=CASTER`             |
+| `sub_profession`| Filter by sub-profession.         | `?filter[sub_profession]=corecaster`       |
+| `nation`        | Filter by character's nation.     | `?filter[nation]=rhodes`         |
+| `position`      | Filter by position (e.g., Melee). | `?filter[position]=RANGED`               |
 | `rarity`        | Filter by rarity level.           | `?filter[rarity]=6`                     |
 | `is_limited`    | Filter by whether limited.        | `?filter[is_limited]=true`              |
 
