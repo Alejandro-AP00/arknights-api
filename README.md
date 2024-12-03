@@ -87,23 +87,6 @@ You can include nested relationships using prefixes:
 - `baseCharacter.skills.levels`
 - `summons.talents`
 
-#### Notes
-- The default behavior (DYNAMIC) applies when no explicit operator is provided, as shown in `?filter[rarity]=6`.
-
-#### Examples
-- Filter characters with rarity greater than or equal to 5:
-  ```
-  ?filter[rarity][>=]=5
-  ```
-- Filter characters not from a specific nation:
-  ```
-  ?filter[nation][<>]=Ursus
-  ```
-
---- 
-
-Let me know if you'd like further refinements!
-
 ## Typescript Definitions
 
 This project includes typescript definitions for all the data that comes back in the endpoints. You can find the `.d.ts` file in `/resources/types/generated.d.ts` You are free to copy this file into your own projects.
