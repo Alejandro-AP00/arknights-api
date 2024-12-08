@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Item\ItemController;
 use App\Http\Controllers\Api\Operator\OperatorAlterController;
 use App\Http\Controllers\Api\Operator\OperatorBaseController;
 use App\Http\Controllers\Api\Operator\OperatorController;
@@ -44,6 +45,9 @@ Route::localized(function () {
 
     Route::get('operators/{character:char_id}/alters', [OperatorAlterController::class, 'index']);
     Route::get('operators/{character:char_id}/base', [OperatorBaseController::class, 'show']);
+
+    Route::get('items', [ItemController::class, 'index']);
+    Route::get('items/{item:item_id}', [ItemController::class, 'show']);
 });
 
 

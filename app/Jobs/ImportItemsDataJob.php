@@ -27,7 +27,7 @@ class ImportItemsDataJob implements ShouldQueue
      */
     public function handle(): void
     {
-        Cache::get('items_'.Locales::Chinese->value)
+        collect(Cache::get('items_'.Locales::Chinese->value)->get('items'))
             ->filter(function($item){
                 $item_id = $item['itemId'];
                 return

@@ -21,6 +21,8 @@ For the locale choose one of the following `en_US`, `ko_KR`, `zh_CN`, `ja_JP` lo
 - `/{locale}/operators/{char_id}/alters` 
 - `/ranges` 
 - `/ranges/{range_id}` 
+- `/items` 
+- `/items/{item_id}` 
 
 When using these endpoints you can query anything you need
 
@@ -98,7 +100,7 @@ This project includes typescript definitions for all the data that comes back in
 ## TODO
 - [x] Add Missing Endpoints
 - [x] Add Correct Scheduler to autoupdate data
-- [ ] Add Items
+- [x] Add Items
 - [x] Add filters for Operator Listing endpoints
 - [ ] Add Levels Endpoints
 - [ ] Convert Profession and Subprofession from characters into Models
