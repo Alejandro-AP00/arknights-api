@@ -44,7 +44,7 @@ class ImportAll extends Command
     {
         Process::run('git submodule update --remote --recursive');
         Process::run('git add .');
-        Process::run('git commit -m="Updated Game Data"');
+        Process::run('git commit -m "Updated Game Data"');
 
 
         $characters = $this->getCharacterTable();
