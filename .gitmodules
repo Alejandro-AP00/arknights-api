@@ -4,3 +4,6 @@
 [submodule "public/ArknightsGameData_YoStar"]
 	path = public/ArknightsGameData_YoStar
 	url = https://github.com/Kengxxiao/ArknightsGameData_YoStar.git
+[submodule "storage/app/public/arknights-images"]
+	path = storage/app/public/arknights-images
+	url = https://github.com/SanityGoneAK/arknights-images
