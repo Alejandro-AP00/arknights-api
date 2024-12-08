@@ -6,6 +6,7 @@ use App\Enums\Locales;
 use App\Jobs\ImportAlterInformationJob;
 use App\Jobs\ImportBaseSkillsJob;
 use App\Jobs\ImportCharacterJob;
+use App\Jobs\ImportItemsDataJob;
 use App\Jobs\ImportRangesJob;
 use App\Jobs\ImportSummonInformationJob;
 use App\Jobs\ScrapeSkinsDataJob;
@@ -56,6 +57,7 @@ class ImportAll extends Command
         $this->getSkillTable();
         $this->getUniequipTable();
         $this->getBattleEquippTable();
+        $this->getItemTable();
         //                ImportRangesJob::dispatchSync();
         // $characters = $characters->whereIn('char_id', ['char_4141_marcil', 'char_1038_whitw2']);
         //                $characters = $characters->whereIn('char_id', ['char_003_kalts']);
@@ -70,6 +72,7 @@ class ImportAll extends Command
             })->toArray(),
             new ImportAlterInformationJob,
             new ImportSummonInformationJob,
+            new ImportItemsDataJob,
         ])->dispatch();
 
         return Command::SUCCESS;
@@ -222,6 +225,15 @@ class ImportAll extends Command
         foreach (Locales::cases() as $locale) {
             Cache::remember('skills_'.$locale->value, 3600, function () use ($locale) {
                 return collect(File::gameData($locale, 'skill_table.json'));
+            });
+        }
+    }
+
+    private function getItemTable(): void
+    {
+        foreach (Locales::cases() as $locale) {
+            Cache::remember('items_'.$locale->value, 3600, function () use ($locale) {
+                return collect(File::gameData($locale, 'item_table.json'));
             });
         }
     }
