@@ -54,6 +54,7 @@ enum SubProfession: string
     case ChainCaster = 'chain';
     case BlastCaster = 'blastcaster';
     case PrimalCaster = 'primcaster';
+    case Soulcaster = 'soulcaster';
     // Medic
     case Medic = 'physician';
     case MultiTargetMedic = 'ringhealer';
