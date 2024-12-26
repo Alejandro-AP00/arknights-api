@@ -116,7 +116,7 @@ class CharacterBasicTransformer extends BaseTransformer
     public function transformSkins(): ?Collection
     {
         $skins = Cache::get('skins_'.Locales::Chinese->value)->filter(function ($skin) {
-            return $skin['charId'] === $this->subject->get('char_id');
+            return $skin['tmplId'] === $this->subject->get('char_id') || ($skin['charId'] === $this->subject->get('char_id') && $skin['tmplId'] === null);
         });
 
         if ($skins->isNotEmpty()) {
@@ -180,7 +180,14 @@ class CharacterBasicTransformer extends BaseTransformer
 
     public function transformModules(): ?Collection
     {
-        $modules = collect(Cache::get('uniequip_'.Locales::Chinese->value)->get('equipDict'))->where('charId', $this->subject->get('char_id'));
+        $modules = collect(Cache::get('uniequip_'.Locales::Chinese->value)->get('equipDict'))
+            ->filter(function($module) {
+                if($module['tmplId'] === null && $module['charId'] === $this->subject->get('char_id')){
+                    return true;
+                }
+
+                return $module['tmplId'] === $this->subject->get('char_id');
+            });
 
         if ($modules->isNotEmpty()) {
             return $modules->map(function ($module) {

@@ -64,8 +64,8 @@ enum Locales: string
                     '第四資料',
                 ],
                 'class_conversion_record' => [
-                    '昇格資料二',
                     '昇格資料一',
+                    '昇格資料二',
                 ],
                 'promotion_record' => '昇進記録',
                 'performance_review' => '総合性能',
